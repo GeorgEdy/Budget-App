@@ -57,7 +57,6 @@ var budgetsStore = (function () {
         deleteExtraBudget: function (id) {
             (data.extraBudget).forEach(function(value, key) {
                 if (value.id === id) {
-                    console.log("FOUND");
                     data.extraBudget.splice(key, 1);
                 }
             });
