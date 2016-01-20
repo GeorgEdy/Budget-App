@@ -1,9 +1,7 @@
-var addRecurringExpense = function (name, amount, category) {
+var getExpenseFromStore = function (name, amount, category, id) {
     var totalBudget = budgetsStore.getAllBudget().budget;
 
-    expensesStore.addRecurringExpense({name: name, category: category, sum: amount});
+    expensesStore.updateExpense(id,{name: name, category: category, sum: amount});
     totalBudget = parseInt(totalBudget) - amount;
     budgetsStore.updateBudget(totalBudget);
 };
-
-
