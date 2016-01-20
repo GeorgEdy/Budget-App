@@ -1,11 +1,9 @@
-var addExpense = function (name, amount, category, e) {
-    e.preventDefault();
-
-    var totalBudget = budgetStore.getAllBudget().budget;
+var addExpense = function (name, amount, category) {
+    var totalBudget = budgetsStore.getAllBudget().budget;
 
     spendingStore.addExpense({name: name, category: category, sum: amount});
     totalBudget = parseInt(totalBudget) - amount;
-    budgetStore.updateBudget(totalBudget);
+    budgetsStore.updateBudget(totalBudget);
 };
 
 
