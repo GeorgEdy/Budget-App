@@ -49,9 +49,9 @@ var expensesStore = (function () {
             data.expenses.push(item);
             return data;
         },
-        addRecuringExpense: function (item) {
-            item.id = data.recuringExpensesLastId ++;
-            data.recuringExpenses.push(item);
+        addRecurringExpense: function (item) {
+            item.id = data.recurringExpensesLastId ++;
+            data.recurringExpenses.push(item);
             return data;
         },
         updateExpense: function (id, updateData) {
