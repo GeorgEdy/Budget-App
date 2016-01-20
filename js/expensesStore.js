@@ -2,7 +2,7 @@ var expensesStore = (function () {
 
     var data = {
         expensesLastId: 2,
-        recuringExpensesLastId: 2,
+        recurringExpensesLastId: 2,
         expenses: [
             {
                 id: 0,
@@ -17,7 +17,7 @@ var expensesStore = (function () {
                 sum: "100"
             }
         ],
-        recuringExpenses: [
+        recurringExpenses: [
             {
                 id: 0,
                 name: "Intretinere",
@@ -62,10 +62,10 @@ var expensesStore = (function () {
             });
             return data;
         },
-        updateRecuringExpense: function (id, updateData) {
-            $.each(data.recuringExpenses, function (index) {
+        updateRecurringExpense: function (id, updateData) {
+            $.each(data.recurringExpenses, function (index) {
                 if(this.id == id){
-                    data.recuringExpenses[index] = updateData;
+                    data.recurringExpenses[index] = updateData;
                 }
             });
             return data;
@@ -78,10 +78,10 @@ var expensesStore = (function () {
             });
             return data;
         },
-        deleteRecuringExpense: function (id) {
-            $.each(data.recuringExpenses, function (index) {
+        deleteRecurringExpense: function (id) {
+            $.each(data.recurringExpenses, function (index) {
                 if(index == id){
-                    data.recuringExpenses.splice(index, 1);
+                    data.recurringExpenses.splice(index, 1);
                 }
             });
             return data;
