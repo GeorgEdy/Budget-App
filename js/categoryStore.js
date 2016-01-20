@@ -22,7 +22,7 @@ var categoriesStore = (function () {
             getAllCategories: function () {
                 return data;
             },
-            getCategory: function (id) {
+            getCategoryById: function (id) {
                 var obj = "";
                 $.each(data, function (index) {
                     if(index == id){
