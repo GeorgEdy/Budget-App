@@ -5,6 +5,9 @@ var categoryFunctions = function() {
         },
         deleteCategory: function (categoryId) {
             categoriesStore.deleteCategory(categoryId);
+        },
+        updateCategory: function (id, newCategory) {
+            categoriesStore.updateCategory(id, newCategory);
         }
     };
-};
+}();
