@@ -21,10 +21,11 @@ var budgetsStore = (function () {
     return {
         getTotalBudget: function() {
             return data.totalBudget;
-        }
+        },
         setTotalBudget: function(newSum) {
             data.totalBudget = newSum;
-        }
+            return false;
+        },
         getAllBudgets: function () {
             return data;
         },
