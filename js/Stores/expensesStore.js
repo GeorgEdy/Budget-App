@@ -1,6 +1,7 @@
 var expensesStore = (function () {
 
     var data = {
+        totalExpenses: 750,
         expensesLastId: 3,
         expenses: [
             {
@@ -46,12 +47,15 @@ var expensesStore = (function () {
         addExpense: function (item) {
             item.id = data.expensesLastId ++;
             data.expenses.push(item);
+            data.totalExpenses += item.sum;
             return data;
         },
         updateExpense: function (id, updateData) {
             $.each(data.expenses, function (index) {
                 if(this.id == id){
+                    data.totalExpenses -= data.expenses[id].sum;
                     data.expenses[id] = updateData;
+                    data.totalExpenses += data.expenses[id].sum;
                 }
             });
             return data;
@@ -59,6 +63,7 @@ var expensesStore = (function () {
         deleteExpense: function (id) {
             $.each(data.expenses, function (index) {
                 if(this.id == id){
+                    data.totalExpenses -= data.expenses[id].sum;
                     data.expenses.splice(index, 1);
                 }
             });
