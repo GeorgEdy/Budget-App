@@ -1,17 +1,19 @@
 var budgetsStore = (function () {
     var data = {
-        budget: 0,
-        extraBudgetLastId: 3,
-        extraBudget: [
+        totalBudget: 600,
+        budgetLastId: 3,
+        budgets: [
             {
                 id: 1,
                 name: "Part-time job",
-                sum: "500"
+                sum: "500",
+                recurrent : 0
             },
             {
                 id: 2,
                 name: "Bursa",
-                sum: "100"
+                sum: "100",
+                recurrent : 0
             }
         ]
     };
@@ -20,71 +22,44 @@ var budgetsStore = (function () {
         getAllBudgets: function () {
             return data;
         },
-        getExtraBudgets: function (id) {
+        getBudget: function(id) {
             var obj = "";
-            $.each(data.extraBudget, function (index) {
-                if(index == id){
-                    obj = data.extraBudget[id];
+            $.each(data.budgets, function (index, value) {
+                if(value.id == id){
+                    obj = data.budgets[index];
                 }
             });
             return obj;
         },
         addBudget: function (item) {
-            data.budget = item;
+            item.id = data.budgetLastId++;
+            data.totalBudget = data.totalBudget + parseInt(item.sum);
+            data.budgets.push(item);
             return data;
         },
-        addExtraBudget: function (item) {
-            item.id = data.extraBudgetLastId++;
-            data.extraBudget.push(item);
-            return data;
-        },
-        updateBudget: function (updateData) {
-            data.budget = updateData;
-            return data;
-        },
-        updateExtraBudget: function (id, updateData) {
-            $.each(data.extraBudget, function (index) {
-                if(this.id == id){
-                    data.extraBudget[index] = updateData;
+        updateBudget: function (id, updateData) {
+            $.each(data.budgets, function (index,value) {
+                if(value.id == id){
+                    data.totalBudget = data.totalBudget - parseInt(data.budgets[index].sum);
+                    updateData.id = id;
+                    data.budgets[index] = updateData;
+                    data.totalBudget = data.totalBudget + parseInt(updateData.sum);
                 }
             });
             return data;
         },
-        deleteBudget: function () {
-            data.budget = 0;
-            return data;
-        },
-        deleteExtraBudget: function (id) {
-            (data.extraBudget).forEach(function(value, key) {
-                if (value.id === id) {
-                    data.extraBudget.splice(key, 1);
+        deleteBudget: function (id) {
+            $.each(data.budgets, function (index, value) {
+                if(value.id === id){
+                    data.totalBudget = data.totalBudget - parseInt(data.budgets[index].sum);
+                    data.budgets.splice(index, 1);
+                    return false;
                 }
             });
-            //$.each(data.extraBudget, function (index, value) {
-            //    //console.log("this is it:", data.extraBudget[index]);
-            //    console.log("index: "+index+" value: "+value.id);
-            //    if(value.id === id){
-            //        console.log("this is it:", id)
-            //        data.extraBudget.splice(index, 1);
-            //    }
-            //});
             return data;
         }
     };
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
