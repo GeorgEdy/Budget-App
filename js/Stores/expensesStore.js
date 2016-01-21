@@ -51,14 +51,14 @@ var expensesStore = (function () {
         updateExpense: function (id, updateData) {
             $.each(data.expenses, function (index) {
                 if(this.id == id){
-                    data.expenses[index] = updateData;
+                    data.expenses[id] = updateData;
                 }
             });
             return data;
         },
         deleteExpense: function (id) {
             $.each(data.expenses, function (index) {
-                if(index == id){
+                if(this.id == id){
                     data.expenses.splice(index, 1);
                 }
             });
