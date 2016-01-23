@@ -32,39 +32,49 @@ var transactionsStore = (function () {
 
     return {
         getAllTransactions: function () {
-            return data;
+            return new Promise(function (resolve, reject){
+                return data;
+            });
         },
         getTransaction: function (id) {
-            var obj = "";
-            $.each(data.transactions, function (index) {
-                if(data.transactions[index].id === id){
-                    obj = data.transactions[index];
-                }
+            return new Promise(function (resolve, reject){
+                var obj = "";
+                $.each(data.transactions, function (index) {
+                    if(data.transactions[index].id === id){
+                        obj = data.transactions[index];
+                    }
+                });
+                return obj;
             });
-            return obj;
         },
-        addTransactions: function (item) {
-            item.id = data.transactionsLastId ++;
-            data.transactions.push(item);
-            return data;
+        addTransaction: function (item) {
+            return new Promise(function (resolve, reject){
+                item.id = data.transactionsLastId ++;
+                data.transactions.push(item);
+                return data;
+            });
         },
         updateTransaction: function (id, updateData) {
-            $.each(data.transactions, function (index) {
-                if(data.transactions[index].id === id){
-                    data.transactions[index] = updateData;
-                }
+            return new Promise(function (resolve, reject){
+                $.each(data.transactions, function (index) {
+                    if(data.transactions[index].id === id){
+                        data.transactions[index] = updateData;
+                    }
+                });
+                return data;
             });
-            return data;
         },
         deleteTransaction: function (id) {
-            $.each(data.transactions, function (index, value) {
-                console.log(value);
-                if(value.id === id){
-                    data.transactions.splice(index, 1);
-                    return false;
-                }
+            return new Promise(function (resolve, reject){
+                $.each(data.transactions, function (index, value) {
+                    console.log(value);
+                    if(value.id === id){
+                        data.transactions.splice(index, 1);
+                        return false;
+                    }
+                });
+                return data;
             });
-            return data;
         }
     };
 })();
