@@ -3,49 +3,57 @@ var categoriesStore = (function () {
         var data = [
             {
                 id: 0,
-                name: 'Food',
-                limit: '200'
+                name: 'Food'
             },
             {
                 id: 1,
-                name: 'Clothing',
-                limit: '100'
+                name: 'Clothing'
             },
             {
                 id: 2,
-                name: 'Health',
-                limit: '300'
+                name: 'Health'
             }
         ];
 
         return {
             getAllCategories: function () {
-                return data;
+                return new Promise = (function (resolve, reject) {
+                    resolve(data);
+                });
             },
             getCategoryById: function (id) {
-                var obj = "";
-                $.each(data, function (index) {
-                    if(index == id){
-                        obj = data[id];
-                    }
+                return new Promise = (function (resolve, reject) {
+                    var obj = "";
+                    $.each(data, function (index) {
+                        if(index == id){
+                            obj = data[id];
+                        }
+                    });
+                    resolve(obj);
                 });
-                return obj;
             },
             addCategory: function (item) {
-                item.id = lastId++;
-                data.push(item);
-                return data;
+                return new Promise = (function (resolve, reject) {
+                    item.id = lastId++;
+                    data.push(item);
+                    resolve(data);
+                });
             },
             updateCategory: function (id, editedData) {
-                $.each(data, function(index) {
-                    if (this.id == id) {
-                        data[index] = editedData;
-                        return data;
-                    }
-            });
+                return new Promise = (function (resolve, reject) {
+                    $.each(data, function(index) {
+                        if (this.id == id) {
+                            data[index] = editedData;
+                        }
+                    });
+                    resolve(data);
+                });
             },
             deleteCategory: function (id) {
-                data.splice(id, 1);
+                return new Promise = (function (resolve, reject) {
+                    data.splice(id, 1);
+                    resolve();
+                });
             }
         };
     }
