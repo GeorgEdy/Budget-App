@@ -6,7 +6,7 @@ var recurringStore = (function () {
             name: "Salary",
             category: "Income",
             sum: "50",
-            recurrent: 0,
+            type: "Income",
             date: "15 01 2016"
 
         },
@@ -15,7 +15,7 @@ var recurringStore = (function () {
             name: "Electricity",
             category: "Expenses",
             sum: "100",
-            recurrent: 0,
+            type: "Outcome",
             date: "23 01 2016"
         }
     ];
