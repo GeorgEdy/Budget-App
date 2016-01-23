@@ -15,7 +15,7 @@ var recurringStore = (function () {
             name: "Electricity",
             category: "Expenses",
             sum: "100",
-            type: "Outcome",
+            type: "Expenses",
             date: "23 01 2016"
         }
     ];
