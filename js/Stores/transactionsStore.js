@@ -33,7 +33,7 @@ var transactionsStore = (function () {
     return {
         getAllTransactions: function () {
             return new Promise(function (resolve, reject){
-                return data;
+                resolve(data);
             });
         },
         getTransaction: function (id) {
@@ -44,14 +44,14 @@ var transactionsStore = (function () {
                         obj = data.transactions[index];
                     }
                 });
-                return obj;
+                resolve(obj);
             });
         },
         addTransaction: function (item) {
             return new Promise(function (resolve, reject){
                 item.id = data.transactionsLastId ++;
                 data.transactions.push(item);
-                return data;
+                resolve(data);
             });
         },
         updateTransaction: function (id, updateData) {
@@ -61,7 +61,7 @@ var transactionsStore = (function () {
                         data.transactions[index] = updateData;
                     }
                 });
-                return data;
+                rsolve(data);
             });
         },
         deleteTransaction: function (id) {
@@ -70,10 +70,9 @@ var transactionsStore = (function () {
                     console.log(value);
                     if(value.id === id){
                         data.transactions.splice(index, 1);
-                        return false;
+                        resolve();
                     }
                 });
-                return data;
             });
         }
     };
