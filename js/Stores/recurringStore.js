@@ -22,12 +22,12 @@ var recurringStore = (function () {
 
     return {
         getAllRecurrings: function () {
-            return new Promise = (function(resolve, reject) {
+            return new Promise(function(resolve, reject) {
                resolve(data);
             });
         },
         getRecurringById: function (id) {
-            return new Promise = (function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 var obj = "";
                 $.each(data, function (index) {
                     if(index == id){
@@ -38,14 +38,14 @@ var recurringStore = (function () {
             });
         },
         addRecurring: function (item) {
-            return new Promise = (function (resolve, reject){
+            return new Promise(function (resolve, reject){
                 item.id = lastId++;
                 data.push(item);
                 resolve(data);
             });
         },
         updateRecurring: function (id, updateData) {
-            return new Promise = (function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 $.each(data, function () {
                     if(this.id == id){
                         data[id] = updateData;
@@ -55,7 +55,7 @@ var recurringStore = (function () {
             });
         },
         deleteExpense: function (id) {
-            return new Promise = (function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 $.each(data, function (index) {
                     if(this.id == id){
                         data.splice(index, 1);
