@@ -4,7 +4,7 @@ var recurringStore = (function () {
         {
             id: 0,
             name: "Salary",
-            category: "Income",
+            category: "Salary",
             sum: "50",
             type: "Income",
             date: "15 01 2016"
@@ -13,7 +13,7 @@ var recurringStore = (function () {
         {
             id: 1,
             name: "Electricity",
-            category: "Expenses",
+            category: "House spends",
             sum: "100",
             type: "Expenses",
             date: "23 01 2016"
