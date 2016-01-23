@@ -32,48 +32,46 @@ var transactionsStore = (function () {
 
     return {
         getAllTransactions: function () {
-            return new Promise(function (resolve, reject){
-                return data;
+            return new Promise(function (resolve, reject) {
+                resolve(data);
             });
         },
         getTransaction: function (id) {
-            return new Promise(function (resolve, reject){
+            return new Promise(function (resolve, reject) {
                 var obj = "";
                 $.each(data.transactions, function (index) {
-                    if(data.transactions[index].id === id){
+                    if (data.transactions[index].id === id) {
                         obj = data.transactions[index];
                     }
                 });
-                return obj;
+                resolve(obj);
             });
         },
         addTransaction: function (item) {
-            return new Promise(function (resolve, reject){
-                item.id = data.transactionsLastId ++;
+            return new Promise(function (resolve, reject) {
+                item.id = data.transactionsLastId++;
                 data.transactions.push(item);
-                return data;
+                resolve(data);
             });
         },
         updateTransaction: function (id, updateData) {
-            return new Promise(function (resolve, reject){
+            return new Promise(function (resolve, reject) {
                 $.each(data.transactions, function (index) {
-                    if(data.transactions[index].id === id){
+                    if (data.transactions[index].id === id) {
                         data.transactions[index] = updateData;
                     }
                 });
-                return data;
+                resolve(data);
             });
         },
         deleteTransaction: function (id) {
-            return new Promise(function (resolve, reject){
+            return new Promise(function (resolve, reject) {
                 $.each(data.transactions, function (index, value) {
-                    console.log(value);
-                    if(value.id === id){
+                    if (value.id === id) {
                         data.transactions.splice(index, 1);
-                        return false;
+                        resolve();
                     }
                 });
-                return data;
             });
         }
     };

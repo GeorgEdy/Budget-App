@@ -4,7 +4,7 @@ var editTransaction = function (name, amount, category, type, date, id) {
 
     totalBudget = parseInt(totalBudget - transactionSum + amount);
     budgetsStore.setTotalBudget(totalBudget);
-    transactionsStore.updateTransaction(id,{name: name, category: category, sum: amount, type: type, date: date});
+    transactionsStore.updateTransaction(id, {name: name, category: category, sum: amount, type: type, date: date});
 };
 
 var deleteTransaction = function (id) {
