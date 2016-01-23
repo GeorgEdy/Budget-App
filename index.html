@@ -7,6 +7,131 @@
     <link href="css/main.css" rel="stylesheet">
 </head>
 <body>
+<header>
+    <div class="wrapper container-fluid">
+        <div class="logo">Some cool logo here</div>
+        <div class="menu">
+            <button class="btn btn-default"><a href="#">Transactions</a></button>
+            <button class="btn btn-default"><a href="#">Graphics</a></button>
+            <div class="user-settings">
+                <button class="btn btn-default">
+                    <span class="glyphicon glyphicon-cog"></span>
+                    <span class="glyphicon glyphicon-menu-down"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="#" id="categories">Categories</a></li>
+                        <li><a href="#">Account settings</a></li>
+                        <li class="glyphicon glyphicon-log-out"><a href="#"> Log-out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<main class="container">
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation" class="active add-income">
+            <a href="#">Add income</a>
+        </li>
+        <li role="presentation" class="active add-expense">
+            <a href="#">Add Expense</a>
+        </li>
+    </ul>
+    <form class="navbar-form navbar-left">
+        <input type="number" title="income">
+        <select title="category">
+            <option disabled selected>Select Category</option>
+            <option value="salary">Salary</option>
+            <option value="bonus">Bonus</option>
+            <option value="other">Other</option>
+        </select>
+        <input type="submit" class="btn btn-default" value="Add">
+    </form>
+    <form class="navbar-form navbar-left">
+        <input type="number" title="Expense">
+        <select title="category">
+            <option disabled selected>Select Category</option>
+            <option value="dressing">Clothes & shoes</option>
+            <option value="food">Food</option>
+            <option value="transportation">Transportation</option>
+            <option value="rent">Rent</option>
+            <option value="utilities">Utilities</option>
+            <option value="taxes">Taxes</option>
+            <option value="holiday">Holiday</option>
+            <option value="medical">Medical</option>
+            <option value="other">Other</option>
+        </select>
+        <input type="submit" class="btn btn-default" value="Add">
+    </form>
+    <div class="statistics">
+        <div class="total-income col-md-6">
+            <span>Total income</span>
+            <span class="block number" id="renameForJs1">2000</span>
+        </div>
+        <div class="total-expense">
+            <span>Total expenses</span>
+            <span class="block number" id="renameForJs2">500</span>
+        </div>
+        <table class="income panel panel-default">
+            <tr>
+                <td>DummyDate: 30.02.2016</td>
+                <td>Dummy category name</td>
+                <td>Dummy Amount: $500</td>
+            </tr>
+
+        </table>
+        <table class="expenses panel panel-default">
+            <tr>
+                <td>DummyDate: 30.02.2016</td>
+                <td>Dummy category name</td>
+                <td>Dummy Amount: $-500</td>
+            </tr>
+        </table>
+    </div>
+    <div class="show-categories col-md-10">
+        <h1>Categories</h1>
+        <div class="navbar-header col-md-10">
+            <!--<button class="btn btn-default left">Add Category</button>-->
+            <form class=" form-control form-group">
+                <label  class="block">Category Name
+                    <input type="text" title="name" class="input-group">
+                </label>
+                <label>Category type
+                    <select  class="block">
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </label>
+                <input type="submit" title="name" class="input-group btn btn-default" value="Add">
+            </form>
+            <table class="income-categories col-md-5 panel panel-default">
+                <tr>
+                    <th><h3>Income</h3></th>
+                </tr>
+                <tr>
+                    <td><a href="#">DummyCat</a>
+                        <button class="btn btn-xs btn-primary">Save</button>
+                        <button class="btn btn-xs btn-danger">Delete</button>
+                        <button class="btn btn-xs">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+            <table class="expense-categories col-md-5 col-md-offset-2  panel panel-default">
+                <tr>
+                    <th><h3>Expenses</h3></th>
+                </tr>
+                <tr>
+                    <td><a href="#">DummyCat</a>
+                        <button class="btn btn-xs btn-primary">Save</button>
+                        <button class="btn btn-xs btn-danger">Delete</button>
+                        <button class="btn btn-xs">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</main>
 
 <script src="js/jquery-2.2.0.min.js"></script>
 <script src="js/resig.js"></script>
