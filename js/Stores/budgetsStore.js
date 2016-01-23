@@ -7,13 +7,13 @@ var budgetsStore = (function () {
                 id: 1,
                 name: "Part-time job",
                 sum: "500",
-                recurrent : 0
+                recurrent : 1,
             },
             {
                 id: 2,
                 name: "Bursa",
                 sum: "100",
-                recurrent : 0
+                recurrent : 0,
             }
         ]
     };
