@@ -2,4 +2,19 @@ $(function (){
     $('#categories').click(function(){
         $('.show-categories').toggle();
     });
+    $('#transactions').click(function(){
+        $('.show-categories').toggle();
+    });
+    $('#add-income').click(function(){
+        $('#expense-form').toggle();
+    });
+    $('#add-expense').click(function(){
+        $('#expense-form').toggle();
+    });
+    $('#income-history-panel').click(function(){
+        $('#expense-history').toggle();
+    });
+    $('#expense-history-panel').click(function(){
+        $('#expense-history').toggle();
+    });
 });
