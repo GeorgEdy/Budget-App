@@ -37,11 +37,13 @@ main {
 }
 
 input[title="income"] {
-    background: #3c763d;
+    border:2px solid #3c763d;
+    border-radius: 5%;
 }
 
 input[title="Expense"] {
-    background: #761c19;
+    border:2px solid #761c19;
+    border-radius: 5%;
 }
 
 /*///////////////////////////////////////////////////////////////////////////////*/
@@ -103,11 +105,7 @@ input[title="Expense"] {
     font-size: 25px;
 }
 
-.income-form {
-    visibility: hidden;
-}
-
-.expense-form {
+.income-form,.expense-form, .income, .expenses {
     visibility: hidden;
 }
 
