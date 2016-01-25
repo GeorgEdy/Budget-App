@@ -2,19 +2,8 @@ $(function (){
     $('#categories').click(function(){
         $('.show-categories').toggle();
     });
-    $('#transactions').click(function(){
-        $('.show-categories').toggle();
-    });
-    $('#add-income').click(function(){
-        $('#expense-form').toggle();
-    });
-    $('#add-expense').click(function(){
-        $('#expense-form').toggle();
-    });
-    $('#income-history-panel').click(function(){
-        $('#expense-history').toggle();
-    });
-    $('#expense-history-panel').click(function(){
-        $('#expense-history').toggle();
-    });
+    addBudget(5, "caca-income", "income", "300", "income", "30.11.2015");
+    addBudget(6, "caca-expense", "foods", "400", "expense", "30.11.2015");
+
+
 });
