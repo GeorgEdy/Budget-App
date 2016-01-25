@@ -1,4 +1,4 @@
-var editTransaction = function (name, amount, category, type, date, id) {
+var editTransaction = function (id, name, amount, category, type, date) {
     var totalBudget = budgetsStore.getTotalBudget();
     var transactionSum = transactionsStore.getTransaction(id).sum;
 
