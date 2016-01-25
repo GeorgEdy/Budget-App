@@ -1,12 +1,41 @@
 var registerTransaction = function () {
     event.preventDefault();
-    var name = "nume";
+    var transactionFormData = getTransactionData();
+    if(transactionFormData) {
+        console.log(transactionFormData);
+    }
+};
+
+var getTransactionData = function () {
+    var name = $('#income-form [title = nume]').val();
     var sum = $('#income-form [type = number]').val();
     var cat = $('#income-form [title = category]').val();
-    var recurring = $('#income-form [type = checkbox]').val();
-    var date = "data";
+    var recurring = $('#income-form [type = checkbox]').is(":checked");
+    var date = moment().format('DD MM YYYY');
 
-    console.log(name, sum, cat, recurring, date);
+    if (validateTransactionData(name, sum, cat)) {
+        return {name: name, category: cat, sum: sum, recurring: recurring, date: date};
+    }else {
+        return false;
+    }
+};
+
+var validateTransactionData = function (name, sum, cat) {
+    if(!checkLength(name)) {
+        alert("Introduce-ti un nume");
+        return false;
+    }else if (!checkLength(sum)) {
+        alert("Introduce-ti o suma");
+        return false;
+    }else if (cat == null) {
+        alert("Selectati o categorie");
+        return false;
+    }
+    return true;
+};
+
+var checkLength = function (name) {
+    return name.length ? true : false;
 };
 
 $(function (){
