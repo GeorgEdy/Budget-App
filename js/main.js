@@ -17,9 +17,11 @@ $(function (){
         $('#expense-form').addClass('active');
     });
     $('.total-income').click(function(){
-        $('#expense-history').toggle();
+        $('.income').addClass('active');
+        $('.expenses').removeClass('active');
     });
     $('.total-expense').click(function(){
-        $('#expense-history').toggle();
+        $('.expenses').addClass('active');
+        $('.income').removeClass('active');
     });
 });
