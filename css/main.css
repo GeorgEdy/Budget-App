@@ -144,6 +144,10 @@ input[title="Expense"] {
     color: black;
 }
 
+.hiddenn {
+    visibility: hidden;
+}
+
 /*////////////////////////////////////////////////////////*/
 /*bootstrap classes edited */
 
