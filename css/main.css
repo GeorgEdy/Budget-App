@@ -46,6 +46,10 @@ input[title="Expense"] {
     border-radius: 5%;
 }
 
+table {
+    border-collapse: inherit;
+}
+
 /*///////////////////////////////////////////////////////////////////////////////*/
 /*custom classes*/
 
