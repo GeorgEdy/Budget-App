@@ -1,34 +1,44 @@
 var registerTransaction = function () {
     event.preventDefault();
-    var transactionFormData = getTransactionData();
+    var parentNode = $(this).parent().attr("id");
+    var transactionFormData = getTransactionData(parentNode);
+
     if(transactionFormData) {
         console.log(transactionFormData);
     }
 };
 
-var getTransactionData = function () {
-    var name = $('#income-form [title = nume]').val();
-    var sum = $('#income-form [type = number]').val();
-    var cat = $('#income-form [title = category]').val();
-    var recurring = $('#income-form [type = checkbox]').is(":checked");
+var getTransactionData = function (idForm) {
+    var name = $('#'+ idForm +' [title = nume]').val();
+    var sum = $('#'+ idForm +' [type = number]').val();
+    var cat = $('#'+ idForm +' [title = category]').val();
+    var recurring = $('#'+ idForm +' [type = checkbox]').is(":checked");
     var date = moment().format('DD MM YYYY');
 
-    if (validateTransactionData(name, sum, cat)) {
+    resetErrors(idForm);
+
+    if (validateTransactionData(idForm, name, sum, cat)) {
         return {name: name, category: cat, sum: sum, recurring: recurring, date: date};
     }else {
         return false;
     }
 };
 
-var validateTransactionData = function (name, sum, cat) {
+var resetErrors = function (idForm) {
+    $('#'+ idForm +' .nameError').addClass("hiddenn");
+    $('#'+ idForm +' .sumError').addClass("hiddenn");
+    $('#'+ idForm +' .categoryError').addClass("hiddenn");
+};
+
+var validateTransactionData = function (idForm, name, sum, cat) {
     if(!checkLength(name)) {
-        alert("Introduce-ti un nume");
+        $('#'+ idForm +' .nameError').html("Introduceti un nume").removeClass("hiddenn");
         return false;
     }else if (!checkLength(sum)) {
-        alert("Introduce-ti o suma");
+        $('#'+ idForm +' .sumError').html("Introduceti o suma").removeClass("hiddenn");
         return false;
     }else if (cat == null) {
-        alert("Selectati o categorie");
+        $('#'+ idForm +' .categoryError').html("Selectati o categorie").removeClass("hiddenn");
         return false;
     }
     return true;
