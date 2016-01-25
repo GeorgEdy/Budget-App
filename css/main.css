@@ -10,8 +10,9 @@ ul {
 }
 
 img {
-    width:50px;
+    width: 50px;
 }
+
 li {
     margin-left: 10px;
     padding: 5px;
@@ -102,6 +103,14 @@ input[title="Expense"] {
     font-size: 25px;
 }
 
+.income-form {
+    visibility: hidden;
+}
+
+.expense-form {
+    visibility: hidden;
+}
+
 /*////////////////////////////////////////////////////////*/
 /*utility classes*/
 
@@ -120,7 +129,9 @@ input[title="Expense"] {
 #active {
     display: block;
 }
-
+.active {
+    visibility: visible;
+}
 .inline {
     display: inline-block;
 }
