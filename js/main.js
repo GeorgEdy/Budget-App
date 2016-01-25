@@ -1,3 +1,14 @@
+var registerTransaction = function () {
+    event.preventDefault();
+    var name = "nume";
+    var sum = $('#income-form [type = number]').val();
+    var cat = $('#income-form [title = category]').val();
+    var recurring = $('#income-form [type = checkbox]').val();
+    var date = "data";
+
+    console.log(name, sum, cat, recurring, date);
+};
+
 $(function (){
     $('#categories').click(function(){
         $('.show-categories').attr('id','active');
@@ -22,4 +33,9 @@ $(function (){
     $('.total-expense').click(function(){
         $('#expense-history').toggle();
     });
+
+    //add income/expense
+
+    $('#income-form [type = submit]').click(registerTransaction);
+    $('#expense-form [type = submit]').click(registerTransaction);
 });
