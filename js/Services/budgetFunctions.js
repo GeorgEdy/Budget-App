@@ -7,6 +7,5 @@ var addBudget = function(id, name, category, amount, type, date) {
         transactionsStore.addTransaction({id: id, name: name, category: category, sum: amount, type: type, date: date});
         totalNewBudget = budgetsStore.getTotalBudget() - parseInt(amount);
         budgetsStore.setTotalBudget(totalNewBudget);
-
     }
 }
