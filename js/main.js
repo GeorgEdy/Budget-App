@@ -116,7 +116,7 @@ $(function (){
     });
 
     $('#income-form').submit(onSubmit);
-    $(".datepicker").datepicker();
+
 
         //add income/expense
 
