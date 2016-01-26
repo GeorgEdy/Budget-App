@@ -1,15 +1,3 @@
-var getFormData = function () {
-    return {
-        name: $('#income-form option:selected').text(),
-        sum: $('#income-form input[type="number"]').val()
-    };
-};
-var onSubmit = function () {
-    transactionsStore.addTransaction(getFormData()).then(function () {
-        drawTable(transactionsStore);
-    });
-};
-
 var drawTable = function (transactionsStore) {
     transactionsStore.getAllTransactions().then(function (data) {
         $('#income-history tbody tr').remove();
@@ -127,8 +115,8 @@ $(function () {
         $('.income').removeClass('active');
     });
 
-    $('#income-form').submit(onSubmit);
     $('#categories-form').submit(categoryOnSubmit);
+
     $(".datepicker").datepicker();
 
     //add income/expense
