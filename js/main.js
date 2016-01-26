@@ -10,29 +10,51 @@ var drawTable = function () {
 
 var registerTransaction = function () {
     event.preventDefault();
-
     var parentNode = event.target.id;
-    var transactionFormData = getTransactionData(parentNode);
+    getTransactionData(parentNode, callbackTransactionData);
+};
 
-    if(transactionFormData) {
+var callbackTransactionData = function (item, parentNode) {
+    if(item) {
         if (parentNode === "income-form") {
-            sendTransaction(transactionFormData, transactionFormData.recurring);
+            item.type = "income";
+            sendTransaction(item, item.recurring);
         } else {
-            sendTransaction(transactionFormData, transactionFormData.recurring);
+            item.type = "expense";
+            sendTransaction(item, item.recurring);
         }
     }
 };
 
 var sendTransaction = function (item, recurring) {
     if (recurring == true) {
-        console.log(item);
         recurringStore.addRecurring({name: item.name, categoryId: item.categoryId, sum: item.sum, type: item.type, date: item.date, recurringDate: item.recurringDate});
     } else {
         addTransaction(item.name, item.categoryId, item.sum, item.type, item.date);
     }
 };
 
-var getTransactionData = function (idForm) {
+var resetErrors = function (idForm) {
+    $('#' + idForm + ' .nameError').addClass("hiddenn");
+    $('#' + idForm + ' .sumError').addClass("hiddenn");
+    $('#' + idForm + ' .categoryError').addClass("hiddenn");
+};
+
+var validateTransactionData = function (idForm, name, sum, cat, recurringDate) {
+    if (!checkLength(name)) {
+        $('#' + idForm + ' .nameError').html("Introduceti un nume").removeClass("hiddenn");
+        return false;
+    } else if (!checkLength(sum)) {
+        $('#' + idForm + ' .sumError').html("Introduceti o suma").removeClass("hiddenn");
+        return false;
+    } else if (cat == null) {
+        $('#' + idForm + ' .categoryError').html("Selectati o categorie").removeClass("hiddenn");
+        return false;
+    }
+    return true;
+};
+
+var getTransactionData = function (idForm, callbackTransactionData) {
     var name = $('#' + idForm + ' [title = nume]').val();
     var sum = $('#' + idForm + ' [type = number]').val();
     var cat = $('#' + idForm + ' [title = category]').val();
@@ -50,71 +72,15 @@ var getTransactionData = function (idForm) {
                     return;
                 }
         });
-    })
-    return {name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDate };
-    } else {
-        return false;
+            callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDate }, idForm);
+    });
     }
-};
-
-var resetErrors = function (idForm) {
-    $('#' + idForm + ' .nameError').addClass("hiddenn");
-    $('#' + idForm + ' .sumError').addClass("hiddenn");
-    $('#' + idForm + ' .categoryError').addClass("hiddenn");
-};
-
-    var validateTransactionData = function (idForm, name, sum, cat, recurringDate) {
-    if (!checkLength(name)) {
-        $('#' + idForm + ' .nameError').html("Introduceti un nume").removeClass("hiddenn");
-        return false;
-    } else if (!checkLength(sum)) {
-        $('#' + idForm + ' .sumError').html("Introduceti o suma").removeClass("hiddenn");
-        return false;
-    } else if (cat == null) {
-        $('#' + idForm + ' .categoryError').html("Selectati o categorie").removeClass("hiddenn");
-        return false;
-    }
-    return true;
 };
 
 var checkLength = function (name) {
     return name.length ? true : false;
 };
 
-$(function () {
-    $('#categories').click(function () {
-        $('.show-categories').attr('id', 'active');
-    });
-    $('#transactions').click(function () {
-        $('.show-categories').attr('id', '');
-    });
-    $('#add-income').click(function () {
-        $('#income-form').addClass('active');
-        $('#expense-form').removeClass('active');
-    });
-    $('#add-expense').click(function () {
-        $('#income-form').removeClass('active');
-        $('#expense-form').addClass('active');
-    });
-    $('.total-income').click(function () {
-        $('.income').addClass('active');
-        $('.expenses').removeClass('active');
-    });
-    $('.total-expense').click(function () {
-        $('.expenses').addClass('active');
-        $('.income').removeClass('active');
-    });
-
-    $('#categories-form').submit(categoryOnSubmit);
-
-    $(".datepicker").datepicker();
-
-    //add income/expense
-
-    $('#income-form [type = submit]').click(registerTransaction);
-    $('#expense-form [type = submit]').click(registerTransaction);
-
-});
 
 var getCategoryForm = function () {
     return {
@@ -146,3 +112,31 @@ var drawCategoriesTable = function (categoriesStore) {
         });
     })
 };
+
+$(function () {
+    $('#categories').click(function () {
+        $('.show-categories').attr('id', 'active');
+    });
+    $('#transactions').click(function () {
+        $('.show-categories').attr('id', '');
+    });
+    $('#add-income').click(function () {
+        $('#income-form').addClass('active');
+        $('#expense-form').removeClass('active');
+    });
+    $('#add-expense').click(function () {
+        $('#income-form').removeClass('active');
+        $('#expense-form').addClass('active');
+    });
+    $('.total-income').click(function () {
+        $('.income').addClass('active');
+        $('.expenses').removeClass('active');
+    });
+    $('.total-expense').click(function () {
+        $('.expenses').addClass('active');
+        $('.income').removeClass('active');
+    });
+    $('#income-form').submit(registerTransaction);
+    $('#expense-form').submit(registerTransaction);
+    $(".datepicker").datepicker();
+});
