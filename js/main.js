@@ -24,4 +24,9 @@ $(function (){
         $('.expenses').addClass('active');
         $('.income').removeClass('active');
     });
+
+
+
+
+
 });
