@@ -2,7 +2,6 @@ var registerTransaction = function () {
     event.preventDefault();
     var parentNode = $(this).parent().attr("id");
     var transactionFormData = getTransactionData(parentNode);
-    var balance = parseInt(budgetsStore.getTotalBudget());
 
     if(transactionFormData) {
         if(parentNode === "income-form") {
@@ -31,12 +30,14 @@ var getTransactionData = function (idForm) {
     resetErrors(idForm);
 
     if (validateTransactionData(idForm, name, sum, cat)) {
-        var categories = categoriesStore.getAllCategories();
         var categoryId = "";
-        $.each(categories, function (index, value) {
-            if(value.name === cat) {
-                categoryId = value.id;
-            }
+
+        categoriesStore.getAllCategories().then(function (data) {
+            $.each(data, function (index, value) {
+                if(value.name.toLowerCase() == cat) {
+                    categoryId = value.id;
+                }
+            });
         });
         return {name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date};
     }else {
