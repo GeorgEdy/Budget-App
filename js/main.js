@@ -10,11 +10,12 @@ var drawTable = function () {
 
 var registerTransaction = function () {
     event.preventDefault();
+
     var parentNode = event.target.id;
-    var transactionFormData = getTransactionData(parentNode. csllbsk);
+    var transactionFormData = getTransactionData(parentNode);
 
     if(transactionFormData) {
-        if(parentNode === "income-form") {
+        if (parentNode === "income-form") {
             sendTransaction(transactionFormData, transactionFormData.recurring);
         } else {
             sendTransaction(transactionFormData, transactionFormData.recurring);
@@ -32,10 +33,10 @@ var sendTransaction = function (item, recurring) {
 };
 
 var getTransactionData = function (idForm) {
-    var name = $('#'+ idForm +' [title = nume]').val();
-    var sum = $('#'+ idForm +' [type = number]').val();
-    var cat = $('#'+ idForm +' [title = category]').val();
-    var recurring = $('#'+ idForm +' [type = checkbox]').is(":checked");
+    var name = $('#' + idForm + ' [title = nume]').val();
+    var sum = $('#' + idForm + ' [type = number]').val();
+    var cat = $('#' + idForm + ' [title = category]').val();
+    var recurring = $('#' + idForm + ' [type = checkbox]').is(":checked");
     var date = moment().format('DD MM YYYY');
     var recurringDate = $('#'+ idForm +' .datepicker').html();
     resetErrors(idForm);
@@ -44,33 +45,33 @@ var getTransactionData = function (idForm) {
         var categoryId = "";
         categoriesStore.getAllCategories().then(function (data) {
             $.each(data, function (index, value) {
-                if(value.name.toLowerCase() == cat) {
+                if (value.name.toLowerCase() == cat) {
                     categoryId = value.id;
                     return;
                 }
-            });
         });
-        return {name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDate };
-    }else {
+    })
+    return {name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDate };
+    } else {
         return false;
     }
 };
 
 var resetErrors = function (idForm) {
-    $('#'+ idForm +' .nameError').addClass("hiddenn");
-    $('#'+ idForm +' .sumError').addClass("hiddenn");
-    $('#'+ idForm +' .categoryError').addClass("hiddenn");
+    $('#' + idForm + ' .nameError').addClass("hiddenn");
+    $('#' + idForm + ' .sumError').addClass("hiddenn");
+    $('#' + idForm + ' .categoryError').addClass("hiddenn");
 };
 
-var validateTransactionData = function (idForm, name, sum, cat, recurringDate) {
-    if(!checkLength(name)) {
-        $('#'+ idForm +' .nameError').html("Introduceti un nume").removeClass("hiddenn");
+    var validateTransactionData = function (idForm, name, sum, cat, recurringDate) {
+    if (!checkLength(name)) {
+        $('#' + idForm + ' .nameError').html("Introduceti un nume").removeClass("hiddenn");
         return false;
-    }else if (!checkLength(sum)) {
-        $('#'+ idForm +' .sumError').html("Introduceti o suma").removeClass("hiddenn");
+    } else if (!checkLength(sum)) {
+        $('#' + idForm + ' .sumError').html("Introduceti o suma").removeClass("hiddenn");
         return false;
-    }else if (cat == null) {
-        $('#'+ idForm +' .categoryError').html("Selectati o categorie").removeClass("hiddenn");
+    } else if (cat == null) {
+        $('#' + idForm + ' .categoryError').html("Selectati o categorie").removeClass("hiddenn");
         return false;
     }
     return true;
@@ -80,30 +81,68 @@ var checkLength = function (name) {
     return name.length ? true : false;
 };
 
-$(function (){
-    $('#categories').click(function(){
-        $('.show-categories').attr('id','active');
+$(function () {
+    $('#categories').click(function () {
+        $('.show-categories').attr('id', 'active');
     });
-    $('#transactions').click(function(){
-        $('.show-categories').attr('id','');
+    $('#transactions').click(function () {
+        $('.show-categories').attr('id', '');
     });
-    $('#add-income').click(function(){
+    $('#add-income').click(function () {
         $('#income-form').addClass('active');
         $('#expense-form').removeClass('active');
     });
-    $('#add-expense').click(function(){
+    $('#add-expense').click(function () {
         $('#income-form').removeClass('active');
         $('#expense-form').addClass('active');
     });
-    $('.total-income').click(function(){
+    $('.total-income').click(function () {
         $('.income').addClass('active');
         $('.expenses').removeClass('active');
     });
-    $('.total-expense').click(function(){
+    $('.total-expense').click(function () {
         $('.expenses').addClass('active');
         $('.income').removeClass('active');
     });
-    $('#income-form').submit(registerTransaction);
-    $('#expense-form').submit(registerTransaction);
+
+    $('#categories-form').submit(categoryOnSubmit);
+
     $(".datepicker").datepicker();
+
+    //add income/expense
+
+    $('#income-form [type = submit]').click(registerTransaction);
+    $('#expense-form [type = submit]').click(registerTransaction);
+
 });
+
+var getCategoryForm = function () {
+    return {
+        name: $('#categories-form input[type="text"]').val(),
+        type: $('#categories-form option:selected').val()
+    };
+};
+
+var categoryOnSubmit = function () {
+    categoriesStore.addCategory(getCategoryForm()).then(function () {
+        drawCategoriesTable(categoriesStore);
+    });
+
+    return false;
+};
+
+var drawCategoriesTable = function (categoriesStore) {
+    categoriesStore.getAllCategories().then(function (data) {
+        $('.expense-categories tbody').empty();
+        $('.income-categories tbody').empty();
+        $.each(data, function () {
+            if (this.type === 'income') {
+                var tr = tmpl("item_tmpl_category", this);
+                $('.income-categories tbody').append(tr);
+            } else {
+                var tr = tmpl("item_tmpl_category", this);
+                $('.expense-categories tbody').append(tr);
+            }
+        });
+    })
+};
