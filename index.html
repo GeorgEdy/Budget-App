@@ -6,6 +6,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link rel="stylesheet" href="js/jquery-ui-1.11.4/jquery-ui.min.css">
+
 </head>
 <body>
 <header>
@@ -63,16 +64,11 @@
                 <div class="col-md-3 hiddenn nameError"></div>
                 <div class="col-md-3 hiddenn sumError"></div>
                 <div class="hiddenn categoryError"></div>
-            </div>
                 <div  id="income-date">
                     <label>Select recurring date
                         <input type="text" class="parent datepicker" title="income-date">
                     </label>
                 </div>
-            <div  id="income-date">
-                <label>Select recurring date
-                    <input type="text" class="parent datepicker" title="income-date">
-                </label>
             </div>
         </form>
         <form class="navbar-form navbar-left col-md-7 absolute expense-form" id="expense-form">
@@ -94,21 +90,16 @@
                 <input type="checkbox"  name="check" class="recurring-expenses">
             </label>
             <input type="submit" class="btn btn-default" value="Add">
-            <div class="errors">
+
+            <div>
                 <div class="col-md-3 hiddenn nameError"></div>
                 <div class="col-md-3 hiddenn sumError"></div>
                 <div class="hiddenn categoryError"></div>
-            </div>
                 <div id="expense-date">
                     <label>Select recurring date
                         <input type="text" class="parent datepicker" title="expense-date">
                     </label>
                 </div>
-            </div>
-            <div id="expense-date">
-                <label>Select recurring date
-                    <input type="text" class="parent datepicker" title="expense-date">
-                </label>
             </div>
         </form>
 
@@ -178,10 +169,12 @@
                     <th><h3>Income</h3></th>
                 </tr>
                 <tr>
-                    <td><a href="#">DummyCat</a>
-                        <button class="btn btn-xs btn-primary">Save</button>
-                        <button class="btn btn-xs btn-danger">Delete</button>
-                        <button class="btn btn-xs">Cancel</button>
+                    <td><a href="#">DummyCat</a></td>
+                    <td  class="hiddenn">
+                        <button class="glyphicon glyphicon-edit edit-button">Edit</button>
+                        <button class="btn btn-xs btn-primary save-button">Save</button>
+                        <button class="btn btn-xs btn-danger delete-button">Delete</button>
+                        <button class="btn btn-xs  cancel-button">Cancel</button>
                     </td>
                 </tr>
                 </tbody>
@@ -192,10 +185,12 @@
                     <th><h3>Expenses</h3></th>
                 </tr>
                 <tr>
-                    <td><a href="#">DummyCat</a>
-                        <button class="btn btn-xs btn-primary">Save</button>
-                        <button class="btn btn-xs btn-danger">Delete</button>
-                        <button class="btn btn-xs">Cancel</button>
+                    <td><a href="#">DummyCat</a></td>
+                    <td class="hiddenn">
+                        <button class="glyphicon glyphicon-edit edit-button">Edit</button>
+                        <button class="btn btn-xs btn-primary save-button">Save</button>
+                        <button class="btn btn-xs btn-danger delete-button">Delete</button>
+                        <button class="btn btn-xs cancel-button">Cancel</button>
                     </td>
                 </tr>
                 </tbody>
@@ -205,9 +200,8 @@
 </main>
 <script type="text/html" id="item_tmpl">
     <tr>
-        <td><%= date %></td>
+        <td>Still a dummy date</td>
         <td><%= name %></td>
-        <td><%= sum %></td>
     </tr>
 </script>
 <script src="js/jquery-2.2.0.min.js"></script>
