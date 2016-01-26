@@ -6,6 +6,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link rel="stylesheet" href="js/jquery-ui-1.11.4/jquery-ui.min.css">
+
 </head>
 <body>
 <header>
@@ -89,7 +90,8 @@
                 <input type="checkbox"  name="check" class="recurring-expenses">
             </label>
             <input type="submit" class="btn btn-default" value="Add">
-            <div class="errors">
+
+            <div>
                 <div class="col-md-3 hiddenn nameError"></div>
                 <div class="col-md-3 hiddenn sumError"></div>
                 <div class="hiddenn categoryError"></div>
@@ -167,10 +169,12 @@
                     <th><h3>Income</h3></th>
                 </tr>
                 <tr>
-                    <td><a href="#">DummyCat</a>
-                        <button class="btn btn-xs btn-primary">Save</button>
-                        <button class="btn btn-xs btn-danger">Delete</button>
-                        <button class="btn btn-xs">Cancel</button>
+                    <td><a href="#">DummyCat</a></td>
+                    <td  class="hiddenn">
+                        <button class="glyphicon glyphicon-edit edit-button">Edit</button>
+                        <button class="btn btn-xs btn-primary save-button">Save</button>
+                        <button class="btn btn-xs btn-danger delete-button">Delete</button>
+                        <button class="btn btn-xs  cancel-button">Cancel</button>
                     </td>
                 </tr>
                 </tbody>
@@ -181,10 +185,12 @@
                     <th><h3>Expenses</h3></th>
                 </tr>
                 <tr>
-                    <td><a href="#">DummyCat</a>
-                        <button class="btn btn-xs btn-primary">Save</button>
-                        <button class="btn btn-xs btn-danger">Delete</button>
-                        <button class="btn btn-xs">Cancel</button>
+                    <td><a href="#">DummyCat</a></td>
+                    <td class="hiddenn">
+                        <button class="glyphicon glyphicon-edit edit-button">Edit</button>
+                        <button class="btn btn-xs btn-primary save-button">Save</button>
+                        <button class="btn btn-xs btn-danger delete-button">Delete</button>
+                        <button class="btn btn-xs cancel-button">Cancel</button>
                     </td>
                 </tr>
                 </tbody>
@@ -196,7 +202,6 @@
     <tr>
         <td>Still a dummy date</td>
         <td><%= name %></td>
-        <td><%= sum %></td>
     </tr>
 </script>
 <script src="js/jquery-2.2.0.min.js"></script>
