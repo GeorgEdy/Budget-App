@@ -58,11 +58,17 @@
                 <input type="checkbox" id="recurring-income">
             </label>
             <input type="submit" class="btn btn-default" value="Add">
+
             <div class="errors">
                 <div class="col-md-3 hiddenn nameError"></div>
                 <div class="col-md-3 hiddenn sumError"></div>
                 <div class="hiddenn categoryError"></div>
             </div>
+                <div  id="income-date">
+                    <label>Select recurring date
+                        <input type="text" class="parent datepicker" title="income-date">
+                    </label>
+                </div>
             <div  id="income-date">
                 <label>Select recurring date
                     <input type="text" class="parent datepicker" title="income-date">
@@ -92,6 +98,12 @@
                 <div class="col-md-3 hiddenn nameError"></div>
                 <div class="col-md-3 hiddenn sumError"></div>
                 <div class="hiddenn categoryError"></div>
+            </div>
+                <div id="expense-date">
+                    <label>Select recurring date
+                        <input type="text" class="parent datepicker" title="expense-date">
+                    </label>
+                </div>
             </div>
             <div id="expense-date">
                 <label>Select recurring date
@@ -191,7 +203,13 @@
         </div>
     </div>
 </main>
-
+<script type="text/html" id="item_tmpl">
+    <tr>
+        <td>Still a dummy date</td>
+        <td><%= name %></td>
+        <td><%= sum %></td>
+    </tr>
+</script>
 <script src="js/jquery-2.2.0.min.js"></script>
 <script src="js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script src="js/resig.js"></script>
@@ -200,7 +218,6 @@
 <script src="js/Stores/categoryStore.js"></script>
 <script src="js/Stores/recurringStore.js"></script>
 <script src="js/Services/transactionsFunctions.js"></script>
-<script src="js/Services/budgetFunctions.js"></script>
 <script src="js/moments.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>

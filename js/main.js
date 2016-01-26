@@ -1,3 +1,25 @@
+var getFormData = function () {
+    return {
+        name : $('#income-form option:selected').text(),
+        sum: $('#income-form input[type="number"]').val()
+    };
+};
+var onSubmit = function () {
+    transactionsStore.addTransaction(getFormData()).then(function () {
+        drawTable(transactionsStore);
+    });
+};
+
+var drawTable = function (transactionsStore) {
+    transactionsStore.getAllTransactions().then(function (data) {
+        $('#income-history tbody tr').remove();
+        $.each(data.transactions, function () {
+            var tr = tmpl("item_tmpl", this);
+            $('#income-history tbody').append(tr);
+        });
+    })
+};
+
 var registerTransaction = function () {
     event.preventDefault();
     var parentNode = $(this).parent().attr("id");
@@ -16,7 +38,7 @@ var sendTransaction = function (item, recurring) {
     if (recurring == true) {
         recurringStore.addRecurring(item);
     } else {
-        addBudget(item.name, item.categoryId, item.sum, item.type, item.date);
+        addTransaction(item.name, item.categoryId, item.sum, item.type, item.date);
     }
 };
 
@@ -92,8 +114,13 @@ $(function (){
         $('.expenses').addClass('active');
         $('.income').removeClass('active');
     });
-    //add income/expense
 
-    $('#income-form [type = submit]').click(registerTransaction);
+    $('#income-form').submit(onSubmit);
+    $(".datepicker").datepicker();
+
+        //add income/expense
+
+        $('#income-form [type = submit]').click(registerTransaction);
     $('#expense-form [type = submit]').click(registerTransaction);
+
 });
