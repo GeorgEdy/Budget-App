@@ -13,7 +13,7 @@ var onSubmit = function () {
 var drawTable = function (transactionsStore) {
     transactionsStore.getAllTransactions().then(function (data) {
         $('#income-history tbody tr').remove();
-        $.each(data, function () {
+        $.each(data.transactions, function () {
             var tr = tmpl("item_tmpl", this);
             $('#income-history tbody').append(tr);
         });
@@ -23,8 +23,8 @@ var drawTable = function (transactionsStore) {
 var registerTransaction = function () {
     event.preventDefault();
     var parentNode = $(this).parent().attr("id");
-    console.log($(this).parent());
     var transactionFormData = getTransactionData(parentNode);
+    var balance = parseInt(budgetsStore.getTotalBudget());
 
     if(transactionFormData) {
         if(parentNode === "income-form") {
@@ -39,15 +39,12 @@ var sendTransaction = function (item, recurring) {
     if (recurring == true) {
         recurringStore.addRecurring(item);
     } else {
-        addBudget(item.name, item.categoryId, item.sum, item.type, item.date).then(function () {
-            drawTable(transactionsStore);
-        })
+        addBudget(item.name, item.categoryId, item.sum, item.type, item.date);
     }
 };
 
 var getTransactionData = function (idForm) {
-    var name = $('#'+ idForm +' [title = nume]');
-    console.log(name);
+    var name = $('#'+ idForm +' [title = nume]').val();
     var sum = $('#'+ idForm +' [type = number]').val();
     var cat = $('#'+ idForm +' [title = category]').val();
     var recurring = $('#'+ idForm +' [type = checkbox]').is(":checked");
@@ -117,12 +114,12 @@ $(function (){
         $('.income').removeClass('active');
     });
 
-    $('#income-form').submit(registerTransaction);
+    $('#income-form').submit(onSubmit);
     $(".datepicker").datepicker();
 
         //add income/expense
 
-        //$('#income-form [type = submit]').click(registerTransaction);
+        $('#income-form [type = submit]').click(registerTransaction);
     $('#expense-form [type = submit]').click(registerTransaction);
 
 });

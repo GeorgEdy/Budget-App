@@ -36,9 +36,9 @@ var transactionsLastId = 3;
         getTransaction: function (id) {
             return new Promise(function (resolve, reject) {
                 var obj = "";
-                $.each(data.transactions, function (index) {
-                    if (data.transactions[index].id === id) {
-                        obj = data.transactions[index];
+                $.each(data, function (index) {
+                    if (data[index].id === id) {
+                        obj = data[index];
                     }
                 });
                 resolve(obj);
@@ -46,16 +46,16 @@ var transactionsLastId = 3;
         },
         addTransaction: function (item) {
             return new Promise(function (resolve, reject) {
-                item.id = data.transactionsLastId++;
-                data.transactions.push(item);
+                item.id = transactionsLastId++;
+                data.push(item);
                 resolve(data);
             });
         },
         updateTransaction: function (id, updateData) {
             return new Promise(function (resolve, reject) {
-                $.each(data.transactions, function (index) {
-                    if (data.transactions[index].id === id) {
-                        data.transactions[index] = updateData;
+                $.each(data, function (index) {
+                    if (data[index].id === id) {
+                        data[index] = updateData;
                     }
                 });
                 resolve(data);
@@ -63,9 +63,9 @@ var transactionsLastId = 3;
         },
         deleteTransaction: function (id) {
             return new Promise(function (resolve, reject) {
-                $.each(data.transactions, function (index, value) {
+                $.each(data, function (index, value) {
                     if (value.id === id) {
-                        data.transactions.splice(index, 1);
+                        data.splice(index, 1);
                         resolve();
                     }
                 });
