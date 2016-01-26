@@ -1,3 +1,26 @@
+var getFormData = function () {
+    return {
+        name : $('#income-form option:selected').text(),
+        sum: $('#income-form input[type="number"]').val()
+    };
+};
+var onSubmit = function () {
+  transactionsStore.addTransaction(getFormData()).then(function () {
+      drawTable(transactionsStore);
+  });
+};
+
+var drawTable = function (transactionsStore) {
+    transactionsStore.getAllTransactions().then(function (data) {
+        $('#income-history tbody tr').remove();
+        $.each(data.transactions, function () {
+            var tr = tmpl("item_tmpl", this);
+            $('#income-history tbody').append(tr);
+        });
+    })
+};
+
+
 $(function (){
     $('#categories').click(function(){
         $('.show-categories').attr('id','active');
@@ -24,4 +47,6 @@ $(function (){
         $('.expenses').addClass('active');
         $('.income').removeClass('active');
     });
+    $('#income-form').submit(onSubmit);
+    $(".datepicker").datepicker();
 });
