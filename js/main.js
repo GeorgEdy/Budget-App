@@ -24,7 +24,6 @@ var registerTransaction = function () {
     event.preventDefault();
     var parentNode = $(this).parent().attr("id");
     var transactionFormData = getTransactionData(parentNode);
-    var balance = parseInt(budgetsStore.getTotalBudget());
 
     if(transactionFormData) {
         if(parentNode === "income-form") {
@@ -39,7 +38,7 @@ var sendTransaction = function (item, recurring) {
     if (recurring == true) {
         recurringStore.addRecurring(item);
     } else {
-        addBudget(item.name, item.categoryId, item.sum, item.type, item.date);
+        addTransaction(item.name, item.categoryId, item.sum, item.type, item.date);
     }
 };
 
