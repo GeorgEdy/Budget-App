@@ -1,15 +1,3 @@
-var getFormData = function () {
-    return {
-        name : $('#income-form option:selected').text(),
-        sum: $('#income-form input[type="number"]').val()
-    };
-};
-var onSubmit = function () {
-    transactionsStore.addTransaction(getFormData()).then(function () {
-        drawTable(transactionsStore);
-    });
-};
-
 var drawTable = function (transactionsStore) {
     transactionsStore.getAllTransactions().then(function (data) {
         $('#income-history tbody tr').remove();
@@ -22,7 +10,7 @@ var drawTable = function (transactionsStore) {
 
 var registerTransaction = function () {
     event.preventDefault();
-    var parentNode = $(this).parent().attr("id");
+    var parentNode = event.target.id;
     var transactionFormData = getTransactionData(parentNode);
 
     if(transactionFormData) {
@@ -114,13 +102,7 @@ $(function (){
         $('.expenses').addClass('active');
         $('.income').removeClass('active');
     });
-
-    $('#income-form').submit(onSubmit);
+    $('#income-form').submit(registerTransaction);
+    $('#expense-form').submit(registerTransaction);
     $(".datepicker").datepicker();
-
-        //add income/expense
-
-        $('#income-form [type = submit]').click(registerTransaction);
-    $('#expense-form [type = submit]').click(registerTransaction);
-
 });
