@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var getFormData = function () {
     return {
         name: $('#income-form option:selected').text(),
@@ -11,8 +10,6 @@ var onSubmit = function () {
     });
 };
 
-=======
->>>>>>> 7801b8612d3cb260b24378fd76f4fb2f18bad13f
 var drawTable = function (transactionsStore) {
     transactionsStore.getAllTransactions().then(function (data) {
         $('#income-history tbody tr').remove();
@@ -25,7 +22,7 @@ var drawTable = function (transactionsStore) {
 
 var registerTransaction = function () {
     event.preventDefault();
-    var parentNode = event.target.id;
+    var parentNode = $(this).parent().attr("id");
     var transactionFormData = getTransactionData(parentNode);
 
     if (transactionFormData) {
@@ -129,10 +126,9 @@ $(function () {
         $('.expenses').addClass('active');
         $('.income').removeClass('active');
     });
-<<<<<<< HEAD
 
     $('#income-form').submit(onSubmit);
-    $('#categories-form').submit(onSubmit);
+    $('#categories-form').submit(categoryOnSubmit);
     $(".datepicker").datepicker();
 
     //add income/expense
@@ -149,18 +145,12 @@ var getCategoryForm = function () {
     };
 };
 
-var onSubmit = function () {
-    if(checkCategoryNameLength){
-        categoriesStore.addCategory(getCategoryForm()).then(function () {
-            drawCategoriesTable(categoriesStore);
-        })
-    };
+var categoryOnSubmit = function () {
+    categoriesStore.addCategory(getCategoryForm()).then(function () {
+        drawCategoriesTable(categoriesStore);
+    });
 
     return false;
-};
-
-var checkCategoryNameLength = function (name) {
-    return name.length ? true : false;
 };
 
 var drawCategoriesTable = function (categoriesStore) {
@@ -179,9 +169,3 @@ var drawCategoriesTable = function (categoriesStore) {
         });
     })
 };
-=======
-    $('#income-form').submit(registerTransaction);
-    $('#expense-form').submit(registerTransaction);
-    $(".datepicker").datepicker();
-});
->>>>>>> 7801b8612d3cb260b24378fd76f4fb2f18bad13f
