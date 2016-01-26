@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var getFormData = function () {
     return {
         name: $('#income-form option:selected').text(),
@@ -10,6 +11,8 @@ var onSubmit = function () {
     });
 };
 
+=======
+>>>>>>> 7801b8612d3cb260b24378fd76f4fb2f18bad13f
 var drawTable = function (transactionsStore) {
     transactionsStore.getAllTransactions().then(function (data) {
         $('#income-history tbody tr').remove();
@@ -22,7 +25,7 @@ var drawTable = function (transactionsStore) {
 
 var registerTransaction = function () {
     event.preventDefault();
-    var parentNode = $(this).parent().attr("id");
+    var parentNode = event.target.id;
     var transactionFormData = getTransactionData(parentNode);
 
     if (transactionFormData) {
@@ -126,6 +129,7 @@ $(function () {
         $('.expenses').addClass('active');
         $('.income').removeClass('active');
     });
+<<<<<<< HEAD
 
     $('#income-form').submit(onSubmit);
     $('#categories-form').submit(onSubmit);
@@ -175,3 +179,9 @@ var drawCategoriesTable = function (categoriesStore) {
         });
     })
 };
+=======
+    $('#income-form').submit(registerTransaction);
+    $('#expense-form').submit(registerTransaction);
+    $(".datepicker").datepicker();
+});
+>>>>>>> 7801b8612d3cb260b24378fd76f4fb2f18bad13f
