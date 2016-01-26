@@ -91,8 +91,16 @@ $(function (){
         $('.expenses').addClass('active');
         $('.income').removeClass('active');
     });
+<<<<<<< HEAD
+
+
+
+
+
+=======
     //add income/expense
 
     $('#income-form [type = submit]').click(registerTransaction);
     $('#expense-form [type = submit]').click(registerTransaction);
+>>>>>>> 01a59d14b9c7b783d133e93d13d1b01f2ddd59d1
 });
