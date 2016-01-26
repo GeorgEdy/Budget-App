@@ -164,31 +164,23 @@
                 <input type="submit" class="input-group btn btn-default" value="Add">
             </form>
             <table class="income-categories col-md-6 panel panel-default">
+                <thead>
+                <tr>
+                    <th>Income Name</th>
+                    <th>Income Type</th>
+                </tr>
+                </thead>
                 <tbody>
-                <tr>
-                    <th><h3>Income</h3></th>
-                </tr>
-                <tr>
-                    <td><a href="#">DummyCat</a>
-                        <button class="btn btn-xs btn-primary">Save</button>
-                        <button class="btn btn-xs btn-danger">Delete</button>
-                        <button class="btn btn-xs">Cancel</button>
-                    </td>
-                </tr>
                 </tbody>
             </table>
             <table class="expense-categories col-md-6 panel panel-default">
+                <thead>
+                <tr>
+                    <th>Income Name</th>
+                    <th>Income Type</th>
+                </tr>
+                </thead>
                 <tbody>
-                <tr>
-                    <th><h3>Expenses</h3></th>
-                </tr>
-                <tr>
-                    <td><a href="#">DummyCat</a>
-                        <button class="btn btn-xs btn-primary">Save</button>
-                        <button class="btn btn-xs btn-danger">Delete</button>
-                        <button class="btn btn-xs">Cancel</button>
-                    </td>
-                </tr>
                 </tbody>
             </table>
         </div>
@@ -199,6 +191,17 @@
         <td>Still a dummy date</td>
         <td><%= name %></td>
         <td><%= sum %></td>
+    </tr>
+</script>
+<script type="text/html" id="item_tmpl_category">
+    <tr>
+        <td><%= name %></td>
+        <td><%= type %></td>
+        <td>
+            <button class="btn btn-xs btn-primary">Save</button>
+            <button class="btn btn-xs btn-danger">Delete</button>
+            <button class="btn btn-xs">Cancel</button>
+        </td>
     </tr>
 </script>
 <script src="js/jquery-2.2.0.min.js"></script>

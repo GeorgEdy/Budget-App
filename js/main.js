@@ -115,6 +115,7 @@ $(function (){
     });
 
     $('#income-form').submit(onSubmit);
+    $('#categories-form').submit(onSubmit);
     $(".datepicker").datepicker();
 
         //add income/expense
@@ -123,3 +124,32 @@ $(function (){
     $('#expense-form [type = submit]').click(registerTransaction);
 
 });
+
+var getCategoryForm = function() {
+    return {
+        name: $('#categories-form input[type="text"]').val(),
+        type: $('#categories-form option:selected').val()
+    };
+};
+ var onSubmit = function() {
+     categoriesStore.addCategory(getCategoryForm()).then(function() {
+         drawCategoriesTable(categoriesStore);
+     });
+
+     return false;
+ };
+
+var drawCategoriesTable = function (categoriesStore) {
+    categoriesStore.getAllCategories().then(function (data) {
+        $.each(data, function () {
+            if (this.type === 'income') {
+                var tr = tmpl("item_tmpl_category", this);
+                $('.income-categories tbody').append(tr);
+            } else {
+                var tr = tmpl("item_tmpl_category", this);
+                $('.expense-categories tbody').append(tr);
+            }
+            ;
+        });
+    })
+};
