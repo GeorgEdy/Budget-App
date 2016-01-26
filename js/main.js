@@ -1,7 +1,7 @@
-var drawTable = function (transactionsStore) {
+var drawTable = function () {
     transactionsStore.getAllTransactions().then(function (data) {
         $('#income-history tbody tr').remove();
-        $.each(data.transactions, function () {
+        $.each(data, function () {
             var tr = tmpl("item_tmpl", this);
             $('#income-history tbody').append(tr);
         });
@@ -10,33 +10,23 @@ var drawTable = function (transactionsStore) {
 
 var registerTransaction = function () {
     event.preventDefault();
-    var parentNode = $(this).parent().attr("id");
+
+    var parentNode = event.target.id;
     var transactionFormData = getTransactionData(parentNode);
 
-    if (transactionFormData) {
+    if(transactionFormData) {
         if (parentNode === "income-form") {
-            sendTransaction({
-                name: transactionFormData.name,
-                categoryId: transactionFormData.categoryId,
-                sum: transactionFormData.sum,
-                type: "income",
-                date: transactionFormData.date
-            }, transactionFormData.recurring);
+            sendTransaction(transactionFormData, transactionFormData.recurring);
         } else {
-            sendTransaction({
-                name: transactionFormData.name,
-                categoryId: transactionFormData.categoryId,
-                sum: transactionFormData.sum,
-                type: "expense",
-                date: transactionFormData.date
-            }, transactionFormData.recurring);
+            sendTransaction(transactionFormData, transactionFormData.recurring);
         }
     }
 };
 
 var sendTransaction = function (item, recurring) {
     if (recurring == true) {
-        recurringStore.addRecurring(item);
+        console.log(item);
+        recurringStore.addRecurring({name: item.name, categoryId: item.categoryId, sum: item.sum, type: item.type, date: item.date, recurringDate: item.recurringDate});
     } else {
         addTransaction(item.name, item.categoryId, item.sum, item.type, item.date);
     }
@@ -48,20 +38,20 @@ var getTransactionData = function (idForm) {
     var cat = $('#' + idForm + ' [title = category]').val();
     var recurring = $('#' + idForm + ' [type = checkbox]').is(":checked");
     var date = moment().format('DD MM YYYY');
-
+    var recurringDate = $('#'+ idForm +' .datepicker').html();
     resetErrors(idForm);
 
-    if (validateTransactionData(idForm, name, sum, cat)) {
+    if (validateTransactionData(idForm, name, sum, cat, recurringDate)) {
         var categoryId = "";
-
         categoriesStore.getAllCategories().then(function (data) {
             $.each(data, function (index, value) {
                 if (value.name.toLowerCase() == cat) {
                     categoryId = value.id;
+                    return;
                 }
-            });
         });
-        return {name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date};
+    })
+    return {name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDate };
     } else {
         return false;
     }
@@ -73,7 +63,7 @@ var resetErrors = function (idForm) {
     $('#' + idForm + ' .categoryError').addClass("hiddenn");
 };
 
-var validateTransactionData = function (idForm, name, sum, cat) {
+    var validateTransactionData = function (idForm, name, sum, cat, recurringDate) {
     if (!checkLength(name)) {
         $('#' + idForm + ' .nameError').html("Introduceti un nume").removeClass("hiddenn");
         return false;
@@ -153,7 +143,6 @@ var drawCategoriesTable = function (categoriesStore) {
                 var tr = tmpl("item_tmpl_category", this);
                 $('.expense-categories tbody').append(tr);
             }
-            ;
         });
     })
 };
