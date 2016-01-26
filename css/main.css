@@ -109,6 +109,10 @@ input[title="Expense"] {
     visibility: hidden;
 }
 
+.errors {
+    height: 50px;
+}
+
 /*////////////////////////////////////////////////////////*/
 /*utility classes*/
 
