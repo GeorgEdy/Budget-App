@@ -2,22 +2,9 @@ var registerTransaction = function () {
     event.preventDefault();
     var parentNode = $(this).parent().attr("id");
     var transactionFormData = getTransactionData(parentNode);
-    var balance = parseInt(budgetsStore.getTotalBudget());
 
     if(transactionFormData) {
-        if(parentNode === "income-form") {
-            sendTransaction({name: transactionFormData.name, categoryId: transactionFormData.categoryId, sum: transactionFormData.sum, type: "income", date: transactionFormData.date}, transactionFormData.recurring);
-        } else {
-            sendTransaction({name: transactionFormData.name, categoryId: transactionFormData.categoryId, sum: transactionFormData.sum, type: "expense", date: transactionFormData.date}, transactionFormData.recurring);
-        }
-    }
-};
-
-var sendTransaction = function (item, recurring) {
-    if (recurring == true) {
-        recurringStore.addRecurring(item);
-    } else {
-        addBudget(item.name, item.categoryId, item.sum, item.type, item.date);
+        console.log(transactionFormData);
     }
 };
 
@@ -31,14 +18,7 @@ var getTransactionData = function (idForm) {
     resetErrors(idForm);
 
     if (validateTransactionData(idForm, name, sum, cat)) {
-        var categories = categoriesStore.getAllCategories();
-        var categoryId = "";
-        $.each(categories, function (index, value) {
-            if(value.name === cat) {
-                categoryId = value.id;
-            }
-        });
-        return {name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date};
+        return {name: name, category: cat, sum: sum, recurring: recurring, date: date};
     }else {
         return false;
     }
@@ -72,6 +52,9 @@ $(function (){
     $('#categories').click(function(){
         $('.show-categories').attr('id','active');
     });
+    addBudget(5, "caca-income", "income", "300", "income", "30.11.2015");
+    addBudget(6, "caca-expense", "foods", "400", "expense", "30.11.2015");
+
     $('#transactions').click(function(){
         $('.show-categories').attr('id','');
     });
