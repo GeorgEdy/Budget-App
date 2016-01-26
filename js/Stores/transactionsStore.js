@@ -6,7 +6,7 @@ var transactionsStore = (function () {
             {
                 id: 0,
                 name: "Legume & Fructe",
-                category: "Foods",
+                categoryId: 0,
                 sum: "50",
                 type: "expense",
                 date: "3 01 2016"
@@ -14,7 +14,7 @@ var transactionsStore = (function () {
             {
                 id: 1,
                 name: "Salariu",
-                category: "Income",
+                categoryId: 3,
                 sum: "800",
                 type: "income",
                 date: "31 11 2015"
@@ -22,7 +22,7 @@ var transactionsStore = (function () {
             {
                 id: 2,
                 name: "Intretinere",
-                category: "House&Appliances",
+                categoryId: 4,
                 sum: "600",
                 type: "expense",
                 date: "3 11 2015"

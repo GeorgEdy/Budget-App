@@ -46,6 +46,10 @@ input[title="Expense"] {
     border-radius: 5%;
 }
 
+table {
+    border-collapse: inherit;
+}
+
 /*///////////////////////////////////////////////////////////////////////////////*/
 /*custom classes*/
 
@@ -109,6 +113,10 @@ input[title="Expense"] {
     visibility: hidden;
 }
 
+.errors {
+    height: 50px;
+}
+
 /*////////////////////////////////////////////////////////*/
 /*utility classes*/
 
@@ -142,6 +150,10 @@ input[title="Expense"] {
 .parent {
     position: relative;
     color: black;
+}
+
+.hiddenn {
+    visibility: hidden;
 }
 
 /*////////////////////////////////////////////////////////*/
