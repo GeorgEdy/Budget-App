@@ -1,8 +1,6 @@
 var transactionsStore = (function () {
-
-    var data = {
-        transactionsLastId: 3,
-        transactions: [
+var transactionsLastId = 3;
+    var data =  [
             {
                 id: 0,
                 name: "Legume & Fructe",
@@ -27,8 +25,7 @@ var transactionsStore = (function () {
                 type: "expense",
                 date: "3 11 2015"
             }
-        ]
-    };
+        ];
 
     return {
         getAllTransactions: function () {
