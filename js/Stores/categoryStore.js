@@ -59,8 +59,12 @@ var categoriesStore = (function () {
             },
             deleteCategory: function (id) {
                 return new Promise(function (resolve, reject) {
-                    data.splice(id, 1);
-                    resolve();
+                    $.each(data, function (index, value) {
+                        if (value.id === id) {
+                            data.splice(index, 1);
+                            resolve();
+                        }
+                    });
                 });
             }
         };
