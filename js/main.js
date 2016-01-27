@@ -60,10 +60,11 @@ var getTransactionData = function (idForm, callbackTransactionData) {
     var cat = $('#' + idForm + ' [title = category]').val();
     var recurring = $('#' + idForm + ' [type = checkbox]').is(":checked");
     var date = moment().format('DD MM YYYY');
-    var recurringDate = $('#'+ idForm +' .datepicker').html();
+    var recurringDate = $('#'+ idForm +' .datepicker').val().split('/');
+    var recurringDay = recurringDate != '' ? parseInt(recurringDate[1]) : 1;
     resetErrors(idForm);
 
-    if (validateTransactionData(idForm, name, sum, cat, recurringDate)) {
+    if (validateTransactionData(idForm, name, sum, cat, recurringDay)) {
         var categoryId = "";
         categoriesStore.getAllCategories().then(function (data) {
             $.each(data, function (index, value) {
@@ -72,9 +73,18 @@ var getTransactionData = function (idForm, callbackTransactionData) {
                     return;
                 }
         });
-            callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDate }, idForm);
+            callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDay }, idForm);
+            resetTransactionForms(idForm);
     });
     }
+};
+
+var resetTransactionForms = function (idForm) {
+    $('#' + idForm + ' [title = nume]').val("");
+    $('#' + idForm + ' [type = number]').val("");
+    $('#' + idForm + ' [title = category] option[selected]').prop('selected', true);
+    $('#' + idForm + ' [type = checkbox]').attr('checked', false);
+    $('#'+ idForm +' .datepicker').val("");
 };
 
 var checkLength = function (name) {
