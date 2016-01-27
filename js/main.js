@@ -53,10 +53,11 @@ var getTransactionData = function (idForm, callbackTransactionData) {
     var cat = $('#' + idForm + ' [title = category]').val();
     var recurring = $('#' + idForm + ' [type = checkbox]').is(":checked");
     var date = moment().format('DD MM YYYY');
-    var recurringDate = $('#'+ idForm +' .datepicker').html();
+    var recurringDate = $('#'+ idForm +' .parent').val().split('-');
+    var recurringDay = recurringDate != '' ? parseInt(recurringDate[2]) : 1;
     resetErrors(idForm);
 
-    if (validateTransactionData(idForm, name, sum, cat, recurringDate)) {
+    if (validateTransactionData(idForm, name, sum, cat, recurringDay)) {
         var categoryId = "";
         categoriesStore.getAllCategories().then(function (data) {
             $.each(data, function (index, value) {
@@ -64,9 +65,10 @@ var getTransactionData = function (idForm, callbackTransactionData) {
                     categoryId = value.id;
                     return;
                 }
-            });
-            callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDate }, idForm);
         });
+            callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDay }, idForm);
+            resetTransactionForms(idForm);
+    });
     }
 };
 var resetErrors = function (idForm) {
@@ -75,6 +77,14 @@ var resetErrors = function (idForm) {
     $('#' + idForm + ' .categoryError').addClass("hiddenn");
 };
 
+
+var resetTransactionForms = function (idForm) {
+    $('#' + idForm + ' [title = nume]').val("");
+    $('#' + idForm + ' [type = number]').val("");
+    $('#' + idForm + ' [title = category] option[selected]').prop('selected', true);
+    $('#' + idForm + ' [type = checkbox]').attr('checked', false);
+    $('#'+ idForm +' .datepicker').val("");
+};
 
 var checkLength = function (name) {
     return name.length ? true : false;
@@ -119,32 +129,31 @@ $(function () {
     $('#home').click(function () {
         $('.show-categories').attr('id', '');
         $('.transactions').removeClass('index');
-
-        $('#add-income').click(function () {
-            $('#income-form').addClass('active');
-            $('#expense-form').removeClass('active');
-        });
-        $('#add-expense').click(function () {
-            $('#income-form').removeClass('active');
-            $('#expense-form').addClass('active');
-        });
-        $('.total-income').click(function () {
-            $('.income').addClass('active');
-            $('.expenses').removeClass('active');
-        });
-        $('.total-expense').click(function () {
-            $('.expenses').addClass('active');
-            $('.income').removeClass('active');
-        });
-        $('#transactions').click(function () {
-            $('.transactions').addClass('index');
-        });
-
-        $('#categories-form').submit(categoryOnSubmit);
-
-        //add income/expense
-
-        $('#income-form').submit(registerTransaction);
-        $('#expense-form').submit(registerTransaction);
     });
+    $('#add-income').click(function () {
+        $('#income-form').addClass('active');
+        $('#expense-form').removeClass('active');
+    });
+    $('#add-expense').click(function () {
+        $('#income-form').removeClass('active');
+        $('#expense-form').addClass('active');
+    });
+    $('.total-income').click(function () {
+        $('.income').addClass('active');
+        $('.expenses').removeClass('active');
+    });
+    $('.total-expense').click(function () {
+        $('.expenses').addClass('active');
+        $('.income').removeClass('active');
+    });
+    $('#transactions').click(function () {
+        $('.transactions').addClass('index');
+    });
+
+    $('#categories-form').submit(categoryOnSubmit);
+
+    //add income/expense
+
+    $('#income-form').submit(registerTransaction);
+    $('#expense-form').submit(registerTransaction);
 });
