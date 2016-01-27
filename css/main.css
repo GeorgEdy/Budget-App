@@ -117,6 +117,19 @@ table {
     height: 50px;
 }
 
+.transactions {
+    position: absolute;
+    width: 850px;
+    height: 500px;
+    background: white;
+    font-size: 15px;
+}
+
+.statistics {
+    position: absolute;
+    top: 0;
+    width: 850px;
+}
 /*////////////////////////////////////////////////////////*/
 /*utility classes*/
 
@@ -156,6 +169,9 @@ table {
     visibility: hidden;
 }
 
+.index {
+    z-index: 1;
+}
 /*////////////////////////////////////////////////////////*/
 /*bootstrap classes edited */
 

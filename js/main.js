@@ -13,7 +13,6 @@ var registerTransaction = function () {
     var parentNode = event.target.id;
     getTransactionData(parentNode, callbackTransactionData);
 };
-
 var callbackTransactionData = function (item, parentNode) {
     if(item) {
         if (parentNode === "income-form") {
@@ -32,12 +31,6 @@ var sendTransaction = function (item, recurring) {
     } else {
         addTransaction(item.name, item.categoryId, item.sum, item.type, item.date);
     }
-};
-
-var resetErrors = function (idForm) {
-    $('#' + idForm + ' .nameError').addClass("hiddenn");
-    $('#' + idForm + ' .sumError').addClass("hiddenn");
-    $('#' + idForm + ' .categoryError').addClass("hiddenn");
 };
 
 var validateTransactionData = function (idForm, name, sum, cat, recurringDate) {
@@ -71,16 +64,21 @@ var getTransactionData = function (idForm, callbackTransactionData) {
                     categoryId = value.id;
                     return;
                 }
-        });
+            });
             callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDate }, idForm);
-    });
+        });
     }
 };
+var resetErrors = function (idForm) {
+    $('#' + idForm + ' .nameError').addClass("hiddenn");
+    $('#' + idForm + ' .sumError').addClass("hiddenn");
+    $('#' + idForm + ' .categoryError').addClass("hiddenn");
+};
+
 
 var checkLength = function (name) {
     return name.length ? true : false;
 };
-
 
 var getCategoryForm = function () {
     return {
@@ -116,27 +114,37 @@ var drawCategoriesTable = function (categoriesStore) {
 $(function () {
     $('#categories').click(function () {
         $('.show-categories').attr('id', 'active');
+        $('.transactions').removeClass('index');
     });
-    $('#transactions').click(function () {
+    $('#home').click(function () {
         $('.show-categories').attr('id', '');
+        $('.transactions').removeClass('index');
+
+        $('#add-income').click(function () {
+            $('#income-form').addClass('active');
+            $('#expense-form').removeClass('active');
+        });
+        $('#add-expense').click(function () {
+            $('#income-form').removeClass('active');
+            $('#expense-form').addClass('active');
+        });
+        $('.total-income').click(function () {
+            $('.income').addClass('active');
+            $('.expenses').removeClass('active');
+        });
+        $('.total-expense').click(function () {
+            $('.expenses').addClass('active');
+            $('.income').removeClass('active');
+        });
+        $('#transactions').click(function () {
+            $('.transactions').addClass('index');
+        });
+
+        $('#categories-form').submit(categoryOnSubmit);
+
+        //add income/expense
+
+        $('#income-form').submit(registerTransaction);
+        $('#expense-form').submit(registerTransaction);
     });
-    $('#add-income').click(function () {
-        $('#income-form').addClass('active');
-        $('#expense-form').removeClass('active');
-    });
-    $('#add-expense').click(function () {
-        $('#income-form').removeClass('active');
-        $('#expense-form').addClass('active');
-    });
-    $('.total-income').click(function () {
-        $('.income').addClass('active');
-        $('.expenses').removeClass('active');
-    });
-    $('.total-expense').click(function () {
-        $('.expenses').addClass('active');
-        $('.income').removeClass('active');
-    });
-    $('#income-form').submit(registerTransaction);
-    $('#expense-form').submit(registerTransaction);
-    $(".datepicker").datepicker();
 });
