@@ -123,7 +123,7 @@ var categoryOnSubmit = function () {
             function () {
                 $('#categories-form').removeClass("editing");
 
-                drawTable(categoriesStore);
+                drawCategoriesTable(categoriesStore);
                 categoryFormReset();
             }
         );
@@ -158,7 +158,7 @@ var categoryFormReset = function () {
     editRow = null;
 };
 
-var categoryCancelOnClick = function () {
+var cancelCategoryOnClick = function () {
     categoryFormReset();
 
     return false;
@@ -166,10 +166,9 @@ var categoryCancelOnClick = function () {
 
 var deleteCategoryOnClick = function () {
     var id = $(this).closest('tr').data('id');
-
     categoriesStore.deleteCategory(id).then(
         function () {
-            drawTable(categoriesStore);
+            drawCategoriesTable(categoriesStore);
         }
     );
 
@@ -182,14 +181,13 @@ var editCategoryOnClick = function () {
     categoriesStore.getCategoryById(id).then(
         function (data) {
             editRow = data;
+            console.log(editRow);
             $('#categories-form input[type="text"]').val(data.name);
-            if ($('#categories-form option:selected').val(data.type)==="expense") {
-                $('#categories-form option:selected').val("expense");
-            }else{
-                $('#categories-form option:selected').val("income");
-            };
+            $('#categories-form .block').val(data.type);
         }
-    )
+    );
+
+    return false;
 };
 
 var attachCategoryEvents = function () {
@@ -197,8 +195,7 @@ var attachCategoryEvents = function () {
     $('.income-categories').on('click', '.btn-delete-category', deleteCategoryOnClick);
     $('.expense-categories').on('click', '.btn-edit-category', editCategoryOnClick);
     $('.income-categories').on('click', '.btn-edit-category', editCategoryOnClick);
-    $('.expense-categories').on('click', '.btn-cancel-category', categoryCancelOnClick());
-    $('.income-categories').on('click', '.btn-cancel-category', categoryCancelOnClick());
+    $('.btn-cancel-category').on('click', cancelCategoryOnClick);
 
 };
 
@@ -252,8 +249,6 @@ $(function () {
     $('#transactions').click(function () {
         $('.transactions').addClass('index');
     });
-
-    $('#categories-form').submit(categoryOnSubmit);
 
     //check recurrent checkbox->show/hide recurrent date
 

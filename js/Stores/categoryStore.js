@@ -52,6 +52,7 @@ var categoriesStore = (function () {
                     $.each(data, function(index) {
                         if (this.id == id) {
                             data[index] = editedData;
+                            data[index].id = id;
                         }
                     });
                     resolve(data);
