@@ -13,7 +13,6 @@ var registerTransaction = function () {
     var parentNode = event.target.id;
     getTransactionData(parentNode, callbackTransactionData);
 };
-
 var callbackTransactionData = function (item, parentNode) {
     if(item) {
         if (parentNode === "income-form") {
@@ -32,12 +31,6 @@ var sendTransaction = function (item, recurring) {
     } else {
         addTransaction(item.name, item.categoryId, item.sum, item.type, item.date);
     }
-};
-
-var resetErrors = function (idForm) {
-    $('#' + idForm + ' .nameError').addClass("hiddenn");
-    $('#' + idForm + ' .sumError').addClass("hiddenn");
-    $('#' + idForm + ' .categoryError').addClass("hiddenn");
 };
 
 var validateTransactionData = function (idForm, name, sum, cat, recurringDate) {
@@ -60,8 +53,8 @@ var getTransactionData = function (idForm, callbackTransactionData) {
     var cat = $('#' + idForm + ' [title = category]').val();
     var recurring = $('#' + idForm + ' [type = checkbox]').is(":checked");
     var date = moment().format('DD MM YYYY');
-    var recurringDate = $('#'+ idForm +' .datepicker').val().split('/');
-    var recurringDay = recurringDate != '' ? parseInt(recurringDate[1]) : 1;
+    var recurringDate = $('#'+ idForm +' .parent').val().split('-');
+    var recurringDay = recurringDate != '' ? parseInt(recurringDate[2]) : 1;
     resetErrors(idForm);
 
     if (validateTransactionData(idForm, name, sum, cat, recurringDay)) {
@@ -78,6 +71,12 @@ var getTransactionData = function (idForm, callbackTransactionData) {
     });
     }
 };
+var resetErrors = function (idForm) {
+    $('#' + idForm + ' .nameError').addClass("hiddenn");
+    $('#' + idForm + ' .sumError').addClass("hiddenn");
+    $('#' + idForm + ' .categoryError').addClass("hiddenn");
+};
+
 
 var resetTransactionForms = function (idForm) {
     $('#' + idForm + ' [title = nume]').val("");
@@ -90,7 +89,6 @@ var resetTransactionForms = function (idForm) {
 var checkLength = function (name) {
     return name.length ? true : false;
 };
-
 
 var getCategoryForm = function () {
     return {
@@ -126,9 +124,11 @@ var drawCategoriesTable = function (categoriesStore) {
 $(function () {
     $('#categories').click(function () {
         $('.show-categories').attr('id', 'active');
+        $('.transactions').removeClass('index');
     });
-    $('#transactions').click(function () {
+    $('#home').click(function () {
         $('.show-categories').attr('id', '');
+        $('.transactions').removeClass('index');
     });
     $('#add-income').click(function () {
         $('#income-form').addClass('active');
@@ -146,7 +146,14 @@ $(function () {
         $('.expenses').addClass('active');
         $('.income').removeClass('active');
     });
+    $('#transactions').click(function () {
+        $('.transactions').addClass('index');
+    });
+
+    $('#categories-form').submit(categoryOnSubmit);
+
+    //add income/expense
+
     $('#income-form').submit(registerTransaction);
     $('#expense-form').submit(registerTransaction);
-    $(".datepicker").datepicker();
 });
