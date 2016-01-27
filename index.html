@@ -155,12 +155,12 @@
                 </label>
                 <label>Category type
                     <select class="block">
-                        <option value="income">Income</option>
-                        <option value="expense">Expense</option>
+                        <option selected="income" value="income">Income</option>
+                        <option selected="expense" value="expense">Expense</option>
                     </select>
                 </label>
                 <div class="adding">
-                    <button type="submit" class="input-group btn btn-default">Add</button>
+                    <button type="submit" class="input-group btn btn-default">Save</button>
                 </div>
                 <div class="editing">
                     <button type="submit" class="input-group btn btn-default">Save</button>
@@ -201,8 +201,8 @@
         <td><%= name %></td>
         <td><%= type %></td>
         <td>
-            <button class="btn btn-xs btn-primary btn-edit-category">Edit</button>
-            <button class="btn btn-xs btn-danger btn-delete-category">Delete</button>
+            <a href="#" class="btn btn-xs btn-primary btn-edit-category">Edit</a>
+            <a href="#" class="btn btn-xs btn-danger btn-delete-category">Delete</a>
         </td>
     </tr>
 </script>

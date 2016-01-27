@@ -4,22 +4,20 @@ var recurringStore = (function () {
         {
             id: 0,
             name: "Salary",
-            category: "Salary",
+            categoryID: "1",
             sum: "50",
-            type: "Income",
+            type: "income",
             date: "15 01 2016",
-            startDate:"20 01 2016",
-            interval:"monthly"
+            day:"15"
         },
         {
             id: 1,
             name: "Electricity",
-            category: "House spends",
+            categoryID: "0",
             sum: "100",
-            type: "Expenses",
+            type: "expenses",
             date: "23 01 2016",
-            startDate:"25 01 2016",
-            interval:"monthly"
+            startDate:"15"
         }
     ];
 
