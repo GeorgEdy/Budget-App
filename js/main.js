@@ -1,9 +1,20 @@
-var drawTable = function () {
+var drawTable = function (type) {
     transactionsStore.getAllTransactions().then(function (data) {
         $('#income-history tbody tr').remove();
-        $.each(data, function () {
-            var tr = tmpl("item_tmpl", this);
-            $('#income-history tbody').append(tr);
+        $.each(data, function (index, value) {
+            if (value.type == type) {
+                var tr = tmpl("item_tmpl", this);
+                var tr = tmpl("item_tmpl", this);
+                $('#income-history tbody').append(tr);
+            }
+        });
+        $('#expense-history tbody tr').remove();
+        $.each(data, function (index, value) {
+            if (value.type == type) {
+                var tr = tmpl("item_tmpl", this);
+                var tr = tmpl("item_tmpl", this);
+                $('#expense-history tbody').append(tr);
+            }
         });
     })
 };
@@ -74,9 +85,9 @@ var getTransactionData = function (idForm, callbackTransactionData) {
                 }
             });
         });
-            callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDay }, idForm);
-            resetTransactionForms(idForm);
-    };
+        callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDay }, idForm);
+        resetTransactionForms(idForm);
+    }
 };
 var resetErrors = function (idForm) {
     $('#' + idForm + ' .nameError').addClass("hiddenn");
@@ -270,7 +281,14 @@ $(function () {
 
     $('#income-form').submit(registerTransaction);
     $('#expense-form').submit(registerTransaction);
-    drawCategoriesTable(categoriesStore);
     $('#categories-form').submit(categoryOnSubmit);
+
+    drawCategoriesTable(categoriesStore);
+    $('#income-history-panel').click(function () {
+        drawTable("income");
+    });
+    $('#expense-history-panel').click(function () {
+        drawTable("expense");
+    });
     attachCategoryEvents();
 });

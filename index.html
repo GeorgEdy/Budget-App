@@ -112,9 +112,6 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>DummyDate: 30.02.2016</td>
-                    <td>Dummy category name</td>
-                    <td>Dummy Amount: $500</td>
                 </tr>
                 </tbody>
             </table>
@@ -126,9 +123,6 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>DummyDate: 30.02.2016</td>
-                    <td>Dummy category name</td>
-                    <td>Dummy Amount: $-500</td>
                 </tr>
                 </tbody>
             </table>
@@ -180,8 +174,9 @@
 </main>
 <script type="text/html" id="item_tmpl">
     <tr>
-        <td>Still a dummy date</td>
+        <td><%= date %></td>
         <td><%= name %></td>
+        <td>$<%= sum %></td>
     </tr>
 </script>
 <script type="text/html" id="item_tmpl_category">
