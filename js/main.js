@@ -132,7 +132,7 @@ var categoryOnSubmit = function () {
             drawCategoriesTable(categoriesStore);
         });
     }
-
+    populateCategories();
     return false;
 };
 
@@ -202,6 +202,28 @@ var attachCategoryEvents = function () {
 
 };
 
+var populateCategories = function () {
+    categoriesStore.getAllCategories().then(function (data) {
+        var incomes = [];
+        var expenses = [];
+        $.each(data, function (index, value) {
+            if (value.type == "income") {
+                incomes.push(value);
+            } else {
+                expenses.push(value);
+            }
+        });
+        $("#income-form select").html("<option disabled='' selected='selected'>Select Category</option>");
+        $.each(incomes, function (index, value) {
+            $("#income-form select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+        });
+        $("#expense-form select").html("<option disabled='' selected='selected'>Select Category</option>");
+        $.each(expenses, function (index, value) {
+            $("#expense-form select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+        });
+    });
+};
+
 $(function () {
     $('#categories').click(function () {
         $('.show-categories').attr('id', 'active');
@@ -232,6 +254,28 @@ $(function () {
     });
 
     $('#categories-form').submit(categoryOnSubmit);
+
+    //check recurrent checkbox->show/hide recurrent date
+
+    $('#income-form [type = checkbox]').click(function () {
+        if ($(this).is(':checked')) {
+            $(this).parent().parent().find(".recurring-date").removeClass("hiddenn");
+        } else {
+            $(this).parent().parent().find(".recurring-date").addClass("hiddenn");
+        }
+    });
+
+    $('#expense-form [type = checkbox]').click(function () {
+        if ($(this).is(':checked')) {
+            $(this).parent().parent().find(".recurring-date").removeClass("hiddenn");
+        } else {
+            $(this).parent().parent().find(".recurring-date").addClass("hiddenn");
+        }
+    });
+
+    //populate categories in Transactions section
+
+    populateCategories();
 
     //add income/expense
 
