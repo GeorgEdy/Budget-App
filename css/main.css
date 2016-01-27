@@ -185,3 +185,11 @@ table {
 
 /*//////////////////////////////////////////////////////////*/
 /*@medias*/
+
+#categories-form .editing, #categories-form.editing .adding{
+    display: none;
+}
+
+#categories-form.editing .editing{
+    display: block;
+}
