@@ -50,7 +50,7 @@
                 <input type="text" placeholder="Add tag name" title="nume">
                 <input type="number" title="income" placeholder="add income">
                 <select title="category">
-                    <option disabled selected>Select Category</option>
+                    <option disabled selected = "selected">Select Category</option>
                     <option value="salary">Salary</option>
                     <option value="bonus">Bonus</option>
                     <option value="other">Other</option>
@@ -59,7 +59,6 @@
                     <input type="checkbox" id="recurring-income">
                 </label>
                 <input type="submit" class="btn btn-default" value="Add">
-
                 <div class="errors">
                     <div class="col-md-3 hiddenn nameError"></div>
                     <div class="col-md-3 hiddenn sumError"></div>
@@ -75,7 +74,7 @@
                 <input type="text" placeholder="Add tag name" title="nume">
                 <input type="number" title="Expense" placeholder="add expense">
                 <select title="category">
-                    <option disabled selected>Select Category</option>
+                    <option disabled selected= "selected">Select Category</option>
                     <option value="dressing">Clothes&shoes</option>
                     <option value="food">Food</option>
                     <option value="transportation">Transportation</option>
@@ -90,7 +89,6 @@
                     <input type="checkbox" name="check" class="recurring-expenses">
                 </label>
                 <input type="submit" class="btn btn-default" value="Add">
-
                 <div>
                     <div class="col-md-3 hiddenn nameError"></div>
                     <div class="col-md-3 hiddenn sumError"></div>
@@ -102,7 +100,6 @@
                     </div>
                 </div>
             </form>
-
             <div class="clearfix"></div>
         </div>
     </div>
@@ -162,7 +159,13 @@
                         <option value="expense">Expense</option>
                     </select>
                 </label>
-                <input type="submit" class="input-group btn btn-default" value="Add">
+                <div class="adding">
+                    <button type="submit" class="input-group btn btn-default">Add</button>
+                </div>
+                <div class="editing">
+                    <button type="submit" class="input-group btn btn-default">Save</button>
+                    <button class="btn btn-xs btn-cancel-category">Cancel</button>
+                </div>
             </form>
             <table class="income-categories col-md-6 panel panel-default">
                 <thead>
@@ -189,18 +192,18 @@
 </main>
 <script type="text/html" id="item_tmpl">
     <tr>
-        <td>Still a dummy date</td>
+        <td><%= date %></td>
         <td><%= name %></td>
+        <td>$<%= sum %></td>
     </tr>
 </script>
 <script type="text/html" id="item_tmpl_category">
-    <tr>
+    <tr data-id="<%=id%>">
         <td><%= name %></td>
         <td><%= type %></td>
-        <td class="hiddenn">
-            <button class="btn btn-xs btn-primary btn-save-category">Save</button>
+        <td>
+            <button class="btn btn-xs btn-primary btn-edit-category">Edit</button>
             <button class="btn btn-xs btn-danger btn-delete-category">Delete</button>
-            <button class="btn btn-xs btn-cancel-category">Cancel</button>
         </td>
     </tr>
 </script>

@@ -1,18 +1,21 @@
-var drawTable = function () {
+var drawTable = function (type) {
     transactionsStore.getAllTransactions().then(function (data) {
         $('#income-history tbody tr').remove();
-        if (data.type = "income") {
-            $.each(data, function () {
+            $.each(data, function (index, value) {
+                if (value.type == type) {
+                var tr = tmpl("item_tmpl", this);
                 var tr = tmpl("item_tmpl", this);
                 $('#income-history tbody').append(tr);
+                }
             });
-        }
-        else if(data.type ="expense") {
-            $.each(data, function () {
+        $('#expense-history tbody tr').remove();
+        $.each(data, function (index, value) {
+            if (value.type == type) {
                 var tr = tmpl("item_tmpl", this);
-                $('#income-history tbody').append(tr);
-            });
-        }
+                var tr = tmpl("item_tmpl", this);
+                $('#expense-history tbody').append(tr);
+            }
+        });
     })
 };
 
@@ -44,10 +47,7 @@ var sendTransaction = function (item, recurring) {
             recurringDate: item.recurringDate
         });
     } else {
-        addTransaction(item.name, item.categoryId, item.sum, item.type, item.date).then(function () {
-           drawTable();
-        });
-
+        addTransaction(item.name, item.categoryId, item.sum, item.type, item.date);
     }
 };
 
@@ -71,10 +71,11 @@ var getTransactionData = function (idForm, callbackTransactionData) {
     var cat = $('#' + idForm + ' [title = category]').val();
     var recurring = $('#' + idForm + ' [type = checkbox]').is(":checked");
     var date = moment().format('DD MM YYYY');
-    var recurringDate = $('#' + idForm + ' .datepicker').html();
+    var recurringDate = $('#'+ idForm +' .parent').val().split('-');
+    var recurringDay = recurringDate != '' ? parseInt(recurringDate[2]) : 1;
     resetErrors(idForm);
 
-    if (validateTransactionData(idForm, name, sum, cat, recurringDate)) {
+    if (validateTransactionData(idForm, name, sum, cat, recurringDay)) {
         var categoryId = "";
         categoriesStore.getAllCategories().then(function (data) {
             $.each(data, function (index, value) {
@@ -92,7 +93,9 @@ var getTransactionData = function (idForm, callbackTransactionData) {
                 recurringDate: recurringDate
             }, idForm);
         });
-    }
+        callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDay }, idForm);
+        resetTransactionForms(idForm);
+    };
 };
 var resetErrors = function (idForm) {
     $('#' + idForm + ' .nameError').addClass("hiddenn");
@@ -101,9 +104,24 @@ var resetErrors = function (idForm) {
 };
 
 
+var resetTransactionForms = function (idForm) {
+    $('#' + idForm + ' [title = nume]').val("");
+    $('#' + idForm + ' [type = number]').val("");
+    $('#' + idForm + ' [title = category] option[selected]').prop('selected', true);
+    $('#' + idForm + ' [type = checkbox]').attr('checked', false);
+    $('#'+ idForm +' .datepicker').val("");
+};
+
 var checkLength = function (name) {
     return name.length ? true : false;
 };
+/*===================================================================
+ * =====================================================================
+ * ==================================================================*/
+
+
+
+var editRow = null;
 
 var getCategoryForm = function () {
     return {
@@ -113,9 +131,20 @@ var getCategoryForm = function () {
 };
 
 var categoryOnSubmit = function () {
-    categoriesStore.addCategory(getCategoryForm()).then(function () {
-        drawCategoriesTable(categoriesStore);
-    });
+    if (editRow) {
+        categoriesStore.updateCategory(editRow.id, getCategoryForm()).then(
+            function () {
+                $('#categories-form').removeClass("editing");
+
+                drawTable(categoriesStore);
+                categoryFormReset();
+            }
+        );
+    } else {
+        categoriesStore.addCategory(getCategoryForm()).then(function () {
+            drawCategoriesTable(categoriesStore);
+        });
+    }
 
     return false;
 };
@@ -134,6 +163,56 @@ var drawCategoriesTable = function (categoriesStore) {
             }
         });
     })
+};
+
+var categoryFormReset = function () {
+    $('#categories-form input[type="text"]').val("");
+    $('#categories-form option:selected').val();
+    editRow = null;
+};
+
+var categoryCancelOnClick = function () {
+    categoryFormReset();
+
+    return false;
+};
+
+var deleteCategoryOnClick = function () {
+    var id = $(this).closest('tr').data('id');
+
+    categoriesStore.deleteCategory(id).then(
+        function () {
+            drawTable(categoriesStore);
+        }
+    );
+
+    return false;
+};
+
+var editCategoryOnClick = function () {
+    $('#categories-form').addClass("editing");
+    var id = $(this).closest('tr').data('id');
+    categoriesStore.getCategoryById(id).then(
+        function (data) {
+            editRow = data;
+            $('#categories-form input[type="text"]').val(data.name);
+            if ($('#categories-form option:selected').val(data.type)==="expense") {
+                $('#categories-form option:selected').val("expense");
+            }else{
+                $('#categories-form option:selected').val("income");
+            };
+        }
+    )
+};
+
+var attachCategoryEvents = function () {
+    $('.expense-categories').on('click', '.btn-delete-category', deleteCategoryOnClick);
+    $('.income-categories').on('click', '.btn-delete-category', deleteCategoryOnClick);
+    $('.expense-categories').on('click', '.btn-edit-category', editCategoryOnClick);
+    $('.income-categories').on('click', '.btn-edit-category', editCategoryOnClick);
+    $('.expense-categories').on('click', '.btn-cancel-category', categoryCancelOnClick());
+    $('.income-categories').on('click', '.btn-cancel-category', categoryCancelOnClick());
+
 };
 
 $(function () {
@@ -171,6 +250,14 @@ $(function () {
 
     $('#income-form').submit(registerTransaction);
     $('#expense-form').submit(registerTransaction);
+    $('#categories-form').submit(categoryOnSubmit);
 
-    drawTable();
+    drawCategoriesTable(categoriesStore);
+ $('#income-history-panel').click(function () {
+    drawTable("income");
+ });
+    $('#expense-history-panel').click(function () {
+       drawTable("expense");
+    });
+    attachCategoryEvents();
 });

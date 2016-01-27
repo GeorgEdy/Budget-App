@@ -1,5 +1,5 @@
 var budgetsStore = (function () {
-    var entriesUrl = "http://server.godev.ro:8080/api/budget";
+    var entriesUrl = "http://greieri.meteor.com/api/budget";
     var errorHandler = function(reject) {
         return function (xhr) {
             if(xhr.status == 409) {

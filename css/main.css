@@ -129,6 +129,7 @@ table {
     position: absolute;
     top: 0;
     width: 850px;
+    background: #fff;
 }
 /*////////////////////////////////////////////////////////*/
 /*utility classes*/
@@ -185,3 +186,11 @@ table {
 
 /*//////////////////////////////////////////////////////////*/
 /*@medias*/
+
+#categories-form .editing, #categories-form.editing .adding{
+    display: none;
+}
+
+#categories-form.editing .editing{
+    display: block;
+}
