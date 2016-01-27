@@ -65,10 +65,10 @@ var addTransaction = function(name, category, amount, type, date) {
     }
 }
 
-var editTransaction = function (id, name, amount, category, type, date) {
+var editTransaction = function (id, name, category, amount, type, date) {
     transactionsStore.getTransaction(id).then(function (data) {
         var transactionSum = data.sum ;
-        transactionsStore.updateTransaction(id, {name: name, category: category, sum: amount, type: type, date: date});
+        transactionsStore.updateTransaction(id, {name: name, categoryId: category, sum: amount, type: type, date: date});
         budgetsStore.getTotalBudget().then(function (data) {
             var totalBudget = parseInt(data.totalBudget - transactionSum + amount);
             budgetsStore.setTotalBudget(totalBudget);

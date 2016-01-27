@@ -3,8 +3,8 @@ var recurringStore = (function () {
     var data = [
         {
             id: 0,
-            name: "Salary",
-            categoryID: "1",
+            name: "Salariu",
+            categoryId: "3",
             sum: "50",
             type: "income",
             date: "15 01 2016",
@@ -13,11 +13,11 @@ var recurringStore = (function () {
         {
             id: 1,
             name: "Electricity",
-            categoryID: "0",
+            categoryId: "4",
             sum: "100",
-            type: "expenses",
+            type: "expense",
             date: "23 01 2016",
-            startDate:"15"
+            day:"15"
         }
     ];
 
@@ -47,9 +47,10 @@ var recurringStore = (function () {
         },
         updateRecurring: function (id, updateData) {
             return new Promise(function (resolve, reject) {
-                $.each(data, function () {
+                $.each(data, function (index) {
                     if(this.id == id){
                         data[id] = updateData;
+                        data[index].id = id;
                     }
                 });
                 resolve(data);

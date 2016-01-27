@@ -20,6 +20,11 @@ var categoriesStore = (function () {
                 id: 3,
                 name: 'Salary',
                 type: 'income'
+            },
+            {
+                id: 4,
+                name: 'House&Appliances',
+                type: 'expense'
             }
         ];
 

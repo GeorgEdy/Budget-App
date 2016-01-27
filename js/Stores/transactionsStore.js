@@ -56,6 +56,7 @@ var transactionsLastId = 3;
                 $.each(data, function (index) {
                     if (data[index].id === id) {
                         data[index] = updateData;
+                        data[index].id = id;
                     }
                 });
                 resolve(data);

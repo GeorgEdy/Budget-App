@@ -131,6 +131,17 @@ table {
     width: 850px;
     background: #fff;
 }
+
+.history-table,
+.recurrent-table {
+    width: 49%;
+    display: inline-block;
+}
+
+.transactions-tables {
+    display: inline-block;
+    width: 100%;
+}
 /*////////////////////////////////////////////////////////*/
 /*utility classes*/
 
