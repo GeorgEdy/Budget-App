@@ -1,17 +1,25 @@
 var categoriesStore = (function () {
-        var lastId = 3;
+        var lastId = 4;
         var data = [
             {
                 id: 0,
-                name: 'Food'
+                name: 'Food',
+                type: 'expense'
             },
             {
                 id: 1,
-                name: 'Clothing'
+                name: 'Clothing',
+                type: 'expense'
             },
             {
                 id: 2,
-                name: 'Health'
+                name: 'Health',
+                type: 'expense'
+            },
+            {
+                id: 3,
+                name: 'Salary',
+                type: 'income'
             }
         ];
 

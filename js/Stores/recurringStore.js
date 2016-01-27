@@ -7,8 +7,9 @@ var recurringStore = (function () {
             category: "Salary",
             sum: "50",
             type: "Income",
-            date: "15 01 2016"
-
+            date: "15 01 2016",
+            startDate:"20 01 2016",
+            interval:"monthly"
         },
         {
             id: 1,
@@ -16,7 +17,9 @@ var recurringStore = (function () {
             category: "House spends",
             sum: "100",
             type: "Expenses",
-            date: "23 01 2016"
+            date: "23 01 2016",
+            startDate:"25 01 2016",
+            interval:"monthly"
         }
     ];
 
