@@ -15,7 +15,7 @@ var registerTransaction = function () {
 };
 
 var callbackTransactionData = function (item, parentNode) {
-    if(item) {
+    if (item) {
         if (parentNode === "income-form") {
             item.type = "income";
             sendTransaction(item, item.recurring);
@@ -28,7 +28,14 @@ var callbackTransactionData = function (item, parentNode) {
 
 var sendTransaction = function (item, recurring) {
     if (recurring == true) {
-        recurringStore.addRecurring({name: item.name, categoryId: item.categoryId, sum: item.sum, type: item.type, date: item.date, recurringDate: item.recurringDate});
+        recurringStore.addRecurring({
+            name: item.name,
+            categoryId: item.categoryId,
+            sum: item.sum,
+            type: item.type,
+            date: item.date,
+            recurringDate: item.recurringDate
+        });
     } else {
         addTransaction(item.name, item.categoryId, item.sum, item.type, item.date);
     }
@@ -60,7 +67,7 @@ var getTransactionData = function (idForm, callbackTransactionData) {
     var cat = $('#' + idForm + ' [title = category]').val();
     var recurring = $('#' + idForm + ' [type = checkbox]').is(":checked");
     var date = moment().format('DD MM YYYY');
-    var recurringDate = $('#'+ idForm +' .datepicker').html();
+    var recurringDate = $('#' + idForm + ' .datepicker').html();
     resetErrors(idForm);
 
     if (validateTransactionData(idForm, name, sum, cat, recurringDate)) {
@@ -71,16 +78,29 @@ var getTransactionData = function (idForm, callbackTransactionData) {
                     categoryId = value.id;
                     return;
                 }
+            });
+            callbackTransactionData({
+                name: name,
+                categoryId: categoryId,
+                sum: sum,
+                recurring: recurring,
+                date: date,
+                recurringDate: recurringDate
+            }, idForm);
         });
-            callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDate }, idForm);
-    });
     }
 };
 
 var checkLength = function (name) {
     return name.length ? true : false;
 };
+/*===================================================================
+* =====================================================================
+* ==================================================================*/
 
+
+
+var editRow = null;
 
 var getCategoryForm = function () {
     return {
@@ -90,9 +110,20 @@ var getCategoryForm = function () {
 };
 
 var categoryOnSubmit = function () {
-    categoriesStore.addCategory(getCategoryForm()).then(function () {
-        drawCategoriesTable(categoriesStore);
-    });
+    if (editRow) {
+        categoriesStore.updateCategory(editRow.id, getCategoryForm()).then(
+            function () {
+                $('#categories-form').removeClass("editing");
+
+                drawTable(categoriesStore);
+                categoryFormReset();
+            }
+        );
+    } else {
+        categoriesStore.addCategory(getCategoryForm()).then(function () {
+            drawCategoriesTable(categoriesStore);
+        });
+    }
 
     return false;
 };
@@ -111,6 +142,56 @@ var drawCategoriesTable = function (categoriesStore) {
             }
         });
     })
+};
+
+var categoryFormReset = function () {
+    $('#categories-form input[type="text"]').val("");
+    $('#categories-form option:selected').val();
+    editRow = null;
+};
+
+var categoryCancelOnClick = function () {
+    categoryFormReset();
+
+    return false;
+};
+
+var deleteCategoryOnClick = function () {
+    var id = $(this).closest('tr').data('id');
+
+    categoriesStore.deleteCategory(id).then(
+        function () {
+            drawTable(categoriesStore);
+        }
+    );
+
+    return false;
+};
+
+var editCategoryOnClick = function () {
+    $('#categories-form').addClass("editing");
+    var id = $(this).closest('tr').data('id');
+    categoriesStore.getCategoryById(id).then(
+        function (data) {
+            editRow = data;
+            $('#categories-form input[type="text"]').val(data.name);
+            if ($('#categories-form option:selected').val(data.type)==="expense") {
+                $('#categories-form option:selected').val("expense");
+            }else{
+                $('#categories-form option:selected').val("income");
+            };
+        }
+    )
+};
+
+var attachCategoryEvents = function () {
+    $('.expense-categories').on('click', '.btn-delete-category', deleteCategoryOnClick);
+    $('.income-categories').on('click', '.btn-delete-category', deleteCategoryOnClick);
+    $('.expense-categories').on('click', '.btn-edit-category', editCategoryOnClick);
+    $('.income-categories').on('click', '.btn-edit-category', editCategoryOnClick);
+    $('.expense-categories').on('click', '.btn-cancel-category', categoryCancelOnClick());
+    $('.income-categories').on('click', '.btn-cancel-category', categoryCancelOnClick());
+
 };
 
 $(function () {
@@ -139,4 +220,7 @@ $(function () {
     $('#income-form').submit(registerTransaction);
     $('#expense-form').submit(registerTransaction);
     $(".datepicker").datepicker();
+    drawCategoriesTable(categoriesStore);
+    $('#categories-form').submit(categoryOnSubmit);
+    attachCategoryEvents();
 });

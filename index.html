@@ -161,7 +161,13 @@
                         <option value="expense">Expense</option>
                     </select>
                 </label>
-                <input type="submit" class="input-group btn btn-default" value="Add">
+                <div class="adding">
+                    <button type="submit" class="input-group btn btn-default">Add</button>
+                </div>
+                <div class="editing">
+                    <button type="submit" class="input-group btn btn-default">Save</button>
+                    <button class="btn btn-xs btn-cancel-category">Cancel</button>
+                </div>
             </form>
             <table class="income-categories col-md-6 panel panel-default">
                 <thead>
@@ -193,13 +199,12 @@
     </tr>
 </script>
 <script type="text/html" id="item_tmpl_category">
-    <tr>
+    <tr data-id="<%=id%>">
         <td><%= name %></td>
         <td><%= type %></td>
-        <td class="hiddenn">
-            <button class="btn btn-xs btn-primary btn-save-category">Save</button>
+        <td>
+            <button class="btn btn-xs btn-primary btn-edit-category">Edit</button>
             <button class="btn btn-xs btn-danger btn-delete-category">Delete</button>
-            <button class="btn btn-xs btn-cancel-category">Cancel</button>
         </td>
     </tr>
 </script>
