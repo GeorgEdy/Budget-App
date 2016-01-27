@@ -1,13 +1,13 @@
 var drawTable = function (type) {
     transactionsStore.getAllTransactions().then(function (data) {
         $('#income-history tbody tr').remove();
-            $.each(data, function (index, value) {
-                if (value.type == type) {
+        $.each(data, function (index, value) {
+            if (value.type == type) {
                 var tr = tmpl("item_tmpl", this);
                 var tr = tmpl("item_tmpl", this);
                 $('#income-history tbody').append(tr);
-                }
-            });
+            }
+        });
         $('#expense-history tbody tr').remove();
         $.each(data, function (index, value) {
             if (value.type == type) {
@@ -253,11 +253,11 @@ $(function () {
     $('#categories-form').submit(categoryOnSubmit);
 
     drawCategoriesTable(categoriesStore);
- $('#income-history-panel').click(function () {
-    drawTable("income");
- });
+    $('#income-history-panel').click(function () {
+        drawTable("income");
+    });
     $('#expense-history-panel').click(function () {
-       drawTable("expense");
+        drawTable("expense");
     });
     attachCategoryEvents();
 });
