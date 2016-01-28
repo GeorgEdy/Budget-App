@@ -1,4 +1,4 @@
-var categoriesStore = (function () {
+var categoryMemStore = (function () {
         var lastId = 4;
         var data = [
             {
