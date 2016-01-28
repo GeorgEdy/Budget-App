@@ -230,6 +230,7 @@ var drawTransactionsTable = function (buttonType) {
                             catHistory = value2.name;
                         }
                     });
+
                     var tr = tmpl("item_tmpl_history", {
                         id: value.id,
                         name: value.name,
@@ -397,6 +398,8 @@ var populateCategories = function () {
         $.each(expenses, function (index, value) {
             $expense_form.find("select").append("<option value = '" + value.name + "' >" + value.name + "</option>");
         });
+        $history_btn.find('#income-history-panel').html(totalIncome);
+        $history_btn.find('#expense-history-panel').html(totalExpense);
     });
 };
 
@@ -499,7 +502,6 @@ $(function () {
     });
     attachCategoryEvents();
     populateCategories();
-
     var gif = $(".gif");
 
     $(document).on({
