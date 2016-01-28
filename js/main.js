@@ -218,8 +218,10 @@ var drawTransactionsTable = function (buttonType) {
                     var tr = tmpl("item_tmpl_recurrent", {id: value.id, name: value.name, category: catRecurrent, sum: value.sum, recurrentDay: value.day});
                     $(".recurrent-table tbody").append(tr);
                 }
-            })
+            });
             attachTransactionsEvents();
+            populateBalance();
+            populateTotalsIncomeExpense();
         });
     });
 };
@@ -232,7 +234,6 @@ var categoryFormReset = function () {
 
 var cancelCategoryOnClick = function () {
     categoryFormReset();
-
     return false;
 };
 
@@ -243,7 +244,6 @@ var deleteCategoryOnClick = function () {
             drawCategoriesTable(categoriesStore);
         }
     );
-
     return false;
 };
 
@@ -257,7 +257,6 @@ var editCategoryOnClick = function () {
             $('#categories-form .block').val(data.type);
         }
     );
-
     return false;
 };
 
@@ -342,6 +341,29 @@ var populateCategories = function () {
     });
 };
 
+var populateBalance = function () {
+    budgetsStore.getTotalBudget().then(function (data) {
+        var balance = data.total;
+        $(".balance").find('span').html("$" + balance);
+    });
+};
+
+var populateTotalsIncomeExpense = function () {
+    transactionsStore.getAllTransactions().then(function (data) {
+        var totalIncome = 0;
+        var totalExpense = 0;
+        $.each(data, function (index, value) {
+            if (value.type == "income") {
+                totalIncome += parseInt(value.sum);
+            } else {
+                totalExpense += parseInt(value.sum);
+            }
+        });
+        $('.history-buttons').find('#income-history-panel').html(totalIncome);
+        $('.history-buttons').find('#expense-history-panel').html(totalExpense);
+    });
+};
+
 $(function () {
     $('#categories').click(function () {
         $('.show-categories').attr('id', 'active');
@@ -402,4 +424,6 @@ $(function () {
     attachCategoryEvents();
     populateCategories();
     drawCategoriesTable(categoriesStore);
+    populateBalance();
+    populateTotalsIncomeExpense();
 });
