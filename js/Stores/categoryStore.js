@@ -38,7 +38,7 @@ var categoriesStore = (function () {
                 return new Promise(function (resolve, reject) {
                     var obj = "";
                     $.each(data, function (index) {
-                        if(index == id){
+                        if (index == id) {
                             obj = data[id];
                         }
                     });
@@ -54,7 +54,7 @@ var categoriesStore = (function () {
             },
             updateCategory: function (id, editedData) {
                 return new Promise(function (resolve, reject) {
-                    $.each(data, function(index) {
+                    $.each(data, function (index) {
                         if (this.id == id) {
                             data[index] = editedData;
                             data[index].id = id;
@@ -74,5 +74,4 @@ var categoriesStore = (function () {
                 });
             }
         };
-    }
-)();
+    })();

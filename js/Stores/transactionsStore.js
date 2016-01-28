@@ -1,31 +1,31 @@
 var transactionsStore = (function () {
-var transactionsLastId = 3;
-    var data =  [
-            {
-                id: 0,
-                name: "Legume & Fructe",
-                categoryId: 0,
-                sum: "50",
-                type: "expense",
-                date: "3 01 2016"
-            },
-            {
-                id: 1,
-                name: "Salariu",
-                categoryId: 3,
-                sum: "800",
-                type: "income",
-                date: "31 11 2015"
-            },
-            {
-                id: 2,
-                name: "Intretinere",
-                categoryId: 4,
-                sum: "600",
-                type: "expense",
-                date: "3 11 2015"
-            }
-        ];
+    var transactionsLastId = 3;
+    var data = [
+        {
+            id: 0,
+            name: "Legume & Fructe",
+            categoryId: 0,
+            sum: "50",
+            type: "expense",
+            date: "3 01 2016"
+        },
+        {
+            id: 1,
+            name: "Salariu",
+            categoryId: 3,
+            sum: "800",
+            type: "income",
+            date: "31 11 2015"
+        },
+        {
+            id: 2,
+            name: "Intretinere",
+            categoryId: 4,
+            sum: "600",
+            type: "expense",
+            date: "3 11 2015"
+        }
+    ];
 
     return {
         getAllTransactions: function () {

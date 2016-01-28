@@ -49,26 +49,32 @@
 //    }
 //})();
 
-var addTransaction = function(name, category, amount, type, date) {
-    if (type == "income" ) {
+var addTransaction = function (name, category, amount, type, date) {
+    if (type == "income") {
         transactionsStore.addTransaction({name: name, categoryId: category, sum: amount, type: type, date: date});
         budgetsStore.getTotalBudget().then(function (data) {
             var totalNewBudget = parseFloat(data.totalBudget) + parseInt(amount);
             budgetsStore.setTotalBudget(totalNewBudget);
         });
-    }else {
+    } else {
         transactionsStore.addTransaction({name: name, categoryId: category, sum: amount, type: type, date: date});
         budgetsStore.getTotalBudget().then(function (data) {
             var totalNewBudget = parseFloat(data.totalBudget) - parseInt(amount);
             budgetsStore.setTotalBudget(totalNewBudget);
         });
     }
-}
+};
 
 var editTransaction = function (id, name, category, amount, type, date) {
     transactionsStore.getTransaction(id).then(function (data) {
-        var transactionSum = data.sum ;
-        transactionsStore.updateTransaction(id, {name: name, categoryId: category, sum: amount, type: type, date: date});
+        var transactionSum = data.sum;
+        transactionsStore.updateTransaction(id, {
+            name: name,
+            categoryId: category,
+            sum: amount,
+            type: type,
+            date: date
+        });
         budgetsStore.getTotalBudget().then(function (data) {
             var totalBudget = parseInt(data.totalBudget - transactionSum + amount);
             budgetsStore.setTotalBudget(totalBudget);
@@ -78,7 +84,7 @@ var editTransaction = function (id, name, category, amount, type, date) {
 
 var deleteTransaction = function (id) {
     transactionsStore.getTransaction(id).then(function (data) {
-        var transactionSum = data.sum ;
+        var transactionSum = data.sum;
         transactionsStore.deleteTransaction(id);
         budgetsStore.getTotalBudget().then(function (data) {
             var totalBudget = parseInt(data.totalBudget + transactionSum);
