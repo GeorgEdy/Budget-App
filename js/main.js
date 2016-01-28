@@ -278,7 +278,7 @@ var categoryFormReset = function () {
 var cancelCategoryOnClick = function () {
     categoryFormReset();
     $('#categories-form').removeClass("editing");
-    
+
     return false;
 };
 
