@@ -51,44 +51,33 @@
 
 var addTransaction = function (name, category, amount, type, date) {
     if (type == "income") {
-        transactionsStore.addTransaction({name: name, categoryId: category, sum: amount, type: type, date: date});
-        budgetsStore.getTotalBudget().then(function (data) {
+        transactionsMemStore.addTransaction({name: name, categoryId: category, sum: amount, type: type, date: date});
+/*/!*        budgetsMemStore.getTotalBudget().then(function (data) {
             var totalNewBudget = parseFloat(data.totalBudget) + parseInt(amount);
-            budgetsStore.setTotalBudget(totalNewBudget);
-        });
+            budgetsMemStore.setTotalBudget(totalNewBudget);*!/
+        });*/
     } else {
-        transactionsStore.addTransaction({name: name, categoryId: category, sum: amount, type: type, date: date});
-        budgetsStore.getTotalBudget().then(function (data) {
+        transactionsMemStore.addTransaction({name: name, categoryId: category, sum: amount, type: type, date: date});
+/*        budgetsMemStore.getTotalBudget().then(function (data) {
             var totalNewBudget = parseFloat(data.totalBudget) - parseInt(amount);
-            budgetsStore.setTotalBudget(totalNewBudget);
-        });
+            budgetsMemStore.setTotalBudget(totalNewBudget);
+        });*/
     }
 };
 
 var editTransaction = function (id, name, category, amount, type, date) {
-    transactionsStore.getTransaction(id).then(function (data) {
+    transactionsMemStore.getTransaction(id).then(function (data) {
         var transactionSum = data.sum;
-        transactionsStore.updateTransaction(id, {
+        transactionsMemStore.updateTransaction(id, {
             name: name,
             categoryId: category,
             sum: amount,
             type: type,
             date: date
         });
-        budgetsStore.getTotalBudget().then(function (data) {
+/*        budgetsMemStore.getTotalBudget().then(function (data) {
             var totalBudget = parseInt(data.totalBudget - transactionSum + amount);
-            budgetsStore.setTotalBudget(totalBudget);
-        });
-    });
-};
-
-var deleteTransaction = function (id) {
-    transactionsStore.getTransaction(id).then(function (data) {
-        var transactionSum = data.sum;
-        transactionsStore.deleteTransaction(id);
-        budgetsStore.getTotalBudget().then(function (data) {
-            var totalBudget = parseInt(data.totalBudget + transactionSum);
-            budgetsStore.setTotalBudget(totalBudget);
-        });
+            budgetsMemStore.setTotalBudget(totalBudget);
+        });*/
     });
 };

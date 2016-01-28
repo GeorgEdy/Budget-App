@@ -79,4 +79,5 @@ var transactionsAjaxStore = (function () {
                 });
             }
         };
-    })();
+    };
+})();
