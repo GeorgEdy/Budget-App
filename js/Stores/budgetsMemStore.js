@@ -1,4 +1,3 @@
-
 var budgetsMemStore = (function () {
     var data = {
         totalBudget: 150

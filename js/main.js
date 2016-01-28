@@ -377,7 +377,7 @@ var populateCategories = function () {
         });
         $expense_form.find("select").html("<option disabled='' selected='selected'>Select Category</option>");
         $.each(expenses, function (index, value) {
-            $income_form.find("select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+            $expense_form.find("select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
         });
     });
 };
@@ -412,7 +412,8 @@ $(function () {
     var $categories = $('#categories');
     var $home = $('#home');
     var $show_categories = $('.show-categories');
-    var $transactions = $('.transactions');
+    var $transactionsId = $('#transactions');
+    var $transactionsClass = $('.transactions');
     var $add_income = $('#add-income');
     var $add_expense = $('#add-expense');
     var $income_form = $('#income-form');
@@ -424,11 +425,11 @@ $(function () {
 
     $categories.click(function () {
         $show_categories.attr('id', 'active');
-        $transactions.removeClass('index');
+        $transactionsClass.removeClass('index');
     });
     $home.click(function () {
         $show_categories.attr('id', '');
-        $transactions.removeClass('index');
+        $transactionsClass.removeClass('index');
     });
     $add_income.click(function () {
         $income_form.addClass('active');
@@ -446,8 +447,8 @@ $(function () {
         $expenses.addClass('active');
         $income.removeClass('active');
     });
-    $transactions.click(function () {
-        $transactions.addClass('index');
+    $transactionsId.click(function () {
+        $transactionsClass.addClass('index');
     });
     $income_form.find('[type = checkbox]').click(function () {
         if ($(this).is(':checked')) {
