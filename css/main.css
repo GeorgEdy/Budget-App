@@ -1,6 +1,209 @@
-button {
-    cursor: pointer;
+/*default selectors*/
+header {
+    background-color: #4cae4c;
+    height: 100px;
+    position: relative;
 }
-.form-group {
-    margin:10px;
+
+ul {
+    padding: 0;
+}
+
+img {
+    position: absolute;
+    width: 103px;
+    top: -34px;
+}
+
+li {
+    margin-left: 10px;
+    padding: 5px;
+    list-style: none;
+}
+
+nav {
+    margin-top: 10px;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+td {
+    padding: 10px;
+}
+
+main {
+    position: relative;
+    margin-top: 20px;
+}
+
+input[title="income"] {
+    border:2px solid #3c763d;
+    border-radius: 5%;
+}
+
+input[title="Expense"] {
+    border:2px solid #761c19;
+    border-radius: 5%;
+}
+
+table {
+    border-collapse: inherit;
+}
+
+/*///////////////////////////////////////////////////////////////////////////////*/
+/*custom classes*/
+
+.dropdown-menu li:last-child {
+    border-top: 1px solid #cccccc;
+    width: 100%;
+    margin: 0;
+    padding-left: 15px;
+}
+
+.wrapper {
+    width: 90%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.logo {
+    float: left;
+}
+.gif {
+    visibility: hidden;
+}
+.menu {
+    float: right;
+    display: inline-block;
+}
+
+.user-settings {
+    display: inline;
+    position: relative;
+}
+
+.number {
+    font-size: 30px;
+}
+
+.add-income {
+    border-left: 5px solid #3c763d;
+}
+
+.add-expense {
+    border-left: 5px solid #761c19;
+}
+
+.show-categories {
+    position: absolute;
+    top: 0;
+    height: 500px;
+    display: none;
+    background: #fff;
+}
+
+.main-content {
+    display: inline;
+}
+
+.adding {
+    font-size: 25px;
+}
+
+.income-form,.expense-form, .income, .expenses {
+    visibility: hidden;
+}
+
+.errors {
+    height: 50px;
+}
+
+.transactions {
+    position: absolute;
+    width: 850px;
+    height: 500px;
+    background: white;
+    font-size: 15px;
+}
+
+.statistics {
+    position: absolute;
+    top: 0;
+    width: 850px;
+    background: #fff;
+    height: 900px;
+}
+
+.balance {
+    text-align: right;
+    font-size: 25px;
+    color: lightcyan;
+}
+/*////////////////////////////////////////////////////////*/
+/*utility classes*/
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.block {
+    display: block;
+}
+
+#active {
+    display: block;
+}
+.active {
+    visibility: visible;
+}
+.inline {
+    display: inline-block;
+}
+
+.absolute {
+    position: absolute;
+    top: 0;
+}
+
+.parent {
+    position: relative;
+    color: #000;
+    background: #fff;
+    font-size: 1.3vw;
+}
+
+.hiddenn {
+    visibility: hidden;
+}
+
+.index {
+    z-index: 1;
+}
+/*////////////////////////////////////////////////////////*/
+/*bootstrap classes edited */
+
+.nav-tabs.nav-justified {
+    width: 80%;
+}
+
+.user-settings:hover .dropdown-menu {
+    display: block;
+}
+
+/*//////////////////////////////////////////////////////////*/
+/*@medias*/
+
+#categories-form .editing, #categories-form.editing .adding{
+    display: none;
+}
+
+#categories-form.editing .editing{
+    display: block;
 }
