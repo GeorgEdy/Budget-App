@@ -18,7 +18,6 @@ var drawTable = function (type) {
         });
     })
 };
-
 var registerTransaction = function () {
     event.preventDefault();
     var parentNode = event.target.id;
@@ -196,7 +195,28 @@ var attachCategoryEvents = function () {
     $('.expense-categories').on('click', '.btn-edit-category', editCategoryOnClick);
     $('.income-categories').on('click', '.btn-edit-category', editCategoryOnClick);
     $('.btn-cancel-category').on('click', cancelCategoryOnClick);
+};
 
+var populateCategories = function () {
+    categoriesStore.getAllCategories().then(function (data) {
+        var incomes = [];
+        var expenses = [];
+        $.each(data, function (index, value) {
+            if (value.type == "income") {
+                incomes.push(value);
+            } else {
+                expenses.push(value);
+            }
+        });
+        $("#income-form select").html("<option disabled='' selected='selected'>Select Category</option>");
+        $.each(incomes, function (index, value) {
+            $("#income-form select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+        });
+        $("#expense-form select").html("<option disabled='' selected='selected'>Select Category</option>");
+        $.each(expenses, function (index, value) {
+            $("#expense-form select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+        });
+    });
 };
 
 var populateCategories = function () {
@@ -286,4 +306,6 @@ $(function () {
         drawTable("expense");
     });
     attachCategoryEvents();
+
+
 });
