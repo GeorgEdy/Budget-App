@@ -28,7 +28,7 @@ var registerTransaction = function () {
 
 var sendTransaction = function (item, recurring) {
     if ((recurring == true) && (editTransactionId == null)) {
-        recurringStore.addRecurring({
+        recurringMemStore.addRecurring({
             name: item.name,
             categoryId: item.categoryId,
             sum: item.sum,
@@ -37,7 +37,7 @@ var sendTransaction = function (item, recurring) {
             day: item.recurringDate
         });
     } else if ((recurring == true) && (editTransactionId !== null)) {
-        recurringStore.updateRecurring(editTransactionId,{
+        recurringMemStore.updateRecurring(editTransactionId,{
             name: item.name,
             categoryId: item.categoryId,
             sum: item.sum,
@@ -97,7 +97,7 @@ var getTransactionData = function (idForm, callbackTransactionData) {
 
     if (validateTransactionData(idForm, name, sum, cat, recurringDay)) {
         var categoryId = "";
-        categoriesStore.getAllCategories().then(function (data) {
+        categoryMemStore.getAllCategories().then(function (data) {
             $.each(data, function (index, value) {
                 if (value.name.toLowerCase() == cat.toLowerCase()) {
                     categoryId = value.id;
@@ -159,28 +159,28 @@ var getCategoryForm = function () {
 
 var categoryOnSubmit = function () {
     if (editRow) {
-        categoriesStore.updateCategory(editRow.id, getCategoryForm()).then(
+        categoryMemStore.updateCategory(editRow.id, getCategoryForm()).then(
             function () {
                 $('#categories-form').removeClass("editing");
 
-                drawCategoriesTable(categoriesStore);
+                drawCategoriesTable(categoryMemStore);
                 categoryFormReset();
             }
         );
     } else {
-        categoriesStore.addCategory(getCategoryForm()).then(function () {
-            drawCategoriesTable(categoriesStore);
+        categoryMemStore.addCategory(getCategoryForm()).then(function () {
+            drawCategoriesTable(categoryMemStore);
         });
     }
     populateCategories();
     return false;
 };
 
-var drawCategoriesTable = function (categoriesStore) {
+var drawCategoriesTable = function () {
     var $expense_categories = $('.expense-categories');
     var $income_categories = $('.income-categories');
 
-    categoriesStore.getAllCategories().then(function (data) {
+    categoryMemStore.getAllCategories().then(function (data) {
         $expense_categories.find('tbody').empty();
         $income_categories.find('tbody').empty();
         $.each(data, function () {
@@ -201,7 +201,7 @@ var drawTransactionsTable = function (buttonType) {
     var $recurrent_table = $(".recurrent-table ");
     var $history_table = $(".history-table ");
 
-    categoriesStore.getAllCategories().then(function (data) {
+    categoryMemStore.getAllCategories().then(function (data) {
         var categories = data;
 
         $recurrent_table.find("tbody").html("");
@@ -228,7 +228,7 @@ var drawTransactionsTable = function (buttonType) {
                 }
             });
         });
-        recurringStore.getAllRecurrings().then(function (data) {
+        recurringMemStore.getAllRecurrings().then(function (data) {
             var catRecurrent = "";
             $.each(data, function (index, value) {
                 if (value.type == buttonType) {
@@ -264,9 +264,9 @@ var cancelCategoryOnClick = function () {
 var deleteCategoryOnClick = function () {
     var id = $(this).closest('tr').data('id');
 
-    categoriesStore.deleteCategory(id).then(
+    categoryMemStore.deleteCategory(id).then(
         function () {
-            drawCategoriesTable(categoriesStore);
+            drawCategoriesTable(categoryMemStore);
         }
     );
     return false;
@@ -277,7 +277,7 @@ var editCategoryOnClick = function () {
 
     $categories_form.addClass("editing");
     var id = $(this).closest('tr').data('id');
-    categoriesStore.getCategoryById(id).then(
+    categoryMemStore.getCategoryById(id).then(
         function (data) {
             editRow = data;
             $categories_form.find('input[type="text"]').val(data.name);
@@ -352,13 +352,13 @@ var deleteRecurrentOnClick = function (event) {
     var form = $(event.target).closest('table').find('tr').data("type").split("-");
     var id = $(this).closest("tr").data("id");
 
-    recurringStore.deleteExpense(id).then(function () {
+    recurringMemStore.deleteExpense(id).then(function () {
         drawTransactionsTable(form[0]);
     });
 };
 
 var populateCategories = function () {
-    categoriesStore.getAllCategories().then(function (data) {
+    categoryMemStore.getAllCategories().then(function (data) {
         var incomes = [];
         var expenses = [];
         var $income_form = $('#income-form');
@@ -480,7 +480,7 @@ $(function () {
     });
     attachCategoryEvents();
     populateCategories();
-    drawCategoriesTable(categoriesStore);
+    drawCategoriesTable();
     populateBalance();
     populateTotalsIncomeExpense();
 });
