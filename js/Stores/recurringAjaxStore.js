@@ -1,5 +1,5 @@
-var transactionsAjaxStore = (function () {
-    var entriesUrl = "http://greieri.meteor.com/api/transactions";
+var recurringAjaxStore = (function () {
+    var entriesUrl = "http://greieri.meteor.com/api/recurring"; //nu stiu inca cum face get-ul pe recurring, care este url-ul
     var errorHandler = function(reject) {
         return function (xhr) {
             if(xhr.status == 409) {
@@ -8,9 +8,8 @@ var transactionsAjaxStore = (function () {
                 reject('An unknown error occurred');
             }
         };
-
         return {
-            getAllTransactions: function () {
+            getAllRecurrings: function () {
                 return new Promise(function (resolve, reject) {
                     var getSettings = {
                         type: 'GET',
@@ -23,7 +22,7 @@ var transactionsAjaxStore = (function () {
                     ajaxResult.fail(errorHandler(reject));
                 });
             },
-            getTransaction: function (id) {
+            getRecurringById: function (id) {
                 return new Promise(function (resolve, reject) {
                     var getSettings = {
                         type: 'GET',
@@ -37,7 +36,7 @@ var transactionsAjaxStore = (function () {
 
                 });
             },
-            addTransaction: function (item) {
+            addRecurring: function (item) {
                 return new Promise(function (resolve, reject) {
                     var putSettings = {
                         type: 'PUT',
@@ -51,7 +50,7 @@ var transactionsAjaxStore = (function () {
                     ajaxResult.fail(errorHandler(reject));
                 });
             },
-            updateTransaction: function (id, updateData) {
+            updateRecurring: function (id, updateData) {
                 return new Promise(function (resolve, reject) {
                     var patchSettings = {
                         type: 'PATCH',
@@ -65,7 +64,7 @@ var transactionsAjaxStore = (function () {
                     ajaxResult.fail(errorHandler(reject));
                 });
             },
-            deleteTransaction: function (id) {
+            deleteExpense: function (id) {
                 return new Promise(function (resolve, reject) {
                     var deleteSettings = {
                         type: 'DELETE',
@@ -79,5 +78,4 @@ var transactionsAjaxStore = (function () {
                 });
             }
         };
-    };
-})();
+    })();

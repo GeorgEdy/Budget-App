@@ -1,4 +1,4 @@
-var recurringStore = (function () {
+var recurringMemStore = (function () {
     var lastId = 2;
     var data = [
         {
