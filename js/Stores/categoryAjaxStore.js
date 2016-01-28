@@ -1,5 +1,5 @@
-var categoryAjaxStore = (function () {
-    var entriesUrl = "http://greieri.meteor.com/api/categories";
+categoryAjaxStore = (function () {
+    var entriesUrl = "http://localhost:3000/api/categories";
     var errorHandler = function(reject) {
         return function (xhr) {
             if(xhr.status == 409) {
@@ -8,7 +8,7 @@ var categoryAjaxStore = (function () {
                 reject('An unknown error occurred');
             }
         };
-    }
+    };
 
     return {
         getAllCategories: function () {
@@ -35,7 +35,6 @@ var categoryAjaxStore = (function () {
                     resolve(d);
                 });
                 ajaxResult.fail(errorHandler(reject));
-
             });
 
         },
@@ -57,7 +56,7 @@ var categoryAjaxStore = (function () {
             return new Promise(function (resolve, reject) {
                 var patchSettings = {
                     type: 'PATCH',
-                    data: JSON.stringify(updateData),
+                    data: JSON.stringify(editedData),
                     headers: {'Content-Type': 'application/json' }
                 };
                 var ajaxResult = $.ajax(entriesUrl+"/"+id, patchSettings);
