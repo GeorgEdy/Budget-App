@@ -67,7 +67,7 @@ var editTransaction = function (id, name, category, amount, type, date) {
 };
 
 var getAllRecurrings = function () {
-    return repo.getAllRecurings();
+    return repo.getAllRecurrings();
 };
 
 var addRecurring = function (item) {
@@ -80,6 +80,10 @@ var updateRecurring = function (id, item) {
 
 var getAllCategories = function () {
     return repo.getAllCategories();
+};
+
+var getCategoryById = function (id) {
+    return repo.getCategoryById(id);
 };
 
 var addCategory = function (item) {

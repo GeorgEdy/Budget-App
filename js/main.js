@@ -296,7 +296,7 @@ var editCategoryOnClick = function () {
 
     $categories_form.addClass("editing");
     var id = $(this).closest('tr').data('id');
-    categoryMemStore.getCategoryById(id).then(
+    getCategoryById(id).then(
         function (data) {
             editRow = data;
             $categories_form.find('input[type="text"]').val(data.name);

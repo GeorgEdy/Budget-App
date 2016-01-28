@@ -46,6 +46,9 @@ var repo = (function () {
         getAllCategories: function () {
             return categoryMemStore.getAllCategories();
         },
+        getCategoryById: function (id) {
+            return categoryMemStore.getCategoryById(id);
+        },
         addCategory: function (item) {
             return categoryMemStore.addCategory(item);
         },
