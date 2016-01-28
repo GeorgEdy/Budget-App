@@ -16,7 +16,6 @@ var drawTable = function (type) {
         });
     });
 };
-
 var registerTransaction = function () {
     event.preventDefault();
     var parentNode = event.target.id;
@@ -394,10 +393,10 @@ $(function () {
     $('#income-form').submit(registerTransaction);
     $('#expense-form').submit(registerTransaction);
     $('#categories-form').submit(categoryOnSubmit);
-    $('#income-history-panel').click(function () {
+    $('.total-income').click(function () {
         drawTable("income");
     });
-    $('#expense-history-panel').click(function () {
+    $('.total-expense').click(function () {
         drawTable("expense");
     });
     attachCategoryEvents();
