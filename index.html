@@ -26,7 +26,7 @@
                     <ul>
                         <li><a href="#">Account settings</a></li>
                         <li>
-                            <a href="#">Log Out
+                            <a href="#" id="fbLogoutgulp">Log Out
                                 <span class="glyphicon glyphicon-log-out"></span>
                             </a>
                         </li>
@@ -53,9 +53,6 @@
                 <input type="number" title="income" placeholder="add income">
                 <select title="category">
                     <option disabled selected = "selected">Select Category</option>
-                    <option value="salary">Salary</option>
-                    <option value="bonus">Bonus</option>
-                    <option value="other">Other</option>
                 </select>
                 <label>Recurring
                     <input type="checkbox" id="recurring-income">
@@ -65,11 +62,11 @@
                     <div class="col-md-3 hiddenn nameError"></div>
                     <div class="col-md-3 hiddenn sumError"></div>
                     <div class="hiddenn categoryError"></div>
-                    <div id="income-date">
-                        <label>Select recurring date
-                            <input type="date" class="parent" title="income-date">
-                        </label>
-                    </div>
+                </div>
+                <div id="income-date" class="recurring-date hiddenn">
+                    <label>Select recurring date
+                        <input type="date" class="parent" title="income-date">
+                    </label>
                 </div>
             </form>
             <form class="navbar-form navbar-left col-md-7 absolute expense-form" id="expense-form">
@@ -77,15 +74,6 @@
                 <input type="number" title="Expense" placeholder="add expense">
                 <select title="category">
                     <option disabled selected= "selected">Select Category</option>
-                    <option value="dressing">Clothes&shoes</option>
-                    <option value="food">Food</option>
-                    <option value="transportation">Transportation</option>
-                    <option value="rent">Rent</option>
-                    <option value="utilities">Utilities</option>
-                    <option value="taxes">Taxes</option>
-                    <option value="holiday">Holiday</option>
-                    <option value="medical">Medical</option>
-                    <option value="other">Other</option>
                 </select>
                 <label>Recurring
                     <input type="checkbox" name="check" class="recurring-expenses">
@@ -95,11 +83,11 @@
                     <div class="col-md-3 hiddenn nameError"></div>
                     <div class="col-md-3 hiddenn sumError"></div>
                     <div class="hiddenn categoryError"></div>
-                    <div id="expense-date">
-                        <label>Select recurring date
-                            <input type="date" class="parent" title="expense-date">
-                        </label>
-                    </div>
+                </div>
+                <div id="expense-date" class="recurring-date hiddenn">
+                    <label>Select recurring date
+                        <input type="date" class="parent" title="expense-date">
+                    </label>
                 </div>
             </form>
             <div class="clearfix"></div>
@@ -151,12 +139,12 @@
                 </label>
                 <label>Category type
                     <select class="block">
-                        <option value="income">Income</option>
-                        <option value="expense">Expense</option>
+                        <option selected="income" value="income">Income</option>
+                        <option selected="expense" value="expense">Expense</option>
                     </select>
                 </label>
                 <div class="adding">
-                    <button type="submit" class="input-group btn btn-default">Add</button>
+                    <button type="submit" class="input-group btn btn-default">Save</button>
                 </div>
                 <div class="editing">
                     <button type="submit" class="input-group btn btn-default">Save</button>
@@ -198,8 +186,8 @@
         <td><%= name %></td>
         <td><%= type %></td>
         <td>
-            <button class="btn btn-xs btn-primary btn-edit-category">Edit</button>
-            <button class="btn btn-xs btn-danger btn-delete-category">Delete</button>
+            <a href="#" class="btn btn-xs btn-primary btn-edit-category">Edit</a>
+            <a href="#" class="btn btn-xs btn-danger btn-delete-category">Delete</a>
         </td>
     </tr>
 </script>

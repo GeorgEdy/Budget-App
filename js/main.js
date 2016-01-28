@@ -18,7 +18,6 @@ var drawTable = function (type) {
         });
     })
 };
-
 var registerTransaction = function () {
     event.preventDefault();
     var parentNode = event.target.id;
@@ -123,7 +122,7 @@ var categoryOnSubmit = function () {
             function () {
                 $('#categories-form').removeClass("editing");
 
-                drawTable(categoriesStore);
+                drawCategoriesTable(categoriesStore);
                 categoryFormReset();
             }
         );
@@ -132,7 +131,7 @@ var categoryOnSubmit = function () {
             drawCategoriesTable(categoriesStore);
         });
     }
-
+    populateCategories();
     return false;
 };
 
@@ -158,7 +157,7 @@ var categoryFormReset = function () {
     editRow = null;
 };
 
-var categoryCancelOnClick = function () {
+var cancelCategoryOnClick = function () {
     categoryFormReset();
 
     return false;
@@ -166,10 +165,9 @@ var categoryCancelOnClick = function () {
 
 var deleteCategoryOnClick = function () {
     var id = $(this).closest('tr').data('id');
-
     categoriesStore.deleteCategory(id).then(
         function () {
-            drawTable(categoriesStore);
+            drawCategoriesTable(categoriesStore);
         }
     );
 
@@ -182,14 +180,13 @@ var editCategoryOnClick = function () {
     categoriesStore.getCategoryById(id).then(
         function (data) {
             editRow = data;
+            console.log(editRow);
             $('#categories-form input[type="text"]').val(data.name);
-            if ($('#categories-form option:selected').val(data.type)==="expense") {
-                $('#categories-form option:selected').val("expense");
-            }else{
-                $('#categories-form option:selected').val("income");
-            };
+            $('#categories-form .block').val(data.type);
         }
-    )
+    );
+
+    return false;
 };
 
 var attachCategoryEvents = function () {
@@ -197,9 +194,51 @@ var attachCategoryEvents = function () {
     $('.income-categories').on('click', '.btn-delete-category', deleteCategoryOnClick);
     $('.expense-categories').on('click', '.btn-edit-category', editCategoryOnClick);
     $('.income-categories').on('click', '.btn-edit-category', editCategoryOnClick);
-    $('.expense-categories').on('click', '.btn-cancel-category', categoryCancelOnClick());
-    $('.income-categories').on('click', '.btn-cancel-category', categoryCancelOnClick());
+    $('.btn-cancel-category').on('click', cancelCategoryOnClick);
+};
 
+var populateCategories = function () {
+    categoriesStore.getAllCategories().then(function (data) {
+        var incomes = [];
+        var expenses = [];
+        $.each(data, function (index, value) {
+            if (value.type == "income") {
+                incomes.push(value);
+            } else {
+                expenses.push(value);
+            }
+        });
+        $("#income-form select").html("<option disabled='' selected='selected'>Select Category</option>");
+        $.each(incomes, function (index, value) {
+            $("#income-form select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+        });
+        $("#expense-form select").html("<option disabled='' selected='selected'>Select Category</option>");
+        $.each(expenses, function (index, value) {
+            $("#expense-form select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+        });
+    });
+};
+
+var populateCategories = function () {
+    categoriesStore.getAllCategories().then(function (data) {
+        var incomes = [];
+        var expenses = [];
+        $.each(data, function (index, value) {
+            if (value.type == "income") {
+                incomes.push(value);
+            } else {
+                expenses.push(value);
+            }
+        });
+        $("#income-form select").html("<option disabled='' selected='selected'>Select Category</option>");
+        $.each(incomes, function (index, value) {
+            $("#income-form select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+        });
+        $("#expense-form select").html("<option disabled='' selected='selected'>Select Category</option>");
+        $.each(expenses, function (index, value) {
+            $("#expense-form select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+        });
+    });
 };
 
 $(function () {
@@ -231,7 +270,27 @@ $(function () {
         $('.transactions').addClass('index');
     });
 
-    $('#categories-form').submit(categoryOnSubmit);
+    //check recurrent checkbox->show/hide recurrent date
+
+    $('#income-form [type = checkbox]').click(function () {
+        if ($(this).is(':checked')) {
+            $(this).parent().parent().find(".recurring-date").removeClass("hiddenn");
+        } else {
+            $(this).parent().parent().find(".recurring-date").addClass("hiddenn");
+        }
+    });
+
+    $('#expense-form [type = checkbox]').click(function () {
+        if ($(this).is(':checked')) {
+            $(this).parent().parent().find(".recurring-date").removeClass("hiddenn");
+        } else {
+            $(this).parent().parent().find(".recurring-date").addClass("hiddenn");
+        }
+    });
+
+    //populate categories in Transactions section
+
+    populateCategories();
 
     //add income/expense
 
@@ -247,4 +306,6 @@ $(function () {
         drawTable("expense");
     });
     attachCategoryEvents();
+
+
 });
