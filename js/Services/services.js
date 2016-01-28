@@ -48,6 +48,9 @@
 //
 //    }
 //})();
+var getAllTransactions = function () {
+    return repo.getAllTransactions();
+};
 
 var addTransaction = function (name, category, amount, type, date) {
     repo.addTransaction(name, category, amount, type, date);
@@ -63,6 +66,30 @@ var editTransaction = function (id, name, category, amount, type, date) {
     });
 };
 
-var getAllTransactions = function () {
-    return repo.getAllTransactions();
+var getAllRecurrings = function () {
+    return repo.getAllRecurings();
+};
+
+var addRecurring = function (item) {
+    repo.addRecurring(item);
+};
+
+var updateRecurring = function (id, item) {
+    repo.updateRecurring(id, item);
+};
+
+var getAllCategories = function () {
+    return repo.getAllCategories();
+};
+
+var addCategory = function (item) {
+    return repo.addCategory(item);
+};
+
+var updateCategory = function (id, item) {
+    return repo.updateCategory(id, item);
+};
+
+var deleteCategory = function (id) {
+    return repo.deleteCategory(id);
 };

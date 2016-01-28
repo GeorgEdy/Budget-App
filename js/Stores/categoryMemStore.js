@@ -1,5 +1,5 @@
 var categoryMemStore = (function () {
-        var lastId = 4;
+        var lastId = 5;
         var data = [
             {
                 id: 0,

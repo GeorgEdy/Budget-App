@@ -33,6 +33,27 @@ var repo = (function () {
         },
         getAllTransactions: function () {
             return transactionsMemStore.getAllTransactions();
+        },
+        getAllRecurrings: function () {
+            return recurringMemStore.getAllRecurrings();
+        },
+        addRecurring: function (item) {
+            recurringMemStore.addRecurring(item);
+        },
+        updateRecurring: function (id, item) {
+            recurringMemStore.updateRecurring(id, item);
+        },
+        getAllCategories: function () {
+            return categoryMemStore.getAllCategories();
+        },
+        addCategory: function (item) {
+            return categoryMemStore.addCategory(item);
+        },
+        updateCategory: function (id, item) {
+            return categoryMemStore.updateCategory(id, item);
+        },
+        deleteCategory: function (id) {
+            return categoryMemStore.deleteCategory(id);
         }
     }
 })();
