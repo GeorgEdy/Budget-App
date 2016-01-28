@@ -79,4 +79,5 @@ var transactionsStore = (function () {
                 });
             }
         };
-    })();
+    };
+})();
