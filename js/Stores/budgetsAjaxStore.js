@@ -1,4 +1,4 @@
-var budgetsAjaxStore = (function () {
+budgetsAjaxStore = (function () {
     var entriesUrl = "http://greieri.meteor.com/api/budget";
     var errorHandler = function(reject) {
         return function (xhr) {
@@ -27,7 +27,7 @@ var budgetsAjaxStore = (function () {
             return new Promise(function (resolve, reject) {
                 var patchSettings = {
                     type: 'PATCH',
-                    data: JSON.stringify(newSum),
+                    data: JSON.stringify({"total": newSum}),
                     headers: {'Content-Type': 'application/json'}
                 };
                 var ajaxResult = $.ajax(entriesUrl, patchSettings);
@@ -39,28 +39,3 @@ var budgetsAjaxStore = (function () {
         }
     };
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
