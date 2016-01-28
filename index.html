@@ -57,7 +57,8 @@
                 <label>Recurring
                     <input type="checkbox" id="recurring-income">
                 </label>
-                <input type="submit" class="btn btn-default" value="Add">
+                <input type="submit" class="btn btn-default" value="Save">
+                <button type="button" class="btn btn-xs hiddenn btn-cancel-transaction">Cancel</button>
                 <div class="errors">
                     <div class="col-md-3 hiddenn nameError"></div>
                     <div class="col-md-3 hiddenn sumError"></div>
@@ -78,7 +79,8 @@
                 <label>Recurring
                     <input type="checkbox" name="check" class="recurring-expenses">
                 </label>
-                <input type="submit" class="btn btn-default" value="Add">
+                <input type="submit" class="btn btn-default" value="Save">
+                <button type="button" class="btn btn-xs hiddenn btn-cancel-transaction">Cancel</button>
                 <div>
                     <div class="col-md-3 hiddenn nameError"></div>
                     <div class="col-md-3 hiddenn sumError"></div>
@@ -91,6 +93,24 @@
                 </div>
             </form>
             <div class="clearfix"></div>
+        </div>
+        <div class="transactions-tables">
+            <table class="recurrent-table">
+                <thead>
+
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <table class="history-table">
+                <thead>
+
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="statistics">
@@ -132,7 +152,7 @@
     </div>
     <div class="show-categories col-md-10">
         <h1>Categories</h1>
-        <div class="navbar-header col-md-10">
+        <div class="navbar-header col-md-12">
             <form class=" form-control form-group" id="categories-form">
                 <label class="block">Category Name
                     <input type="text" title="name" class="input-group">
@@ -188,6 +208,28 @@
         <td>
             <a href="#" class="btn btn-xs btn-primary btn-edit-category">Edit</a>
             <a href="#" class="btn btn-xs btn-danger btn-delete-category">Delete</a>
+        </td>
+    </tr>
+</script>
+<script type="text/html" id="item_tmpl_history">
+    <tr data-id="<%=id%>" data-name="<%= name %>" data-category="<%= category %>" data-sum="<%= sum %>">
+        <td><%= name %></td>
+        <td><%= category %></td>
+        <td><%= sum %></td>
+        <td>
+            <a href="#" class="btn btn-xs btn-primary btn-edit-history">Edit</a>
+        </td>
+    </tr>
+</script>
+<script type="text/html" id="item_tmpl_recurrent">
+    <tr data-id="<%=id%>" data-name="<%= name %>" data-category="<%= category %>" data-sum="<%= sum %>" data-day="<%= recurrentDay %>">
+        <td><%= name %></td>
+        <td><%= category %></td>
+        <td><%= sum %></td>
+        <td><%= recurrentDay %></td>
+        <td>
+            <a href="#" class="btn btn-xs btn-primary btn-edit-recurrent">Edit</a>
+            <a href="#" class="btn btn-xs btn-danger btn-delete-recurrent">Delete</a>
         </td>
     </tr>
 </script>

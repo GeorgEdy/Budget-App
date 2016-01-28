@@ -3,7 +3,6 @@ var drawTable = function (type) {
         $('#income-history tbody tr').remove();
         $.each(data, function (index, value) {
             if (value.type == type) {
-
                 var tr = tmpl("item_tmpl", this);
                 $('#income-history tbody').append(tr);
             }
@@ -15,13 +14,41 @@ var drawTable = function (type) {
                 $('#expense-history tbody').append(tr);
             }
         });
-    })
+    });
 };
 var registerTransaction = function () {
     event.preventDefault();
     var parentNode = event.target.id;
     getTransactionData(parentNode, callbackTransactionData);
 };
+
+var sendTransaction = function (item, recurring) {
+    if ((recurring == true) && (editTransactionId == null)) {
+        recurringStore.addRecurring({
+            name: item.name,
+            categoryId: item.categoryId,
+            sum: item.sum,
+            type: item.type,
+            date: item.date,
+            day: item.recurringDate
+        });
+    } else if ((recurring == true) && (editTransactionId !== null)) {
+        recurringStore.updateRecurring(editTransactionId,{
+            name: item.name,
+            categoryId: item.categoryId,
+            sum: item.sum,
+            type: item.type,
+            date: item.date,
+            day: item.recurringDate
+        });
+    } else if (editTransactionId !== null) {
+        editTransaction(editTransactionId, item.name, item.categoryId, item.sum, item.type, item.date);
+    } else {
+        addTransaction(item.name, item.categoryId, item.sum, item.type, item.date);
+    }
+    drawTransactionsTable(item.type);
+};
+
 var callbackTransactionData = function (item, parentNode) {
     if (item) {
         if (parentNode === "income-form") {
@@ -34,22 +61,11 @@ var callbackTransactionData = function (item, parentNode) {
     }
 };
 
-var sendTransaction = function (item, recurring) {
-    if (recurring == true) {
-        recurringStore.addRecurring({
-            name: item.name,
-            categoryId: item.categoryId,
-            sum: item.sum,
-            type: item.type,
-            date: item.date,
-            recurringDate: item.recurringDate
-        });
-    } else {
-        addTransaction(item.name, item.categoryId, item.sum, item.type, item.date);
-    }
+var checkLength = function (name) {
+    return name.length ? true : false;
 };
 
-var validateTransactionData = function (idForm, name, sum, cat, recurringDate) {
+var validateTransactionData = function (idForm, name, sum, cat) {
     if (!checkLength(name)) {
         $('#' + idForm + ' .nameError').html("Introduceti un nume").removeClass("hiddenn");
         return false;
@@ -69,7 +85,7 @@ var getTransactionData = function (idForm, callbackTransactionData) {
     var cat = $('#' + idForm + ' [title = category]').val();
     var recurring = $('#' + idForm + ' [type = checkbox]').is(":checked");
     var date = moment().format('DD MM YYYY');
-    var recurringDate = $('#'+ idForm +' .parent').val().split('-');
+    var recurringDate = $('#' + idForm + ' .parent').val().split('-');
     var recurringDay = recurringDate != '' ? parseInt(recurringDate[2]) : 1;
     resetErrors(idForm);
 
@@ -77,14 +93,13 @@ var getTransactionData = function (idForm, callbackTransactionData) {
         var categoryId = "";
         categoriesStore.getAllCategories().then(function (data) {
             $.each(data, function (index, value) {
-                if (value.name.toLowerCase() == cat) {
+                if (value.name.toLowerCase() == cat.toLowerCase()) {
                     categoryId = value.id;
-                    return;
                 }
             });
+            callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDay }, idForm);
+            resetTransactionForms(idForm);
         });
-        callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDay }, idForm);
-        resetTransactionForms(idForm);
     }
 };
 var resetErrors = function (idForm) {
@@ -99,14 +114,27 @@ var resetTransactionForms = function (idForm) {
     $('#' + idForm + ' [type = number]').val("");
     $('#' + idForm + ' [title = category] option[selected]').prop('selected', true);
     $('#' + idForm + ' [type = checkbox]').attr('checked', false);
-    $('#'+ idForm +' .datepicker').val("");
+    $('#' + idForm + ' .parent').val("");
+    $('#' + idForm + ' .parent').closest('form').find(".recurring-date").addClass("hiddenn");
+    $('#' + idForm + ' .btn-cancel-transaction').addClass("hiddenn");
+    editTransactionId = null;
 };
 
-var checkLength = function (name) {
-    return name.length ? true : false;
+var resetTransactionFormsOnCancel = function (event) {
+    var idForm = event.target.closest('form').id;
+    $('#' + idForm + ' [title = nume]').val("");
+    $('#' + idForm + ' [type = number]').val("");
+    $('#' + idForm + ' [title = category] option[selected]').prop('selected', true);
+    $('#' + idForm + ' [type = checkbox]').attr('checked', false);
+    $('#' + idForm + ' .parent').val("");
+    $('#' + idForm + ' .parent').closest('form').find(".recurring-date").addClass("hiddenn");
+    $('#' + idForm + ' [type = checkbox]').prop('disabled',false);
+    $('#' + idForm + ' .btn-cancel-transaction').addClass("hiddenn");
+    editTransactionId = null;
 };
 
 var editRow = null;
+var editTransactionId = null;
 
 var getCategoryForm = function () {
     return {
@@ -150,6 +178,52 @@ var drawCategoriesTable = function (categoriesStore) {
     })
 };
 
+var drawTransactionsTable = function (buttonType) {
+    categoriesStore.getAllCategories().then(function (data) {
+        $(".recurrent-table tbody").html("");
+        $(".history-table tbody").html("");
+        $(".recurrent-table thead").html("");
+        $(".history-table thead").html("");
+        $('.history-table').off('click', '.btn-edit-history', editHistoryOnClick);
+        $('.recurrent-table').off('click', '.btn-edit-recurrent', editRecurrentOnClick);
+        $('.recurrent-table').off('click', '.btn-delete-recurrent', deleteRecurrentOnClick);
+        $(".recurrent-table thead").append("<tr data-type='"+buttonType+"-form"+"'><td>Recurrent "+buttonType+"s</td></tr><tr><td>Name</td><td>Category</td><td>Sum</td><td>Recurrency Day</td></tr>");
+        $(".history-table thead").append("<tr data-type='"+buttonType+"-form"+"'><td>History of "+buttonType+"s</td></tr><tr><td>Name</td><td>Category</td><td>Sum</td></tr>");
+        var categories = data;
+        transactionsStore.getAllTransactions().then(function (data) {
+            var catHistory = "";
+            $.each(data, function (index, value) {
+                if (value.type == buttonType) {
+                    $.each(categories, function (index, value2) {
+                        if (value.categoryId == value2.id) {
+                            catHistory = value2.name;
+                            return;
+                        }
+                    });
+                    var tr = tmpl("item_tmpl_history", {id: value.id, name: value.name, category: catHistory, sum: value.sum});
+                    $(".history-table tbody").append(tr);
+                }
+            });
+        });
+        recurringStore.getAllRecurrings().then(function (data) {
+            var catRecurrent = "";
+            $.each(data, function (index, value) {
+                if (value.type == buttonType) {
+                    $.each(categories, function (index, value2) {
+                        if (value.categoryId == value2.id) {
+                            catRecurrent = value2.name;
+                            return;
+                        }
+                    });
+                    var tr = tmpl("item_tmpl_recurrent", {id: value.id, name: value.name, category: catRecurrent, sum: value.sum, recurrentDay: value.day});
+                    $(".recurrent-table tbody").append(tr);
+                }
+            })
+            attachTransactionsEvents();
+        });
+    });
+};
+
 var categoryFormReset = function () {
     $('#categories-form input[type="text"]').val("");
     $('#categories-form option:selected').val();
@@ -179,7 +253,6 @@ var editCategoryOnClick = function () {
     categoriesStore.getCategoryById(id).then(
         function (data) {
             editRow = data;
-            console.log(editRow);
             $('#categories-form input[type="text"]').val(data.name);
             $('#categories-form .block').val(data.type);
         }
@@ -196,25 +269,54 @@ var attachCategoryEvents = function () {
     $('.btn-cancel-category').on('click', cancelCategoryOnClick);
 };
 
-var populateCategories = function () {
-    categoriesStore.getAllCategories().then(function (data) {
-        var incomes = [];
-        var expenses = [];
-        $.each(data, function (index, value) {
-            if (value.type == "income") {
-                incomes.push(value);
-            } else {
-                expenses.push(value);
-            }
-        });
-        $("#income-form select").html("<option disabled='' selected='selected'>Select Category</option>");
-        $.each(incomes, function (index, value) {
-            $("#income-form select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
-        });
-        $("#expense-form select").html("<option disabled='' selected='selected'>Select Category</option>");
-        $.each(expenses, function (index, value) {
-            $("#expense-form select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
-        });
+var attachTransactionsEvents = function () {
+    $('.history-table').on('click', '.btn-edit-history', editHistoryOnClick);
+    $('.recurrent-table').on('click', '.btn-edit-recurrent', editRecurrentOnClick);
+    $('.recurrent-table').on('click', '.btn-delete-recurrent', deleteRecurrentOnClick);
+    $('#expense-form .btn-cancel-transaction').click(resetTransactionFormsOnCancel);
+    $('#income-form .btn-cancel-transaction').click(resetTransactionFormsOnCancel);
+};
+
+var editHistoryOnClick = function (event) {
+    event.preventDefault();
+    var form = $(event.target).closest('table').find('tr').data("type");
+    var name = $(this).closest("tr").data("name");
+    var sum = $(this).closest("tr").data("sum");
+    var category = $(this).closest("tr").data("category");
+    editTransactionId = $(this).closest("tr").data("id");
+
+    $("#"+form+" .btn-cancel-transaction").removeClass("hiddenn");
+    $('#' + form + ' [title = nume]').val(name);
+    $('#' + form + ' [type = number]').val(sum);
+    $('#' + form + ' [title = category]').val(category);
+    $('#' + form + ' [type = checkbox]').prop('checked', false);
+    $('#' + form + ' [type = checkbox]').prop('disabled',true);
+    $('#' + form + ' .recurring-date').addClass("hiddenn");
+};
+
+var editRecurrentOnClick = function (event) {
+    event.preventDefault();
+    var form = $(event.target).closest('table').find('tr').data("type");
+    var name = $(this).closest("tr").data("name");
+    var sum = $(this).closest("tr").data("sum");
+    var category = $(this).closest("tr").data("category");
+    editTransactionId = $(this).closest("tr").data("id");
+
+    $("#"+form+" .btn-cancel-transaction").removeClass("hiddenn");
+    $('#' + form + ' [title = nume]').val(name);
+    $('#' + form + ' [type = number]').val(sum);
+    $('#' + form + ' [title = category]').val(category);
+    $('#' + form + ' [type = checkbox]').prop('checked', true);
+    $('#' + form + ' [type = checkbox]').prop('disabled',true);
+    $('#' + form + ' .recurring-date').removeClass("hiddenn");
+};
+
+var deleteRecurrentOnClick = function (event) {
+    event.preventDefault();
+    var form = $(event.target).closest('table').find('tr').data("type").split("-");
+    var id = $(this).closest("tr").data("id");
+    recurringStore.deleteExpense(id).then(function () {
+        drawTransactionsTable(form[0]);
     });
 };
 
@@ -268,9 +370,6 @@ $(function () {
     $('#transactions').click(function () {
         $('.transactions').addClass('index');
     });
-
-    //check recurrent checkbox->show/hide recurrent date
-
     $('#income-form [type = checkbox]').click(function () {
         if ($(this).is(':checked')) {
             $(this).parent().parent().find(".recurring-date").removeClass("hiddenn");
@@ -278,7 +377,6 @@ $(function () {
             $(this).parent().parent().find(".recurring-date").addClass("hiddenn");
         }
     });
-
     $('#expense-form [type = checkbox]').click(function () {
         if ($(this).is(':checked')) {
             $(this).parent().parent().find(".recurring-date").removeClass("hiddenn");
@@ -286,18 +384,15 @@ $(function () {
             $(this).parent().parent().find(".recurring-date").addClass("hiddenn");
         }
     });
-
-    //populate categories in Transactions section
-
-    populateCategories();
-
-    //add income/expense
-
+    $('#add-income').click(function () {
+        drawTransactionsTable("income");
+    });
+    $('#add-expense').click(function () {
+        drawTransactionsTable("expense");
+    });
     $('#income-form').submit(registerTransaction);
     $('#expense-form').submit(registerTransaction);
     $('#categories-form').submit(categoryOnSubmit);
-
-    drawCategoriesTable(categoriesStore);
     $('.total-income').click(function () {
         drawTable("income");
     });
@@ -305,6 +400,6 @@ $(function () {
         drawTable("expense");
     });
     attachCategoryEvents();
-
-
+    populateCategories();
+    drawCategoriesTable(categoriesStore);
 });

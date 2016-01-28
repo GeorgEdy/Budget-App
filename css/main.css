@@ -134,6 +134,17 @@ table {
     background: #fff;
 }
 
+.history-table,
+.recurrent-table {
+    width: 49%;
+    display: inline-block;
+}
+
+.transactions-tables {
+    display: inline-block;
+    width: 100%;
+}
+
 .balance {
     text-align: right;
     font-size: 25px;
