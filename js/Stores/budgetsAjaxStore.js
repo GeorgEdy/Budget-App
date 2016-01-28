@@ -1,4 +1,4 @@
-var budgetsStore = (function () {
+var budgetsAjaxStore = (function () {
     var entriesUrl = "http://greieri.meteor.com/api/budget";
     var errorHandler = function(reject) {
         return function (xhr) {
