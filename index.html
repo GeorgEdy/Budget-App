@@ -11,7 +11,7 @@
     <div class="wrapper container-fluid">
         <div class="logo"><img src="logo3.png"></div>
         <div class="col-md-4 balance">Your balance:
-            <span>$9999</span></div>
+        <span></span></div>
         <div class="menu">
             <button class="btn btn-default" id="home"><a href="#">Home</a></button>
             <button class="btn btn-default" id="transactions"><a href="#">Transactions</a></button>
@@ -118,11 +118,11 @@
         <div class="history-buttons">
             <button class="total-income col-md-5">
                 <span>Total income</span>
-                <span class="block number" id="income-history-panel">2000</span>
+                <span class="block number" id="income-history-panel"></span>
             </button>
             <button class="total-expense col-md-5">
                 <span>Total expenses</span>
-                <span class="block number" id="expense-history-panel">500</span>
+                <span class="block number" id="expense-history-panel"></span>
             </button>
             <div class="clearfix"></div>
         </div>
@@ -240,10 +240,14 @@
 </script>
 <script src="js/jquery-2.2.0.min.js"></script>
 <script src="js/resig.js"></script>
-<script src="js/Stores/budgetsStore.js"></script>
-<script src="js/Stores/transactionsStore.js"></script>
-<script src="js/Stores/categoryStore.js"></script>
-<script src="js/Stores/recurringStore.js"></script>
+<script src="js/Stores/budgetsAjaxStore.js"></script>
+<script src="js/Stores/budgetsMemStore.js"></script>
+<script src="js/Stores/transactionsMemStore.js"></script>
+<script src="js/Stores/transactionsAjaxStore.js"></script>
+<script src="js/Stores/categoryMemStore.js"></script>
+<script src="js/Stores/categoryAjaxStore.js"></script>
+<script src="js/Stores/recurringMemStore.js"></script>
+<script src="js/Stores/recurringAjaxStore.js"></script>
 <script src="js/Services/transactionsFunctions.js"></script>
 <script src="js/moments.js"></script>
 <script src="js/bootstrap.min.js"></script>
