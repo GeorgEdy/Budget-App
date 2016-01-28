@@ -3,7 +3,7 @@ var drawTable = function (type) {
         $('#income-history tbody tr').remove();
         $.each(data, function (index, value) {
             if (value.type == type) {
-                var tr = tmpl("item_tmpl", this);
+
                 var tr = tmpl("item_tmpl", this);
                 $('#income-history tbody').append(tr);
             }
@@ -11,7 +11,6 @@ var drawTable = function (type) {
         $('#expense-history tbody tr').remove();
         $.each(data, function (index, value) {
             if (value.type == type) {
-                var tr = tmpl("item_tmpl", this);
                 var tr = tmpl("item_tmpl", this);
                 $('#expense-history tbody').append(tr);
             }
@@ -299,10 +298,10 @@ $(function () {
     $('#categories-form').submit(categoryOnSubmit);
 
     drawCategoriesTable(categoriesStore);
-    $('#income-history-panel').click(function () {
+    $('.total-income').click(function () {
         drawTable("income");
     });
-    $('#expense-history-panel').click(function () {
+    $('.total-expense').click(function () {
         drawTable("expense");
     });
     attachCategoryEvents();
