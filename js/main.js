@@ -37,7 +37,7 @@ var sendTransaction = function (item, recurring) {
             day: item.recurringDate
         });
     } else if ((recurring == true) && (editTransactionId !== null)) {
-        recurringMemStore.updateRecurring(editTransactionId,{
+        recurringMemStore.updateRecurring(editTransactionId, {
             name: item.name,
             categoryId: item.categoryId,
             sum: item.sum,
@@ -103,7 +103,14 @@ var getTransactionData = function (idForm, callbackTransactionData) {
                     categoryId = value.id;
                 }
             });
-            callbackTransactionData({name: name, categoryId: categoryId, sum: sum, recurring: recurring, date: date, recurringDate: recurringDay }, idForm);
+            callbackTransactionData({
+                name: name,
+                categoryId: categoryId,
+                sum: sum,
+                recurring: recurring,
+                date: date,
+                recurringDate: recurringDay
+            }, idForm);
             resetTransactionForms(idForm);
         });
     }
@@ -140,7 +147,7 @@ var resetTransactionFormsOnCancel = function (event) {
     $idForm.find(' [type = checkbox]').attr('checked', false);
     $idForm.find(' .parent').val("");
     $idForm.find(' .parent').closest('form').find(".recurring-date").addClass("hiddenn");
-    $idForm.find(' [type = checkbox]').prop('disabled',false);
+    $idForm.find(' [type = checkbox]').prop('disabled', false);
     $idForm.find(' .btn-cancel-transaction').addClass("hiddenn");
     editTransactionId = null;
 };
@@ -211,8 +218,8 @@ var drawTransactionsTable = function (buttonType) {
         $history_table.off('click', '.btn-edit-history', editHistoryOnClick);
         $recurrent_table.off('click', '.btn-edit-recurrent', editRecurrentOnClick);
         $recurrent_table.off('click', '.btn-delete-recurrent', deleteRecurrentOnClick);
-        $recurrent_table.find("thead").append("<tr data-type='"+buttonType+"-form"+"'><td>Recurrent "+buttonType+"s</td></tr><tr><td>Name</td><td>Category</td><td>Sum</td><td>Recurrency Day</td></tr>");
-        $history_table.find("thead").append("<tr data-type='"+buttonType+"-form"+"'><td>History of "+buttonType+"s</td></tr><tr><td>Name</td><td>Category</td><td>Sum</td></tr>");
+        $recurrent_table.find("thead").append("<tr data-type='" + buttonType + "-form" + "'><td>Recurrent " + buttonType + "s</td></tr><tr><td>Name</td><td>Category</td><td>Sum</td><td>Recurrency Day</td></tr>");
+        $history_table.find("thead").append("<tr data-type='" + buttonType + "-form" + "'><td>History of " + buttonType + "s</td></tr><tr><td>Name</td><td>Category</td><td>Sum</td></tr>");
         transactionsMemStore.getAllTransactions().then(function (data) {
             var catHistory = "";
 
@@ -223,7 +230,13 @@ var drawTransactionsTable = function (buttonType) {
                             catHistory = value2.name;
                         }
                     });
-                    var tr = tmpl("item_tmpl_history", {id: value.id, name: value.name, category: catHistory, sum: value.sum});
+
+                    var tr = tmpl("item_tmpl_history", {
+                        id: value.id,
+                        name: value.name,
+                        category: catHistory,
+                        sum: value.sum
+                    });
                     $history_table.find("tbody").append(tr);
                 }
             });
@@ -237,7 +250,13 @@ var drawTransactionsTable = function (buttonType) {
                             catRecurrent = value2.name;
                         }
                     });
-                    var tr = tmpl("item_tmpl_recurrent", {id: value.id, name: value.name, category: catRecurrent, sum: value.sum, recurrentDay: value.day});
+                    var tr = tmpl("item_tmpl_recurrent", {
+                        id: value.id,
+                        name: value.name,
+                        category: catRecurrent,
+                        sum: value.sum,
+                        recurrentDay: value.day
+                    });
                     $recurrent_table.find("tbody").append(tr);
                 }
             });
@@ -324,7 +343,7 @@ var editHistoryOnClick = function (event) {
     $form.find('[type = number]').val(sum);
     $form.find('[title = category]').val(category);
     $form.find('[type = checkbox]').prop('checked', false);
-    $form.find('[type = checkbox]').prop('disabled',true);
+    $form.find('[type = checkbox]').prop('disabled', true);
     $form.find('.recurring-date').addClass("hiddenn");
 };
 
@@ -343,7 +362,7 @@ var editRecurrentOnClick = function (event) {
     $form.find('[type = number]').val(sum);
     $form.find('[title = category]').val(category);
     $form.find('[type = checkbox]').prop('checked', true);
-    $form.find('[type = checkbox]').prop('disabled',true);
+    $form.find('[type = checkbox]').prop('disabled', true);
     $form.find('.recurring-date').removeClass("hiddenn");
 };
 
@@ -373,12 +392,14 @@ var populateCategories = function () {
         });
         $income_form.find("select").html("<option disabled='' selected='selected'>Select Category</option>");
         $.each(incomes, function (index, value) {
-            $income_form.find("select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+            $income_form.find("select").append("<option value = '" + value.name + "' >" + value.name + "</option>");
         });
         $expense_form.find("select").html("<option disabled='' selected='selected'>Select Category</option>");
         $.each(expenses, function (index, value) {
-            $expense_form.find("select").append("<option value = '"+value.name+"' >" + value.name + "</option>");
+            $expense_form.find("select").append("<option value = '" + value.name + "' >" + value.name + "</option>");
         });
+        $history_btn.find('#income-history-panel').html(totalIncome);
+        $history_btn.find('#expense-history-panel').html(totalExpense);
     });
 };
 
@@ -481,6 +502,16 @@ $(function () {
     });
     attachCategoryEvents();
     populateCategories();
+    var gif = $(".gif");
+
+    $(document).on({
+        ajaxStart: function () {
+            gif.addClass("display");
+        },
+        ajaxStop: function () {
+            gif.removeClass("display");
+        }
+    });
     drawCategoriesTable();
     populateBalance();
     populateTotalsIncomeExpense();

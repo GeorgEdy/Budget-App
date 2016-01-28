@@ -35,14 +35,15 @@
             </div>
         </div>
     </div>
+    <img src="ajax-loader.gif" class="gif">
 </header>
 <main class="container parent">
     <div class="transactions">
         <div class="adding">
-            <button class="add-income col-md-5" id="add-income">
+            <button class="add-income col-md-6" id="add-income">
                 <span>Add income</span>
             </button>
-            <button class="add-expense col-md-5" id="add-expense">
+            <button class="add-expense col-md-6" id="add-expense">
                 <span>Add Expense</span>
             </button>
             <div class="clearfix"></div>
@@ -52,7 +53,7 @@
                 <input type="text" placeholder="Add tag name" title="nume">
                 <input type="number" title="income" placeholder="add income">
                 <select title="category">
-                    <option disabled selected = "selected">Select Category</option>
+                    <option disabled selected="selected">Select Category</option>
                 </select>
                 <label>Recurring
                     <input type="checkbox" id="recurring-income">
@@ -74,7 +75,7 @@
                 <input type="text" placeholder="Add tag name" title="nume">
                 <input type="number" title="Expense" placeholder="add expense">
                 <select title="category">
-                    <option disabled selected= "selected">Select Category</option>
+                    <option disabled selected="selected">Select Category</option>
                 </select>
                 <label>Recurring
                     <input type="checkbox" name="check" class="recurring-expenses">
@@ -94,8 +95,8 @@
             </form>
             <div class="clearfix"></div>
         </div>
-        <div class="transactions-tables">
-            <table class="recurrent-table">
+        <div class="transactions-tables col-md-12">
+            <table class="recurrent-table col-md-6 ">
                 <thead>
 
                 </thead>
@@ -103,7 +104,7 @@
 
                 </tbody>
             </table>
-            <table class="history-table">
+            <table class="history-table col-md-6">
                 <thead>
 
                 </thead>
@@ -133,6 +134,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr>
+                    <th>Income History</th>
+                </tr>
                 <tr>
                 </tr>
                 </tbody>
@@ -222,7 +226,8 @@
     </tr>
 </script>
 <script type="text/html" id="item_tmpl_recurrent">
-    <tr data-id="<%=id%>" data-name="<%= name %>" data-category="<%= category %>" data-sum="<%= sum %>" data-day="<%= recurrentDay %>">
+    <tr data-id="<%=id%>" data-name="<%= name %>" data-category="<%= category %>" data-sum="<%= sum %>"
+        data-day="<%= recurrentDay %>">
         <td><%= name %></td>
         <td><%= category %></td>
         <td><%= sum %></td>
