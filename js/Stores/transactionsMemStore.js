@@ -1,4 +1,4 @@
-var transactionsStore = (function () {
+var transactionsMemStore = (function () {
     var transactionsLastId = 3;
     var data = [
         {
