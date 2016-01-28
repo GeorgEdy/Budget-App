@@ -1,7 +1,7 @@
 
 function statusChangeCallback(response) {
     if (response.status === 'connected') {
-        window.location.href = "http://localhost:63342/Budget-App/index.html";
+        //window.location.href = "http://localhost:63342/Budget-App/index.html";
     } else if (response.status === 'not_authorized') {
         document.getElementById('status').innerHTML = 'Please log ' +
             'into this app.';
@@ -12,7 +12,8 @@ function statusChangeCallback(response) {
 }
 function checkLoginState() {
     FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
+        //statusChangeCallback(response);
+        console.log(response);
     });
 }
 window.fbAsyncInit = function() {
