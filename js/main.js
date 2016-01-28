@@ -402,4 +402,15 @@ $(function () {
     attachCategoryEvents();
     populateCategories();
     drawCategoriesTable(categoriesStore);
+
+    var gif = $(".gif");
+
+    $(document).on({
+        ajaxStart: function () {
+            gif.addClass("display");
+        },
+        ajaxStop: function () {
+            gif.removeClass("display");
+        }
+    });
 });
