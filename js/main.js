@@ -2,7 +2,7 @@ var drawTable = function (type) {
     var $income_history = $('#income-history');
     var $expense_history = $('#expense-history');
 
-    transactionsMemStore.getAllTransactions().then(function (data) {
+    getAllTransactions().then(function (data) {
         $income_history.find('tbody').html('');
         $.each(data, function (index, value) {
             if (value.type == type) {

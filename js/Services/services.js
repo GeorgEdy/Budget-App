@@ -50,34 +50,19 @@
 //})();
 
 var addTransaction = function (name, category, amount, type, date) {
-    if (type == "income") {
-        transactionsMemStore.addTransaction({name: name, categoryId: category, sum: amount, type: type, date: date});
-/*/!*        budgetsMemStore.getTotalBudget().then(function (data) {
-            var totalNewBudget = parseFloat(data.totalBudget) + parseInt(amount);
-            budgetsMemStore.setTotalBudget(totalNewBudget);*!/
-        });*/
-    } else {
-        transactionsMemStore.addTransaction({name: name, categoryId: category, sum: amount, type: type, date: date});
-/*        budgetsMemStore.getTotalBudget().then(function (data) {
-            var totalNewBudget = parseFloat(data.totalBudget) - parseInt(amount);
-            budgetsMemStore.setTotalBudget(totalNewBudget);
-        });*/
-    }
+    repo.addTransaction(name, category, amount, type, date);
+    repo.updateBudget(type, amount);
 };
 
 var editTransaction = function (id, name, category, amount, type, date) {
-    transactionsMemStore.getTransaction(id).then(function (data) {
-        var transactionSum = data.sum;
-        transactionsMemStore.updateTransaction(id, {
-            name: name,
-            categoryId: category,
-            sum: amount,
-            type: type,
-            date: date
-        });
-/*        budgetsMemStore.getTotalBudget().then(function (data) {
-            var totalBudget = parseInt(data.totalBudget - transactionSum + amount);
-            budgetsMemStore.setTotalBudget(totalBudget);
-        });*/
+    repo.getTransaction(id).then(function (data) {
+        var newSum = parseInt(amount) - parseInt(data.sum);
+
+        repo.updateTransaction(id, name, category, amount, type, date);
+        repo.updateBudget(type, newSum);
     });
+};
+
+var getAllTransactions = function () {
+    return repo.getAllTransactions();
 };
