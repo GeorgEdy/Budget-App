@@ -7,7 +7,15 @@ var drawTable = function () {
         });
     })
 };
+budgetsStore.getTotalBudget().then(
+    function(data) {
+        console.log(data);
 
+    },
+    function (data) {
+        alert(data);
+    }
+)
 var registerTransaction = function () {
     event.preventDefault();
     var parentNode = event.target.id;
@@ -242,4 +250,6 @@ $(function () {
     drawCategoriesTable(categoriesStore);
     $('#categories-form').submit(categoryOnSubmit);
     attachCategoryEvents();
+
+
 });
