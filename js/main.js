@@ -373,13 +373,13 @@ var deleteRecurrentOnClick = function (event) {
     var form = $(event.target).closest('table').find('tr').data("type").split("-");
     var id = $(this).closest("tr").data("id");
 
-    recurringMemStore.deleteExpense(id).then(function () {
+    deleteRecurring(id).then(function () {
         drawTransactionsTable(form[0]);
     });
 };
 
 var populateCategories = function () {
-    categoryMemStore.getAllCategories().then(function (data) {
+    getAllCategories().then(function (data) {
         var incomes = [];
         var expenses = [];
         var $income_form = $('#income-form');
@@ -404,15 +404,13 @@ var populateCategories = function () {
 };
 
 var populateBalance = function () {
-    budgetsAjaxStore.getTotalBudget().then(function (data) {
-        var balance = data.total;
+        var balance = getBalance();
 
         $(".balance").find('span').html("$" + balance);
-    });
 };
 
 var populateTotalsIncomeExpense = function () {
-    transactionsMemStore.getAllTransactions().then(function (data) {
+    getAllTransactions().then(function (data) {
         var totalIncome = 0;
         var totalExpense = 0;
         var $history_btn = $('.history-buttons');

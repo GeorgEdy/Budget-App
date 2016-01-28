@@ -48,13 +48,17 @@
 //
 //    }
 //})();
+var getBalance = function () {
+    return repo.getBalance();
+};
+
 var getAllTransactions = function () {
     return repo.getAllTransactions();
 };
 
 var addTransaction = function (name, category, amount, type, date) {
     repo.addTransaction(name, category, amount, type, date);
-    repo.updateBudget(type, amount);
+    repo.setBudget(type, amount);
 };
 
 var editTransaction = function (id, name, category, amount, type, date) {
@@ -62,8 +66,12 @@ var editTransaction = function (id, name, category, amount, type, date) {
         var newSum = parseInt(amount) - parseInt(data.sum);
 
         repo.updateTransaction(id, name, category, amount, type, date);
-        repo.updateBudget(type, newSum);
+        repo.setBudget(type, newSum);
     });
+};
+
+var deleteRecurring = function (id) {
+    return repo.deleteRecurring(id);
 };
 
 var getAllRecurrings = function () {
