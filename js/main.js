@@ -240,10 +240,10 @@ $(function () {
     $('#categories-form').submit(categoryOnSubmit);
 
     drawCategoriesTable(categoriesStore);
-    $('#income-history-panel').click(function () {
+    $('.total-income').click(function () {
         drawTable("income");
     });
-    $('#expense-history-panel').click(function () {
+    $('.total-expense').click(function () {
         drawTable("expense");
     });
     attachCategoryEvents();
