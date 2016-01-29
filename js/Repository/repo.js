@@ -17,14 +17,14 @@ var repo = (function () {
             });*/
         },
         setBudget: function (type, amount) {
-            budgetsMemStore.getTotalBudget().then(function (data) {
+            budgetsAjaxStore.getTotalBudget().then(function (data) {
                 var totalNewBudget = "";
                 if (type == "income") {
                     totalNewBudget = parseFloat(data.total) + parseFloat(amount);
                 } else {
                     totalNewBudget = parseFloat(data.total) - parseFloat(amount);
                 }
-                budgetsMemStore.setTotalBudget(totalNewBudget);
+                budgetsAjaxStore.setTotalBudget(totalNewBudget);
                 //     budgetsAjaxStore.setTotalBudget(totalNewBudget);
             });
         },

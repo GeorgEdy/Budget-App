@@ -1,5 +1,5 @@
 categoryAjaxStore = (function () {
-    var entriesUrl = "http://localhost:3000/api/categories";
+    var entriesUrl = "http://greieri.meteor.com/api/categories";
     var errorHandler = function(reject) {
         return function (xhr) {
             if(xhr.status == 409) {

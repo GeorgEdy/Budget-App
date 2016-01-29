@@ -65,19 +65,6 @@ transactionsAjaxStore = (function () {
                 });
                 ajaxResult.fail(errorHandler(reject));
             });
-        },
-        deleteTransaction: function (id) {
-            return new Promise(function (resolve, reject) {
-                var deleteSettings = {
-                    type: 'DELETE',
-                    headers: {'Content-Type': 'application/json'}
-                };
-                var ajaxResult = $.ajax(entriesUrl+"/"+id, deleteSettings);
-                ajaxResult.done(function(d) {
-                    resolve(d);
-                });
-                ajaxResult.fail(errorHandler(reject));
-            });
         }
     };
 })();

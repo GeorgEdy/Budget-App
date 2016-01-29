@@ -1,115 +1,62 @@
-//var services = (function() {
-//    return {
-//        addTransaction: function (name, category, amount, type, date) {
-//            if (type == "income") {
-//                transactionsStore.addTransaction({
-//                    name: name,
-//                    categoryId: category,
-//                    sum: amount,
-//                    type: type,
-//                    date: date
-//                });
-//                var totalNewBudget = budgetsStore.getTotalBudget() + parseInt(amount);
-//                budgetsStore.setTotalBudget(totalNewBudget);
-//            } else {
-//                transactionsStore.addTransaction({
-//                    name: name,
-//                    categoryId: category,
-//                    sum: amount,
-//                    type: type,
-//                    date: date
-//                });
-//                totalNewBudget = budgetsStore.getTotalBudget() - parseInt(amount);
-//                budgetsStore.setTotalBudget(totalNewBudget);
-//            }
-//        },
-//        editTransaction: function (id, name, amount, category, type, date) {
-//            var totalBudget = budgetsStore.getTotalBudget();
-//            var transactionSum = transactionsStore.getTransaction(id).sum;
-//
-//            totalBudget = parseInt(totalBudget - transactionSum + amount);
-//            budgetsStore.setTotalBudget(totalBudget);
-//            transactionsStore.updateTransaction(id, {
-//                name: name,
-//                category: category,
-//                sum: amount,
-//                type: type,
-//                date: date
-//            });
-//        },
-//        deleteTransaction: function (id) {
-//            var totalBudget = budgetsStore.getTotalBudget();
-//            var transactionSum = transactionsStore.getTransaction(id).sum;
-//
-//            totalBudget = parseInt(totalBudget + transactionSum);
-//            budgetsStore.setTotalBudget(totalBudget);
-//            transactionsStore.deleteTransaction(id);
-//        }
-//
-//    }
-//})();
 var getBalance = function () {
     return new Promise(function (resolve, reject) {
-        repo.getBalance().then(function (data) {
+        budgetsAjaxStore.getTotalBudget().then(function (data) {
             resolve(data);
         });
     });
 };
-
 var getAllTransactions = function () {
     return new Promise(function (resolve, reject) {
-        repo.getAllTransactions().then(function (data) {
+        transactionsAjaxStore.getAllTransactions().then(function (data) {
             resolve(data);
         });
     });
 };
-
 var addTransaction = function (name, category, amount, type, date) {
-    repo.addTransaction(name, category, amount, type, date);
+    transactionsAjaxStore.addTransaction(name, category, amount, type, date);
     repo.setBudget(type, amount);
 };
 
 var editTransaction = function (id, name, category, amount, type, date) {
-    repo.getTransaction(id).then(function (data) {
+    transactionsAjaxStore.getTransaction(id).then(function(data){
         var newSum = parseInt(amount) - parseInt(data.sum);
-
-        repo.updateTransaction(id, name, category, amount, type, date);
+        transactionsAjaxStore.updateTransaction(id, name, category, amount, type, date);
         repo.setBudget(type, newSum);
     });
 };
 
 var deleteRecurring = function (id) {
-    return repo.deleteRecurring(id);
+    return recurringAjaxStore.deleteExpense(id);
 };
 
 var getAllRecurrings = function () {
-    return repo.getAllRecurrings();
+    return recurringAjaxStore.getAllRecurrings();
 };
 
 var addRecurring = function (item) {
-    repo.addRecurring(item);
+    recurringAjaxStore.addRecurring(item);
 };
 
 var updateRecurring = function (id, item) {
-    repo.updateRecurring(id, item);
+    recurringAjaxStore.updateRecurring(id, item);
 };
 
 var getAllCategories = function () {
-    return repo.getAllCategories();
+    return categoryAjaxStore.getAllCategories();
 };
 
 var getCategoryById = function (id) {
-    return repo.getCategoryById(id);
+    return categoryAjaxStore.getCategoryById(id);
 };
 
 var addCategory = function (item) {
-    return repo.addCategory(item);
+    return categoryAjaxStore.addCategory(item);
 };
 
 var updateCategory = function (id, item) {
-    return repo.updateCategory(id, item);
+    return categoryAjaxStore.updateCategory(id, item);
 };
 
 var deleteCategory = function (id) {
-    return repo.deleteCategory(id);
+    return categoryAjaxStore.deleteCategory(id);
 };
