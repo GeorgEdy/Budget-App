@@ -44,7 +44,7 @@ var repo = (function () {
             });
         },
         getTransaction: function (id) {
-            var transaction = transactionsMemStore.getTransaction(id)
+            var transaction = transactionsMemStore.getTransaction(id);
             if (transaction) {
                 return transaction;
             } else {
@@ -106,7 +106,7 @@ var repo = (function () {
             }
         },
         getCategoryById: function (id) {
-            var category = categoryMemStore.getCategoryById(id)
+            var category = categoryMemStore.getCategoryById(id);
             if (category) {
                 return category;
             } else {
