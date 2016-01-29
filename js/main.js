@@ -1,7 +1,8 @@
 var drawTable = function (type) {
     var $income_history = $('#income-history');
     var $expense_history = $('#expense-history');
-    transactionsMemStore.getAllTransactions().then(function (data) {
+
+    getAllTransactions().then(function (data) {
         $income_history.find('tbody').html('');
         $.each(data, function (index, value) {
             if (value.type == type) {
@@ -27,7 +28,7 @@ var registerTransaction = function () {
 
 var sendTransaction = function (item, recurring) {
     if ((recurring == true) && (editTransactionId == null)) {
-        recurringMemStore.addRecurring({
+        addRecurring({
             name: item.name,
             categoryId: item.categoryId,
             sum: item.sum,
@@ -36,7 +37,7 @@ var sendTransaction = function (item, recurring) {
             day: item.recurringDate
         });
     } else if ((recurring == true) && (editTransactionId !== null)) {
-        recurringMemStore.updateRecurring(editTransactionId, {
+        updateRecurring(editTransactionId, {
             name: item.name,
             categoryId: item.categoryId,
             sum: item.sum,
@@ -96,7 +97,7 @@ var getTransactionData = function (idForm, callbackTransactionData) {
 
     if (validateTransactionData(idForm, name, sum, cat, recurringDay)) {
         var categoryId = "";
-        categoryMemStore.getAllCategories().then(function (data) {
+        getAllCategories().then(function (data) {
             $.each(data, function (index, value) {
                 if (value.name.toLowerCase() == cat.toLowerCase()) {
                     categoryId = value.id;
@@ -165,17 +166,17 @@ var getCategoryForm = function () {
 
 var categoryOnSubmit = function () {
     if (editRow) {
-        categoryMemStore.updateCategory(editRow.id, getCategoryForm()).then(
+        updateCategory(editRow.id, getCategoryForm()).then(
             function () {
                 $('#categories-form').removeClass("editing");
 
-                drawCategoriesTable(categoryMemStore);
+                drawCategoriesTable();
                 categoryFormReset();
             }
         );
     } else {
-        categoryMemStore.addCategory(getCategoryForm()).then(function () {
-            drawCategoriesTable(categoryMemStore);
+        addCategory(getCategoryForm()).then(function () {
+            drawCategoriesTable();
         });
     }
     populateCategories();
@@ -186,7 +187,7 @@ var drawCategoriesTable = function () {
     var $expense_categories = $('.expense-categories');
     var $income_categories = $('.income-categories');
 
-    categoryMemStore.getAllCategories().then(function (data) {
+    getAllCategories().then(function (data) {
         $expense_categories.find('tbody').empty();
         $income_categories.find('tbody').empty();
         $.each(data, function () {
@@ -207,7 +208,7 @@ var drawTransactionsTable = function (buttonType) {
     var $recurrent_table = $(".recurrent-table ");
     var $history_table = $(".history-table ");
 
-    categoryMemStore.getAllCategories().then(function (data) {
+    getAllCategories().then(function (data) {
         var categories = data;
 
         $recurrent_table.find("tbody").html("");
@@ -219,7 +220,7 @@ var drawTransactionsTable = function (buttonType) {
         $recurrent_table.off('click', '.btn-delete-recurrent', deleteRecurrentOnClick);
         $recurrent_table.find("thead").append("<tr data-type='" + buttonType + "-form" + "'><td>Recurrent " + buttonType + "s</td></tr><tr><td>Name</td><td>Category</td><td>Sum</td><td>Recurrency Day</td></tr>");
         $history_table.find("thead").append("<tr data-type='" + buttonType + "-form" + "'><td>History of " + buttonType + "s</td></tr><tr><td>Name</td><td>Category</td><td>Sum</td></tr>");
-        transactionsMemStore.getAllTransactions().then(function (data) {
+        getAllTransactions().then(function (data) {
             var catHistory = "";
 
             $.each(data, function (index, value) {
@@ -240,7 +241,7 @@ var drawTransactionsTable = function (buttonType) {
                 }
             });
         });
-        recurringMemStore.getAllRecurrings().then(function (data) {
+        getAllRecurrings().then(function (data) {
             var catRecurrent = "";
             $.each(data, function (index, value) {
                 if (value.type == buttonType) {
@@ -276,15 +277,17 @@ var categoryFormReset = function () {
 
 var cancelCategoryOnClick = function () {
     categoryFormReset();
+    $('#categories-form').removeClass("editing");
+
     return false;
 };
 
 var deleteCategoryOnClick = function () {
     var id = $(this).closest('tr').data('id');
 
-    categoryMemStore.deleteCategory(id).then(
+    deleteCategory(id).then(
         function () {
-            drawCategoriesTable(categoryMemStore);
+            drawCategoriesTable();
         }
     );
     return false;
@@ -295,7 +298,7 @@ var editCategoryOnClick = function () {
 
     $categories_form.addClass("editing");
     var id = $(this).closest('tr').data('id');
-    categoryMemStore.getCategoryById(id).then(
+    getCategoryById(id).then(
         function (data) {
             editRow = data;
             $categories_form.find('input[type="text"]').val(data.name);
@@ -370,13 +373,13 @@ var deleteRecurrentOnClick = function (event) {
     var form = $(event.target).closest('table').find('tr').data("type").split("-");
     var id = $(this).closest("tr").data("id");
 
-    recurringMemStore.deleteExpense(id).then(function () {
+    deleteRecurring(id).then(function () {
         drawTransactionsTable(form[0]);
     });
 };
 
 var populateCategories = function () {
-    categoryMemStore.getAllCategories().then(function (data) {
+    getAllCategories().then(function (data) {
         var incomes = [];
         var expenses = [];
         var $income_form = $('#income-form');
@@ -401,15 +404,18 @@ var populateCategories = function () {
 };
 
 var populateBalance = function () {
-    budgetsAjaxStore.getTotalBudget().then(function (data) {
-        var balance = data.total;
-
-        $(".balance").find('span').html("$" + balance);
+    getBalance().then(function (data){
+        console.log(data);
+        setBalance(data.total);
     });
 };
 
+var setBalance = function (balance) {
+    $(".balance").find('span').html("$" + balance);
+};
+
 var populateTotalsIncomeExpense = function () {
-    transactionsMemStore.getAllTransactions().then(function (data) {
+    getAllTransactions().then(function (data) {
         var totalIncome = 0;
         var totalExpense = 0;
         var $history_btn = $('.history-buttons');
@@ -519,4 +525,8 @@ $(function () {
             $gif.trigger('hideGif');
         }
     });
+    drawCategoriesTable();
+    populateBalance();
+    populateTotalsIncomeExpense();
 });
+

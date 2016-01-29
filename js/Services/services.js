@@ -48,36 +48,68 @@
 //
 //    }
 //})();
+var getBalance = function () {
+    return new Promise(function (resolve, reject) {
+        repo.getBalance().then(function (data) {
+            resolve(data);
+        });
+    });
+};
+
+var getAllTransactions = function () {
+    return new Promise(function (resolve, reject) {
+        repo.getAllTransactions().then(function (data) {
+            resolve(data);
+        });
+    });
+};
 
 var addTransaction = function (name, category, amount, type, date) {
-    if (type == "income") {
-        transactionsMemStore.addTransaction({name: name, categoryId: category, sum: amount, type: type, date: date});
-/*/!*        budgetsMemStore.getTotalBudget().then(function (data) {
-            var totalNewBudget = parseFloat(data.totalBudget) + parseInt(amount);
-            budgetsMemStore.setTotalBudget(totalNewBudget);*!/
-        });*/
-    } else {
-        transactionsMemStore.addTransaction({name: name, categoryId: category, sum: amount, type: type, date: date});
-/*        budgetsMemStore.getTotalBudget().then(function (data) {
-            var totalNewBudget = parseFloat(data.totalBudget) - parseInt(amount);
-            budgetsMemStore.setTotalBudget(totalNewBudget);
-        });*/
-    }
+    repo.addTransaction(name, category, amount, type, date);
+    repo.setBudget(type, amount);
 };
 
 var editTransaction = function (id, name, category, amount, type, date) {
-    transactionsMemStore.getTransaction(id).then(function (data) {
-        var transactionSum = data.sum;
-        transactionsMemStore.updateTransaction(id, {
-            name: name,
-            categoryId: category,
-            sum: amount,
-            type: type,
-            date: date
-        });
-/*        budgetsMemStore.getTotalBudget().then(function (data) {
-            var totalBudget = parseInt(data.totalBudget - transactionSum + amount);
-            budgetsMemStore.setTotalBudget(totalBudget);
-        });*/
+    repo.getTransaction(id).then(function (data) {
+        var newSum = parseInt(amount) - parseInt(data.sum);
+
+        repo.updateTransaction(id, name, category, amount, type, date);
+        repo.setBudget(type, newSum);
     });
+};
+
+var deleteRecurring = function (id) {
+    return repo.deleteRecurring(id);
+};
+
+var getAllRecurrings = function () {
+    return repo.getAllRecurrings();
+};
+
+var addRecurring = function (item) {
+    repo.addRecurring(item);
+};
+
+var updateRecurring = function (id, item) {
+    repo.updateRecurring(id, item);
+};
+
+var getAllCategories = function () {
+    return repo.getAllCategories();
+};
+
+var getCategoryById = function (id) {
+    return repo.getCategoryById(id);
+};
+
+var addCategory = function (item) {
+    return repo.addCategory(item);
+};
+
+var updateCategory = function (id, item) {
+    return repo.updateCategory(id, item);
+};
+
+var deleteCategory = function (id) {
+    return repo.deleteCategory(id);
 };
