@@ -432,6 +432,13 @@ var populateTotalsIncomeExpense = function () {
     });
 };
 
+    var $gif = $('.gif');
+$gif.on("showGif", function () {
+    $gif.removeClass('hiddenn');
+});
+    $gif.on("hideGif", function () {
+        $gif.addClass('hiddenn');
+    });
 $(function () {
     var $categories = $('#categories');
     var $home = $('#home');
@@ -505,17 +512,21 @@ $(function () {
     });
     attachCategoryEvents();
     populateCategories();
-    var gif = $(".gif");
+
+    drawCategoriesTable();
+    populateBalance();
+    populateTotalsIncomeExpense();
 
     $(document).on({
         ajaxStart: function () {
-            gif.addClass("display");
+            $gif.trigger('showGif');
         },
         ajaxStop: function () {
-            gif.removeClass("display");
+            $gif.trigger('hideGif');
         }
     });
     drawCategoriesTable();
     populateBalance();
     populateTotalsIncomeExpense();
 });
+
