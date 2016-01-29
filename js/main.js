@@ -404,9 +404,14 @@ var populateCategories = function () {
 };
 
 var populateBalance = function () {
-        var balance = getBalance();
+    getBalance().then(function (data){
+        console.log(data);
+        setBalance(data.total);
+    });
+};
 
-        $(".balance").find('span').html("$" + balance);
+var setBalance = function (balance) {
+    $(".balance").find('span').html("$" + balance);
 };
 
 var populateTotalsIncomeExpense = function () {
