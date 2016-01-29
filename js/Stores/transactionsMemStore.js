@@ -61,16 +61,6 @@ var transactionsMemStore = (function () {
                 });
                 resolve(data);
             });
-        },
-        deleteTransaction: function (id) {
-            return new Promise(function (resolve, reject) {
-                $.each(data, function (index, value) {
-                    if (value.id === id) {
-                        data.splice(index, 1);
-                        resolve();
-                    }
-                });
-            });
         }
     };
 })();

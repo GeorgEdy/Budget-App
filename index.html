@@ -206,7 +206,7 @@
     </tr>
 </script>
 <script type="text/html" id="item_tmpl_category">
-    <tr data-id="<%=id%>">
+    <tr data-id="<%=_id%>">
         <td><%= name %></td>
         <td><%= type %></td>
         <td>
@@ -216,7 +216,7 @@
     </tr>
 </script>
 <script type="text/html" id="item_tmpl_history">
-    <tr data-id="<%=id%>" data-name="<%= name %>" data-category="<%= category %>" data-sum="<%= sum %>">
+    <tr data-id="<%=_id%>" data-name="<%= name %>" data-category="<%= category %>" data-sum="<%= sum %>">
         <td><%= name %></td>
         <td><%= category %></td>
         <td><%= sum %></td>
@@ -226,7 +226,7 @@
     </tr>
 </script>
 <script type="text/html" id="item_tmpl_recurrent">
-    <tr data-id="<%=id%>" data-name="<%= name %>" data-category="<%= category %>" data-sum="<%= sum %>"
+    <tr data-id="<%=_id%>" data-name="<%= name %>" data-category="<%= category %>" data-sum="<%= sum %>"
         data-day="<%= recurrentDay %>">
         <td><%= name %></td>
         <td><%= category %></td>

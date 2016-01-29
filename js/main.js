@@ -226,13 +226,13 @@ var drawTransactionsTable = function (buttonType) {
             $.each(data, function (index, value) {
                 if (value.type == buttonType) {
                     $.each(categories, function (index, value2) {
-                        if (value.categoryId == value2.id) {
+                        if (value.categoryId == value2._id) {
                             catHistory = value2.name;
                         }
                     });
 
                     var tr = tmpl("item_tmpl_history", {
-                        id: value.id,
+                        _id: value._id,
                         name: value.name,
                         category: catHistory,
                         sum: value.sum
@@ -246,12 +246,12 @@ var drawTransactionsTable = function (buttonType) {
             $.each(data, function (index, value) {
                 if (value.type == buttonType) {
                     $.each(categories, function (index, value2) {
-                        if (value.categoryId == value2.id) {
+                        if (value.categoryId == value2._id) {
                             catRecurrent = value2.name;
                         }
                     });
                     var tr = tmpl("item_tmpl_recurrent", {
-                        id: value.id,
+                        _id: value._id,
                         name: value.name,
                         category: catRecurrent,
                         sum: value.sum,
