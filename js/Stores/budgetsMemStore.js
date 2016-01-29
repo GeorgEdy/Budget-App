@@ -1,15 +1,19 @@
 var budgetsMemStore = (function () {
     var data = {
-        totalBudget: 150
+        total: 150
     };
 
     return {
         getTotalBudget: function() {
-            return data.totalBudget;
+            return new Promise(function (resolve, reject) {
+                resolve(data);
+            });
         },
         setTotalBudget: function(newSum) {
-            data.totalBudget = newSum;
-            return false;
+            return new Promise(function (resolve, reject) {
+                data.total = newSum;
+                resolve(data);
+            });
         }
     };
 })();

@@ -49,11 +49,19 @@
 //    }
 //})();
 var getBalance = function () {
-    return repo.getBalance();
+    return new Promise(function (resolve, reject) {
+        repo.getBalance().then(function (data) {
+            resolve(data);
+        });
+    });
 };
 
 var getAllTransactions = function () {
-    return repo.getAllTransactions();
+    return new Promise(function (resolve, reject) {
+        repo.getAllTransactions().then(function (data) {
+            resolve(data);
+        });
+    });
 };
 
 var addTransaction = function (name, category, amount, type, date) {
