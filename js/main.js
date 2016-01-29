@@ -1,7 +1,6 @@
 var drawTable = function (type) {
     var $income_history = $('#income-history');
     var $expense_history = $('#expense-history');
-
     transactionsMemStore.getAllTransactions().then(function (data) {
         $income_history.find('tbody').html('');
         $.each(data, function (index, value) {
@@ -398,8 +397,6 @@ var populateCategories = function () {
         $.each(expenses, function (index, value) {
             $expense_form.find("select").append("<option value = '" + value.name + "' >" + value.name + "</option>");
         });
-        $history_btn.find('#income-history-panel').html(totalIncome);
-        $history_btn.find('#expense-history-panel').html(totalExpense);
     });
 };
 
@@ -429,6 +426,13 @@ var populateTotalsIncomeExpense = function () {
     });
 };
 
+    var $gif = $('.gif');
+$gif.on("showGif", function () {
+    $gif.removeClass('hiddenn');
+});
+    $gif.on("hideGif", function () {
+        $gif.addClass('hiddenn');
+    });
 $(function () {
     var $categories = $('#categories');
     var $home = $('#home');
@@ -502,17 +506,17 @@ $(function () {
     });
     attachCategoryEvents();
     populateCategories();
-    var gif = $(".gif");
 
-    $(document).on({
-        ajaxStart: function () {
-            gif.addClass("display");
-        },
-        ajaxStop: function () {
-            gif.removeClass("display");
-        }
-    });
     drawCategoriesTable();
     populateBalance();
     populateTotalsIncomeExpense();
+
+    $(document).on({
+        ajaxStart: function () {
+            $gif.trigger('showGif');
+        },
+        ajaxStop: function () {
+            $gif.trigger('hideGif');
+        }
+    });
 });

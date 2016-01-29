@@ -73,7 +73,9 @@ table {
     float: left;
 }
 .gif {
-    visibility: hidden;
+    position: absolute;
+    top: 30%;
+    right: 1%;
 }
 .menu {
     float: right;
@@ -124,7 +126,7 @@ table {
 .transactions {
     position: absolute;
     width: 850px;
-    height: 500px;
+    height: 800px;
     background: white;
     font-size: 15px;
 }
@@ -185,6 +187,10 @@ table {
 
 .index {
     z-index: 1;
+}
+
+#size {
+    width: 50px;
 }
 /*////////////////////////////////////////////////////////*/
 /*bootstrap classes edited */
