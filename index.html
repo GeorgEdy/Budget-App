@@ -7,10 +7,251 @@
     <link href="css/main.css" rel="stylesheet">
 </head>
 <body>
+<header>
+    <div class="wrapper container-fluid">
+        <div class="logo"><img src="img/logo3.png"></div>
+        <div class="col-md-4 balance">Your balance:
+        <span></span></div>
+        <div class="menu">
+            <button class="btn btn-default" id="home"><a href="#">Home</a></button>
+            <button class="btn btn-default" id="transactions"><a href="#">Transactions</a></button>
+            <button class="btn btn-default" id="categories"><a href="#">Categories</a></button>
+            <button class="btn btn-default"><a href="#">Graphics</a></button>
+            <div class="user-settings">
+                <button class="btn btn-default">
+                    <span class="glyphicon glyphicon-cog"></span>
+                    <span class="glyphicon glyphicon-menu-down"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="#">Account settings</a></li>
+                        <li>
+                            <a href="#" id="fbLogoutgulp">Log Out
+                                <span class="glyphicon glyphicon-log-out"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<img src="img/ajax-loader.gif" class="gif hiddenn" id="size">
+<main class="container parent">
+    <div class="transactions">
+        <div class="adding">
+            <button class="add-income col-md-6" id="add-income">
+                <span>Add income</span>
+            </button>
+            <button class="add-expense col-md-6" id="add-expense">
+                <span>Add Expense</span>
+            </button>
+            <div class="clearfix"></div>
+        </div>
+        <div class="parent">
+            <form class="navbar-form navbar-left col-md-7 income-form" id="income-form">
+                <input type="text" placeholder="Add tag name" title="nume">
+                <input type="number" title="income" placeholder="add income">
+                <select title="category">
+                    <option disabled selected="selected">Select Category</option>
+                </select>
+                <label>Recurring
+                    <input type="checkbox" id="recurring-income">
+                </label>
+                <input type="submit" class="btn btn-default" value="Save">
+                <button type="button" class="btn btn-xs hiddenn btn-cancel-transaction">Cancel</button>
+                <div class="errors">
+                    <div class="col-md-3 hiddenn nameError"></div>
+                    <div class="col-md-3 hiddenn sumError"></div>
+                    <div class="hiddenn categoryError"></div>
+                </div>
+                <div id="income-date" class="recurring-date hiddenn">
+                    <label>Select recurring date
+                        <input type="date" class="parent" title="income-date">
+                    </label>
+                </div>
+            </form>
+            <form class="navbar-form navbar-left col-md-7 absolute expense-form" id="expense-form">
+                <input type="text" placeholder="Add tag name" title="nume">
+                <input type="number" title="Expense" placeholder="add expense">
+                <select title="category">
+                    <option disabled selected="selected">Select Category</option>
+                </select>
+                <label>Recurring
+                    <input type="checkbox" name="check" class="recurring-expenses">
+                </label>
+                <input type="submit" class="btn btn-default" value="Save">
+                <button type="button" class="btn btn-xs hiddenn btn-cancel-transaction">Cancel</button>
+                <div>
+                    <div class="col-md-3 hiddenn nameError"></div>
+                    <div class="col-md-3 hiddenn sumError"></div>
+                    <div class="hiddenn categoryError"></div>
+                </div>
+                <div id="expense-date" class="recurring-date hiddenn">
+                    <label>Select recurring date
+                        <input type="date" class="parent" title="expense-date">
+                    </label>
+                </div>
+            </form>
+            <div class="clearfix"></div>
+        </div>
+        <div class="transactions-tables col-md-12">
+            <table class="recurrent-table col-md-6 ">
+                <thead>
+
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <table class="history-table col-md-6">
+                <thead>
+
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="statistics">
+        <div class="history-buttons">
+            <button class="total-income col-md-5">
+                <span>Total income</span>
+                <span class="block number" id="income-history-panel"></span>
+            </button>
+            <button class="total-expense col-md-5">
+                <span>Total expenses</span>
+                <span class="block number" id="expense-history-panel"></span>
+            </button>
+            <div class="clearfix"></div>
+        </div>
+        <div class="history parent">
+            <table class="income panel panel-default col-md-10" id="income-history">
+                <thead>
+                <tr>
+                    <td>Income history</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>Income History</th>
+                </tr>
+                <tr>
+                </tr>
+                </tbody>
+            </table>
+            <table class="expenses panel panel-default absolute col-md-10" id="expense-history">
+                <thead>
+                <tr>
+                    <td>Expenses history</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="show-categories col-md-10">
+        <h1>Categories</h1>
+        <div class="navbar-header col-md-12">
+            <form class=" form-control form-group" id="categories-form">
+                <label class="block">Category Name
+                    <input type="text" title="name" class="input-group">
+                </label>
+                <label>Category type
+                    <select class="block">
+                        <option selected="income" value="income">Income</option>
+                        <option selected="expense" value="expense">Expense</option>
+                    </select>
+                </label>
+                <div class="adding">
+                    <button type="submit" class="input-group btn btn-default">Save</button>
+                </div>
+                <div class="editing">
+                    <button type="submit" class="input-group btn btn-default">Save</button>
+                    <button class="btn btn-xs btn-cancel-category">Cancel</button>
+                </div>
+            </form>
+            <table class="income-categories col-md-6 panel panel-default">
+                <thead>
+                <tr>
+                    <th>Income Name</th>
+                    <th>Income Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <table class="expense-categories col-md-6 panel panel-default">
+                <thead>
+                <tr>
+                    <th>Income Name</th>
+                    <th>Income Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+<script type="text/html" id="item_tmpl">
+    <tr>
+        <td><%= date %></td>
+        <td><%= name %></td>
+        <td>$<%= sum %></td>
+    </tr>
+</script>
+<script type="text/html" id="item_tmpl_category">
+    <tr data-id="<%=_id%>">
+        <td><%= name %></td>
+        <td><%= type %></td>
+        <td>
+            <a href="#" class="btn btn-xs btn-primary btn-edit-category">Edit</a>
+            <a href="#" class="btn btn-xs btn-danger btn-delete-category">Delete</a>
+        </td>
+    </tr>
+</script>
+<script type="text/html" id="item_tmpl_history">
+    <tr data-id="<%=_id%>" data-name="<%= name %>" data-category="<%= category %>" data-sum="<%= sum %>">
+        <td><%= name %></td>
+        <td><%= category %></td>
+        <td><%= sum %></td>
+        <td>
+            <a href="#" class="btn btn-xs btn-primary btn-edit-history">Edit</a>
+        </td>
+    </tr>
+</script>
+<script type="text/html" id="item_tmpl_recurrent">
+    <tr data-id="<%=_id%>" data-name="<%= name %>" data-category="<%= category %>" data-sum="<%= sum %>"
+        data-day="<%= recurrentDay %>">
+        <td><%= name %></td>
+        <td><%= category %></td>
+        <td><%= sum %></td>
+        <td><%= recurrentDay %></td>
+        <td>
+            <a href="#" class="btn btn-xs btn-primary btn-edit-recurrent">Edit</a>
+            <a href="#" class="btn btn-xs btn-danger btn-delete-recurrent">Delete</a>
+        </td>
+    </tr>
+</script>
 <script src="js/jquery-2.2.0.min.js"></script>
 <script src="js/resig.js"></script>
+<script src="js/Stores/budgetsAjaxStore.js"></script>
+<script src="js/Stores/budgetsMemStore.js"></script>
+<script src="js/Stores/transactionsMemStore.js"></script>
+<script src="js/Stores/transactionsAjaxStore.js"></script>
+<script src="js/Stores/categoryMemStore.js"></script>
+<script src="js/Stores/categoryAjaxStore.js"></script>
+<script src="js/Stores/recurringMemStore.js"></script>
+<script src="js/Stores/recurringAjaxStore.js"></script>
+<script src="js/Services/services.js"></script>
+<script src="js/Repository/repo.js"></script>
+<script src="js/moments.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
-<script src="js/categoryStore.js"></script>
 </body>
 </html>
